@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>God in the Equations | The Ten Laws</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;--surface:#0d1526;--surface2:#111e33;--border:rgba(255,255,255,0.07);
+  --phys:#60a5fa;--phys-bg:rgba(59,130,246,0.08);--phys-border:rgba(59,130,246,0.18);
+  --spir:#fbbf24;--spir-bg:rgba(251,191,36,0.07);--spir-border:rgba(251,191,36,0.18);
+  --teal:#2dd4bf;--rose:#f472b6;--violet:#a78bfa;--orange:#fb923c;
+  --text:#eef2ff;--muted:#7a8aaa;--dim:#3d4f6e;
+  --asym:#ff4757;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.7;overflow-x:hidden}
+
+/* ── STARFIELD ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(59,130,246,0.06) 0%,transparent 45%),
+    radial-gradient(ellipse at 85% 90%,rgba(251,191,36,0.04) 0%,transparent 45%),
+    radial-gradient(ellipse at 50% 50%,rgba(45,212,191,0.02) 0%,transparent 60%);
+  pointer-events:none;z-index:0}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:4rem 2rem;position:relative;
+  border-bottom:1px solid var(--border)}
+.hero-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);margin-bottom:2rem}
+.hero-title{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:normal;line-height:1.05;margin-bottom:1.2rem}
+.hero-title .gold{color:var(--spir)}
+.hero-title .blue{color:var(--phys)}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.3rem);color:var(--muted);max-width:600px;margin:0 auto 3rem;line-height:1.7}
+.hero-eq{
+  font-family:'Courier New',monospace;font-size:clamp(.9rem,2vw,1.1rem);
+  padding:1.5rem 2.5rem;background:rgba(0,0,0,.5);border:1px solid var(--border);
+  border-radius:4px;display:inline-block;margin-bottom:1rem;line-height:2.2}
+.hero-eq .var{display:inline-block;padding:0 .1em}
+.hero-eq .g{color:#60a5fa}.hero-eq .m{color:#a78bfa}.hero-eq .e{color:#2dd4bf}
+.hero-eq .s{color:#f472b6}.hero-eq .t{color:#fbbf24}.hero-eq .k{color:#fb923c}
+.hero-eq .r{color:#34d399}.hero-eq .q{color:#818cf8}.hero-eq .f{color:#f87171}
+.hero-eq .c{color:#fff;font-weight:bold}
+.hero-caption{font-family:'Courier New',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.1em}
+
+/* ── INTRO BRIDGE ── */
+.bridge{max-width:760px;margin:0 auto;padding:5rem 2rem;text-align:center}
+.bridge blockquote{font-size:1.1rem;color:var(--muted);line-height:1.8;font-style:italic;border-left:3px solid var(--spir);padding-left:1.5rem;text-align:left;margin:2rem 0}
+.bridge p{color:var(--muted);font-size:1rem;line-height:1.8;margin-bottom:1rem}
+.bridge .anchor{font-size:1.3rem;color:var(--text);line-height:1.6;margin-bottom:1.5rem}
+
+/* ── SECTION DIVIDER ── */
+.section-head{
+  text-align:center;padding:3rem 2rem 1rem;
+  font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--dim)}
+
+/* ── LAW CARD ── */
+.law-card{
+  max-width:1100px;margin:0 auto 1px;
+  border-top:1px solid var(--border);position:relative}
+.law-card:last-of-type{border-bottom:1px solid var(--border)}
+
+.law-header{
+  display:grid;grid-template-columns:60px 1fr auto;
+  align-items:center;gap:1.5rem;
+  padding:2rem 2.5rem 1.5rem;cursor:default}
+.law-num{
+  font-family:'Courier New',monospace;font-size:2.5rem;font-weight:bold;
+  color:var(--dim);line-height:1;text-align:center}
+.law-title{font-size:clamp(1.3rem,3vw,1.9rem);font-weight:normal;line-height:1.2}
+.law-title .arrow{color:var(--dim);margin:0 .4em}
+.law-title .phys-word{color:var(--phys)}
+.law-title .spir-word{color:var(--spir)}
+.law-tag{
+  font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:.3em .7em;border-radius:2px;white-space:nowrap}
+.tag-phys{background:var(--phys-bg);color:var(--phys);border:1px solid var(--phys-border)}
+.tag-spir{background:var(--spir-bg);color:var(--spir);border:1px solid var(--spir-border)}
+
+.law-body{
+  display:grid;grid-template-columns:1fr 200px 1fr;
+  gap:0;padding:0 2.5rem 2.5rem;align-items:start}
+@media(max-width:768px){.law-body{grid-template-columns:1fr;}.law-divider{display:none}}
+
+/* panels */
+.phys-panel,.spir-panel{padding:1.5rem}
+.phys-panel{background:var(--phys-bg);border:1px solid var(--phys-border);border-radius:4px 0 0 4px}
+.spir-panel{background:var(--spir-bg);border:1px solid var(--spir-border);border-radius:0 4px 4px 0;border-left:0}
+.panel-lbl{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:.8rem;display:block}
+.panel-body{color:var(--muted);font-size:.9rem;line-height:1.75}
+.panel-body p{margin-bottom:.7rem}
+.panel-body p:last-child{margin-bottom:0}
+.panel-body strong{color:var(--text)}
+
+/* equation row */
+.eq-row{font-family:'Courier New',monospace;font-size:.88rem;padding:.8rem 1rem;background:rgba(0,0,0,.35);border-radius:3px;margin:.8rem 0;line-height:2;overflow-x:auto}
+.eq-phys{color:var(--phys)}.eq-spir{color:var(--spir)}.eq-teal{color:var(--teal)}
+.eq-label{font-size:.65rem;color:var(--dim);display:block;margin-bottom:.2rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* bridge/diagram column */
+.law-divider{
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:1rem .5rem;gap:1rem;position:relative}
+.law-divider::before{
+  content:'';position:absolute;top:0;bottom:0;left:50%;
+  width:1px;background:linear-gradient(to bottom,transparent,var(--border),var(--border),transparent)}
+.bridge-word{
+  font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);writing-mode:vertical-lr;transform:rotate(180deg);
+  padding:.5rem 0}
+
+/* everyday truth */
+.truth-row{
+  margin:0 2.5rem 2.5rem;
+  padding:1rem 1.5rem;
+  border:1px solid rgba(45,212,191,.2);
+  background:rgba(45,212,191,.04);border-radius:4px;
+  display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:600px){.truth-row{grid-template-columns:1fr}}
+.truth-cell{font-size:.88rem;color:var(--muted);line-height:1.6}
+.truth-icon{font-size:1.1rem;margin-right:.4em}
+.truth-cell strong{color:var(--teal)}
+
+/* ── SVG DIAGRAMS ── */
+.diagram-wrap{width:100%;padding:.5rem 0}
+svg.diagram{width:100%;height:auto;display:block}
+
+/* ── VARIABLE TABLE ── */
+.var-section{max-width:900px;margin:0 auto;padding:4rem 2rem}
+.var-section h2{font-size:1.6rem;font-weight:normal;margin-bottom:.5rem;text-align:center}
+.var-section .sub{color:var(--muted);font-size:.95rem;text-align:center;margin-bottom:2rem}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:.88rem}
+thead tr{background:var(--surface2)}
+thead th{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+tbody tr{background:var(--surface)}
+tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+tbody td{padding:.7rem 1rem;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top}
+.var-sym{font-family:'Courier New',monospace;font-size:1.1rem;font-weight:bold}
+
+/* ── SYMMETRY SECTION ── */
+.sym-section{max-width:900px;margin:0 auto;padding:3rem 2rem 4rem}
+.sym-section h2{font-size:1.5rem;font-weight:normal;margin-bottom:.5rem}
+.sym-section p{color:var(--muted);font-size:.95rem;line-height:1.8;margin-bottom:1rem}
+.sym-pair{
+  display:grid;grid-template-columns:1fr auto 1fr;
+  gap:.5rem;align-items:center;margin:.5rem 0;
+  font-size:.9rem}
+.sym-phys{color:var(--phys);text-align:right}
+.sym-spir{color:var(--spir)}
+.sym-sep{color:var(--dim);font-family:'Courier New',monospace;text-align:center}
+
+/* ── CLOSING ── */
+.closing{
+  text-align:center;padding:5rem 2rem;
+  border-top:1px solid var(--border);max-width:900px;margin:0 auto}
+.closing .big-eq{
+  font-family:'Courier New',monospace;font-size:clamp(1rem,3vw,1.4rem);
+  color:var(--spir);margin:2rem 0;letter-spacing:.05em}
+.closing p{color:var(--muted);font-size:1rem;line-height:1.8;margin-bottom:1rem;max-width:600px;margin-left:auto;margin-right:auto}
+.closing blockquote{font-style:italic;color:var(--teal);border-left:3px solid var(--teal);padding-left:1.5rem;text-align:left;max-width:600px;margin:2rem auto;font-size:1rem;line-height:1.8}
+
+/* ── FOOTER ── */
+.doc-footer{padding:2rem;text-align:center;border-top:1px solid var(--border)}
+.doc-footer p{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════ HERO -->
+<div class="hero">
+  <div class="hero-label">Theophysics Framework · POF 2828 · The Ten Laws</div>
+  <h1 class="hero-title">
+    <span class="blue">God</span> in the<br><span class="gold">Equations</span>
+  </h1>
+  <p class="hero-sub">The ten laws that govern physical reality are identical in structure to the ten laws that govern spiritual reality. This isn't metaphor. It's mathematics.</p>
+
+  <div class="hero-eq">
+    χ = ∭(<span class="var g">G</span>·<span class="var m">M</span>·<span class="var e">E</span>·<span class="var s">S</span>·<span class="var t">T</span>·<span class="var k">K</span>·<span class="var r">R</span>·<span class="var q">Q</span>·<span class="var f">F</span>·<span class="var c">C</span>) dx dy dt
+  </div>
+  <div class="hero-caption">The Master Equation — one equation, three languages: physics, theology, information theory</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ INTRO -->
+<div class="bridge">
+  <p class="anchor">For thousands of years, science and faith have been treated as two separate stories. One tells us <em>how</em> things work. The other tells us <em>why</em> they matter.</p>
+  <p>What follows is the evidence that they are the same story — written in two languages, but describing one reality. Not by forcing a connection, but by following the mathematics where it leads.</p>
+  <blockquote>"For since the creation of the world, God's invisible qualities — his eternal power and divine nature — have been clearly seen, being understood from what has been made." — Romans 1:20</blockquote>
+  <p>The creation is a mirror. The equations are fingerprints. Look closely enough, and you'll see whose.</p>
+</div>
+
+<div class="section-head">The Ten Laws · Physical Reality ↔ Spiritual Reality</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 1 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">01</div>
+    <div class="law-title">
+      <span class="phys-word">Gravity</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Grace</span>
+    </div>
+    <span class="law-tag tag-phys">General Relativity</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>Mass bends spacetime. Objects don't get "pulled" — they follow the curve that mass creates in the fabric of reality itself.</p>
+        <div class="eq-row"><span class="eq-label">Einstein Field Equation</span><span class="eq-phys">G_μν = (8πG/c⁴) T_μν</span></div>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="mass-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#60a5fa" stop-opacity=".6"/>
+                <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <!-- grid lines curving toward center mass -->
+            <line x1="0" y1="20" x2="200" y2="20" stroke="#1e3a5f" stroke-width=".5"/>
+            <line x1="0" y1="40" x2="200" y2="40" stroke="#1e3a5f" stroke-width=".5"/>
+            <path d="M0,60 Q100,85 200,60" stroke="#3b82f6" stroke-width=".8" fill="none"/>
+            <path d="M0,80" stroke="#1e3a5f" stroke-width=".5" fill="none"/>
+            <line x1="0" y1="80" x2="200" y2="80" stroke="#1e3a5f" stroke-width=".5"/>
+            <line x1="0" y1="100" x2="200" y2="100" stroke="#1e3a5f" stroke-width=".5"/>
+            <line x1="40" y1="0" x2="40" y2="120" stroke="#1e3a5f" stroke-width=".5"/>
+            <line x1="80" y1="0" x2="80" y2="120" stroke="#1e3a5f" stroke-width=".5"/>
+            <line x1="120" y1="0" x2="120" y2="120" stroke="#1e3a5f" stroke-width=".5"/>
+            <line x1="160" y1="0" x2="160" y2="120" stroke="#1e3a5f" stroke-width=".5"/>
+            <!-- curved verticals near mass -->
+            <path d="M95,0 Q97,55 95,120" stroke="#3b82f6" stroke-width=".8" fill="none"/>
+            <path d="M105,0 Q103,55 105,120" stroke="#3b82f6" stroke-width=".8" fill="none"/>
+            <!-- mass -->
+            <circle cx="100" cy="60" r="10" fill="url(#mass-glow)"/>
+            <circle cx="100" cy="60" r="5" fill="#60a5fa" opacity=".9"/>
+            <text x="100" y="115" text-anchor="middle" font-family="Courier New" font-size="7" fill="#3d4f6e">MASS CURVES SPACETIME</text>
+          </svg>
+        </div>
+        <p>Gravity is constant, universal, and cannot be blocked. No material in the universe shields against it. It shapes cosmic structure silently and irresistibly.</p>
+        <div class="eq-row"><span class="eq-label">With the grace term added</span><span class="eq-phys">G_μν = (8πG/c⁴) T_μν <span style="color:#fbbf24">+ κ G(x)</span></span></div>
+      </div>
+    </div>
+    <div class="law-divider">
+      <span class="bridge-word">same structure</span>
+      <svg viewBox="0 0 40 60" width="40" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="0" x2="20" y2="25" stroke="#3d4f6e" stroke-width="1"/>
+        <polygon points="20,35 14,22 26,22" fill="#3d4f6e"/>
+        <line x1="20" y1="35" x2="20" y2="60" stroke="#3d4f6e" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>Sin doesn't push you down from outside — it <strong>curves your reality inward</strong>, toward self. The more you orbit yourself, the more natural the fall feels.</p>
+        <div class="eq-row"><span class="eq-label">Grace as opposite curvature</span><span class="eq-spir">Δκ = G_grace · (1 − R_resist)</span></div>
+        <p>But Grace is the opposite curvature — bending reality outward, toward God and others. It's not a force applied against your will. It's a change in the shape of the space you move through.</p>
+        <p>You've felt this. When you're stuck in shame or bitterness, it feels like gravity — inescapable, pulling. When grace touches you, you can suddenly move again. <strong>The curvature changes.</strong></p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">🍎</span><strong>Physics:</strong> Gravity gives you ground to stand on. Without it, you'd drift — no structure, no cosmos, no you.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Grace gives your soul ground to stand on. The fall isn't punishment — it's positioning. Grace is always stronger than gravity.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 2 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">02</div>
+    <div class="law-title">
+      <span class="phys-word">Strong Nuclear Force</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Divine Love</span>
+    </div>
+    <span class="law-tag tag-phys">QCD / SU(3)</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>Protons are positively charged. They should violently repel each other — and yet every atomic nucleus holds together. Why?</p>
+        <p>The Strong Nuclear Force is <strong>100 times stronger than electromagnetism</strong> at close range. It overpowers the repulsion and binds protons and neutrons into a stable nucleus.</p>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg">
+            <!-- nucleus protons -->
+            <circle cx="85" cy="55" r="12" fill="rgba(96,165,250,0.15)" stroke="#60a5fa" stroke-width="1"/>
+            <circle cx="115" cy="55" r="12" fill="rgba(96,165,250,0.15)" stroke="#60a5fa" stroke-width="1"/>
+            <circle cx="100" cy="37" r="12" fill="rgba(96,165,250,0.1)" stroke="#60a5fa" stroke-width=".5"/>
+            <!-- + labels -->
+            <text x="85" y="59" text-anchor="middle" font-size="10" fill="#60a5fa" font-family="Georgia">+</text>
+            <text x="115" y="59" text-anchor="middle" font-size="10" fill="#60a5fa" font-family="Georgia">+</text>
+            <!-- gluon lines -->
+            <line x1="97" y1="55" x2="103" y2="55" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="2,1"/>
+            <line x1="90" y1="48" x2="95" y2="42" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="2,1"/>
+            <line x1="110" y1="48" x2="105" y2="42" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="2,1"/>
+            <!-- repulsion arrows -->
+            <line x1="68" y1="55" x2="55" y2="55" stroke="#ef4444" stroke-width="1"/>
+            <polygon points="55,55 62,51 62,59" fill="#ef4444"/>
+            <line x1="132" y1="55" x2="145" y2="55" stroke="#ef4444" stroke-width="1"/>
+            <polygon points="145,55 138,51 138,59" fill="#ef4444"/>
+            <text x="45" y="52" font-size="7" fill="#ef4444" font-family="Courier New">repel</text>
+            <text x="147" y="52" font-size="7" fill="#ef4444" font-family="Courier New">repel</text>
+            <text x="100" y="104" text-anchor="middle" font-family="Courier New" font-size="7" fill="#3d4f6e">STRONG FORCE OVERCOMES REPULSION</text>
+            <!-- label -->
+            <text x="100" y="85" text-anchor="middle" font-family="Courier New" font-size="6" fill="#fbbf24">gluon bonds</text>
+          </svg>
+        </div>
+        <div class="eq-row"><span class="eq-label">Nuclear binding energy</span><span class="eq-phys">E_bind = (Zm_p + Nm_n − M)c²</span></div>
+        <p>Without this force, every atom flies apart. No chemistry. No stars. No life. <strong>Matter exists because something holds together what should repel.</strong></p>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>In every relationship — marriage, friendship, family — there are forces pushing apart. Differences. Wounds. Misunderstandings. The natural charge of two egos.</p>
+        <p><strong>Love is the force that holds you together despite the repulsion.</strong> Not sentiment. Not feelings. The agape that doesn't depend on circumstances.</p>
+        <div class="eq-row"><span class="eq-label">Love as binding force</span><span class="eq-spir">F_love = F_agape − F_repulsion &gt; 0</span></div>
+        <p>The Strong Force only works at close range. Too far apart, it fails. Same with love — "abide in me" (John 15:4) isn't a suggestion. It's nuclear physics. <strong>Stay close or you fly apart.</strong></p>
+        <p>God's love binds the Trinity. It holds creation in existence. And it's the only force strong enough to hold you together when everything in you wants to scatter.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">⚛️</span><strong>Physics:</strong> The nucleus holds because the Strong Force never lets go — even against identical charges repelling at 100× electromagnetic strength.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Your soul holds because God's love never lets go — even against every force that says you should fall apart. The binding force is always stronger.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 3 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">03</div>
+    <div class="law-title">
+      <span class="phys-word">Electromagnetism</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Truth &amp; Revelation</span>
+    </div>
+    <span class="law-tag tag-phys">Maxwell · Shannon</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>Light is the universe's information carrier. Every photon is a message traveling at the maximum speed reality allows — 299,792,458 m/s. It cannot go faster. It cannot be blocked by nothing.</p>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+            <!-- wave -->
+            <path d="M10,45 Q27,20 44,45 Q61,70 78,45 Q95,20 112,45 Q129,70 146,45 Q163,20 180,45" stroke="#60a5fa" stroke-width="1.5" fill="none"/>
+            <path d="M10,45 Q27,65 44,45 Q61,25 78,45 Q95,65 112,45 Q129,25 146,45 Q163,65 180,45" stroke="#fbbf24" stroke-width="1" fill="none" opacity=".5"/>
+            <!-- arrow -->
+            <line x1="15" y1="78" x2="185" y2="78" stroke="#3d4f6e" stroke-width=".5"/>
+            <polygon points="185,78 178,75 178,81" fill="#3d4f6e"/>
+            <text x="100" y="88" text-anchor="middle" font-family="Courier New" font-size="6" fill="#3d4f6e">c = 299,792,458 m/s</text>
+            <text x="100" y="14" text-anchor="middle" font-family="Courier New" font-size="6" fill="#60a5fa">E field</text>
+            <text x="100" y="72" text-anchor="middle" font-family="Courier New" font-size="6" fill="#fbbf24">B field</text>
+          </svg>
+        </div>
+        <div class="eq-row"><span class="eq-label">Maxwell wave equation</span><span class="eq-phys">∇²E = (1/c²) ∂²E/∂t²</span></div>
+        <p>Claude Shannon showed every channel has a capacity: the more noise, the less signal gets through.</p>
+        <div class="eq-row"><span class="eq-label">Shannon channel capacity</span><span class="eq-phys">C = B log₂(1 + S/N)</span></div>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>Jesus didn't say "I have truth" or "I teach truth." He said <strong>"I am the Truth"</strong> (John 8:32). Truth isn't something God possesses. It's what God <em>is</em>.</p>
+        <div class="eq-row"><span class="eq-label">Truth field (E→T, c→λ)</span><span class="eq-spir">∇²T = (1/λ²) ∂²T/∂t²</span></div>
+        <p>Your capacity for revelation depends on your signal-to-noise ratio:</p>
+        <div class="eq-row"><span class="eq-label">Revelation capacity</span><span class="eq-spir">R_max = A · log₂(1 + T/D)</span></div>
+        <p>Where <strong>A</strong> = your openness, <strong>T</strong> = Truth (the signal), <strong>D</strong> = distortion (sin, noise, distraction).</p>
+        <p>When you feel distant from God, He didn't get quieter. <strong>The noise increased.</strong> Prayer isn't making God louder. It's making yourself quieter.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">💡</span><strong>Physics:</strong> Light reveals everything it touches — but you have to open your eyes. The signal is always there.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Truth reveals everything it touches — but you have to quiet the noise. The same wave equation. The same mathematics. The same Author.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 4 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">04</div>
+    <div class="law-title">
+      <span class="phys-word">Entropy</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Sin &amp; Decay</span>
+    </div>
+    <span class="law-tag tag-phys">2nd Law of Thermodynamics</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>The Second Law is perhaps the cruelest fact in physics: <strong>everything falls apart</strong>. In any closed system, disorder always increases. Never decreases. Not sometimes. Always.</p>
+        <div class="eq-row"><span class="eq-label">Second Law of Thermodynamics</span><span class="eq-phys">ΔS ≥ 0</span></div>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+            <!-- order → disorder -->
+            <rect x="10" y="20" width="70" height="50" fill="rgba(96,165,250,0.05)" stroke="#1e3a5f" stroke-width=".5" rx="2"/>
+            <circle cx="30" cy="35" r="3" fill="#60a5fa" opacity=".8"/>
+            <circle cx="50" cy="35" r="3" fill="#60a5fa" opacity=".8"/>
+            <circle cx="40" cy="55" r="3" fill="#60a5fa" opacity=".8"/>
+            <circle cx="60" cy="55" r="3" fill="#60a5fa" opacity=".8"/>
+            <text x="45" y="83" text-anchor="middle" font-family="Courier New" font-size="6" fill="#60a5fa">ORDER</text>
+            <!-- arrow -->
+            <line x1="90" y1="45" x2="110" y2="45" stroke="#3d4f6e" stroke-width="1"/>
+            <polygon points="110,45 103,41 103,49" fill="#3d4f6e"/>
+            <text x="100" y="40" text-anchor="middle" font-family="Courier New" font-size="6" fill="#3d4f6e">time</text>
+            <!-- disorder -->
+            <rect x="120" y="20" width="70" height="50" fill="rgba(239,68,68,0.05)" stroke="#3d1a1a" stroke-width=".5" rx="2"/>
+            <circle cx="127" cy="28" r="3" fill="#ef4444" opacity=".6"/>
+            <circle cx="150" cy="65" r="3" fill="#ef4444" opacity=".6"/>
+            <circle cx="140" cy="38" r="3" fill="#ef4444" opacity=".6"/>
+            <circle cx="175" cy="30" r="3" fill="#ef4444" opacity=".6"/>
+            <circle cx="132" cy="55" r="3" fill="#ef4444" opacity=".6"/>
+            <circle cx="168" cy="50" r="3" fill="#ef4444" opacity=".6"/>
+            <text x="155" y="83" text-anchor="middle" font-family="Courier New" font-size="6" fill="#ef4444">DISORDER</text>
+          </svg>
+        </div>
+        <p>There is a loophole: <strong>open systems</strong>. If energy flows in from outside, local order can be created. That's how life exists — powered by the sun flowing in from outside Earth's system.</p>
+        <div class="eq-row"><span class="eq-label">Open system (energy input)</span><span class="eq-phys">ΔS_total = ΔS_sys + ΔS_env ≥ 0</span></div>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>Left to yourself, you drift toward disorder. Not because you're weak — because <strong>that's the law</strong>. Relationships decay without effort. Faith grows cold without feeding. Discipline fades.</p>
+        <p>The Bible knew this 2,000 years before thermodynamics: <em>"The heart is deceitful above all things"</em> (Jeremiah 17:9). <em>"All have sinned and fall short"</em> (Romans 3:23).</p>
+        <p>Every self-help program fights the Second Law. <strong>And the Second Law always wins — in closed systems.</strong></p>
+        <div class="eq-row"><span class="eq-label">Grace as negentropy</span><span class="eq-spir">G_Spirit = e^(−Φ)  →  ΔS_soul &lt; 0</span></div>
+        <p>Grace is the energy from outside the system. You can't generate it. You can't earn it. But you can <strong>receive</strong> it — and when you do, disorder reverses.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">🔥</span><strong>Physics:</strong> Entropy says everything falls apart without an outside energy source. The universe is running down — and only an open system can reverse it locally.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Sin works the same way. You cannot save yourself — closed systems cannot reverse their own entropy. But the system is never truly closed unless you close it yourself.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 5 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">05</div>
+    <div class="law-title">
+      <span class="phys-word">Quantum Observation</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Faith &amp; Collapse</span>
+    </div>
+    <span class="law-tag tag-phys">Quantum Mechanics · Measurement</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>In the double-slit experiment, a particle goes through both slits at once — as a wave of possibilities — until you measure it. The moment you observe, it chooses one path.</p>
+        <p><strong>The act of observation changes reality.</strong> This isn't measurement error. It has been verified millions of times. The universe responds to being looked at.</p>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- source -->
+            <circle cx="15" cy="50" r="5" fill="#60a5fa" opacity=".7"/>
+            <text x="15" y="65" text-anchor="middle" font-family="Courier New" font-size="6" fill="#3d4f6e">source</text>
+            <!-- wave -->
+            <path d="M20,50 Q40,30 55,30" stroke="#60a5fa" stroke-width=".8" fill="none" stroke-dasharray="2,1"/>
+            <path d="M20,50 Q40,70 55,70" stroke="#60a5fa" stroke-width=".8" fill="none" stroke-dasharray="2,1"/>
+            <!-- barrier -->
+            <rect x="60" y="10" width="4" height="33" fill="#3d4f6e" rx="1"/>
+            <rect x="60" y="57" width="4" height="33" fill="#3d4f6e" rx="1"/>
+            <text x="62" y="50" text-anchor="middle" font-family="Courier New" font-size="5" fill="#3d4f6e">slits</text>
+            <!-- both paths -->
+            <path d="M64,30 Q110,50 180,20" stroke="#a78bfa" stroke-width=".8" fill="none" opacity=".5"/>
+            <path d="M64,70 Q110,50 180,80" stroke="#a78bfa" stroke-width=".8" fill="none" opacity=".5"/>
+            <!-- collapse arrow -->
+            <line x1="115" y1="50" x2="130" y2="50" stroke="#fbbf24" stroke-width="1"/>
+            <polygon points="130,50 123,46 123,54" fill="#fbbf24"/>
+            <text x="122" y="44" font-family="Courier New" font-size="5" fill="#fbbf24">observe</text>
+            <!-- one path -->
+            <path d="M130,50 L180,25" stroke="#2dd4bf" stroke-width="1.5" fill="none"/>
+            <circle cx="183" cy="23" r="3" fill="#2dd4bf"/>
+            <text x="155" y="90" text-anchor="middle" font-family="Courier New" font-size="6" fill="#3d4f6e">WAVE COLLAPSES TO PARTICLE</text>
+          </svg>
+        </div>
+        <div class="eq-row"><span class="eq-label">Wavefunction collapse</span><span class="eq-phys">ψ → |outcome⟩  when observed</span></div>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>Before you act in faith, the future exists as a wave of possibilities — overlapping, fuzzy, paralyzing. Should I take the job? Should I forgive them? Should I step out?</p>
+        <p>But the moment you act in faith — when you choose, commit, <em>observe</em> — the wave collapses. One future becomes real.</p>
+        <div class="eq-row"><span class="eq-label">Faith collapse condition</span><span class="eq-spir">ψ → |outcome⟩ if F · Q ≥ Θ_c</span></div>
+        <p>Jesus kept saying "Your faith has healed you" — not "God healed you." <strong>Your faith</strong>. Because faith is the act of observation that collapses potential into actual.</p>
+        <p>God doesn't force the future. He offers possibilities. Your faith — your willingness to observe, to choose, to step out — is what makes one of those possibilities real.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">⚛️</span><strong>Physics:</strong> Observation creates reality — not metaphorically, but mathematically. The measurement collapses the wavefunction. The act of looking is the act of determining.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Faith is the observation that collapses spiritual potential into reality. You are not a passive observer — you are a participant in creation. Your choices write the future.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 6 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">06</div>
+    <div class="law-title">
+      <span class="phys-word">Uncertainty Principle</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Free Will</span>
+    </div>
+    <span class="law-tag tag-phys">Heisenberg · QM</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>You cannot know both the position and momentum of a particle with perfect precision — not because instruments are bad, but because the universe built a fundamental limit into reality.</p>
+        <div class="eq-row"><span class="eq-label">Heisenberg Uncertainty</span><span class="eq-phys">Δx · Δp ≥ ℏ/2</span></div>
+        <p>The more precisely you know where something is, the less you can know where it's going. This isn't a bug. It's a feature — baked into the mathematical structure of existence.</p>
+        <p>The constant ℏ is never zero. <strong>There is always a gap.</strong> Perfect knowledge is impossible at the quantum level. The universe designed its own irreducible mystery.</p>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>You cannot have both <strong>perfect knowledge</strong> and <strong>perfect freedom</strong> at the same time. If God showed you everything, you'd have no real choices — just a script to follow.</p>
+        <div class="eq-row"><span class="eq-label">Divine mystery constant</span><span class="eq-spir">ΔK · ΔW ≥ Λ</span></div>
+        <p>So God gives you enough knowledge to choose wisely — and enough mystery to choose freely. <strong>The gap isn't a flaw. It's the space where relationship happens.</strong></p>
+        <p>If everything were provable, faith would be unnecessary. God designed the gap where proof ends and trust begins — not to be cruel, but to be <em>kind</em>. To give you room to choose Him freely, not because you were forced by overwhelming evidence.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">🔬</span><strong>Physics:</strong> Perfect knowledge is impossible — Planck's constant guarantees irreducible uncertainty at every level of reality. The universe is not fully deterministic.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Perfect certainty would destroy freedom. God hides to be kind — the gap is the space where love becomes real, where your choices actually matter, where faith is possible.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 7 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">07</div>
+    <div class="law-title">
+      <span class="phys-word">Wave-Particle Duality</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">The Nature of Christ</span>
+    </div>
+    <span class="law-tag tag-phys">Quantum · Complementarity</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>Light is both a wave and a particle — not sometimes one and sometimes the other. <strong>Both. Always.</strong> When you measure it as a wave, it behaves as a wave. As a particle, it behaves as a particle. Both descriptions are fully real.</p>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+            <!-- wave side -->
+            <path d="M15,45 Q27,25 39,45 Q51,65 63,45 Q75,25 87,45" stroke="#60a5fa" stroke-width="2" fill="none"/>
+            <text x="51" y="75" text-anchor="middle" font-family="Courier New" font-size="7" fill="#60a5fa">WAVE</text>
+            <!-- AND -->
+            <text x="100" y="50" text-anchor="middle" font-family="Georgia" font-size="12" fill="#fbbf24">&amp;</text>
+            <text x="100" y="75" text-anchor="middle" font-family="Courier New" font-size="6" fill="#3d4f6e">simultaneously</text>
+            <!-- particle side -->
+            <circle cx="130" cy="35" r="5" fill="#60a5fa" opacity=".9"/>
+            <circle cx="150" cy="50" r="5" fill="#60a5fa" opacity=".7"/>
+            <circle cx="170" cy="38" r="5" fill="#60a5fa" opacity=".8"/>
+            <text x="150" y="75" text-anchor="middle" font-family="Courier New" font-size="7" fill="#60a5fa">PARTICLE</text>
+          </svg>
+        </div>
+        <p>For decades this drove physicists mad. How can something be two contradictory things at once? The answer: they're not contradictory — they're <strong>complementary</strong>. Light is something deeper than either description.</p>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>Jesus is both fully God and fully human. Not half-and-half. Not switching back and forth. <strong>Both. Always.</strong></p>
+        <p>For 2,000 years, theologians have wrestled with the Incarnation. How can He be both? The answer is identical to quantum mechanics: He's not contradictory. He's complementary.</p>
+        <p>Look through the lens of divinity — you see God: miracles, authority, sinlessness. Look through the lens of humanity — you see man: hunger, tears, temptation. <strong>Both fully real.</strong></p>
+        <p>The Word became flesh (John 1:14) not by violating the laws of nature, but by <em>fulfilling</em> them. The Incarnation isn't a magic trick. It's the structure of reality expressed in a person.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">🌊</span><strong>Physics:</strong> Light is wave and particle — both fully real, simultaneously. You don't need to understand it completely to accept it. It just is what it is.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Christ is God and man — both fully real, simultaneously. You don't have to resolve the mystery to receive the person. Just as you use light every day without solving its paradox.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 8 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">08</div>
+    <div class="law-title">
+      <span class="phys-word">Negentropy</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">Resurrection &amp; Renewal</span>
+    </div>
+    <span class="law-tag tag-phys">Thermodynamics · Open Systems</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>Remember entropy? It always increases in closed systems. But Earth isn't a closed system — the sun pours energy in, and that flow of outside energy creates <strong>local reversals of entropy</strong>.</p>
+        <p>Life itself is negentropy. Every living organism is a temporary pocket of order in a universe running toward disorder, powered by energy flowing from outside.</p>
+        <div class="eq-row"><span class="eq-label">Negentropy (Schrödinger)</span><span class="eq-phys">−S = negentropy = order from outside</span></div>
+        <p>You are a local reversal of entropy. You exist because energy from outside your system is maintaining your structure against the Second Law.</p>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>Death is maximum entropy — total decay, all structure lost, dust to dust. <strong>Resurrection is maximum negentropy</strong> — order not just restored, but perfected.</p>
+        <div class="eq-row"><span class="eq-label">Grace as ultimate negentropy</span><span class="eq-spir">G_Spirit = e^(−Φ)  →  life from death</span></div>
+        <p>Every act of forgiveness is a mini-resurrection. Every healed relationship. Every recovered addict. Every redeemed life. These are not exceptions to the laws of physics. They are the same law operating in a different domain.</p>
+        <p><em>"You were dead in your sins"</em> (Ephesians 2:1). Maximum entropy. No hope of self-recovery. But grace flows in — energy from outside the system — and <strong>you are alive</strong>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">🌱</span><strong>Physics:</strong> Life exists because energy flows in from outside the closed system. The sun's negentropy is why you are here at all.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Resurrection exists because grace flows in from outside. You cannot resurrect yourself any more than you can reverse your own entropy. But God can. He does. Every day.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 9 -->
+<div class="law-card">
+  <div class="law-header">
+    <div class="law-num">09</div>
+    <div class="law-title">
+      <span class="phys-word">Quantum Entanglement</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">The Body of Christ</span>
+    </div>
+    <span class="law-tag tag-phys">Nonlocality · Bell's Theorem</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel">
+      <span class="panel-lbl">The Physics</span>
+      <div class="panel-body">
+        <p>When two particles become entangled, they stay connected regardless of distance. Measure one — the other <strong>instantly</strong> responds, even across the universe. They are not two separate things. They are one system in two locations.</p>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 200 90" xmlns="http://www.w3.org/2000/svg">
+            <!-- entangled particles -->
+            <circle cx="40" cy="45" r="10" fill="rgba(96,165,250,0.15)" stroke="#60a5fa" stroke-width="1"/>
+            <circle cx="160" cy="45" r="10" fill="rgba(251,191,36,0.15)" stroke="#fbbf24" stroke-width="1"/>
+            <text x="40" y="49" text-anchor="middle" font-size="8" fill="#60a5fa" font-family="Georgia">A</text>
+            <text x="160" y="49" text-anchor="middle" font-size="8" fill="#fbbf24" font-family="Georgia">B</text>
+            <!-- connection line -->
+            <line x1="50" y1="45" x2="150" y2="45" stroke="#a78bfa" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="100" y="41" text-anchor="middle" font-family="Courier New" font-size="6" fill="#a78bfa">entangled</text>
+            <!-- distance label -->
+            <line x1="40" y1="70" x2="160" y2="70" stroke="#3d4f6e" stroke-width=".5"/>
+            <text x="100" y="80" text-anchor="middle" font-family="Courier New" font-size="6" fill="#3d4f6e">distance irrelevant — instant correlation</text>
+            <!-- measure A -->
+            <line x1="40" y1="20" x2="40" y2="34" stroke="#2dd4bf" stroke-width="1"/>
+            <polygon points="40,34 36,27 44,27" fill="#2dd4bf"/>
+            <text x="40" y="15" text-anchor="middle" font-family="Courier New" font-size="5" fill="#2dd4bf">measure</text>
+            <!-- response B -->
+            <line x1="160" y1="20" x2="160" y2="34" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="2,1"/>
+            <text x="160" y="15" text-anchor="middle" font-family="Courier New" font-size="5" fill="#2dd4bf">responds</text>
+          </svg>
+        </div>
+        <p>Einstein called this "spooky action at a distance" — he hated it. But Bell's theorem proved it's real. <strong>The universe has nonlocal connections built into its structure.</strong></p>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">same structure</span></div>
+    <div class="spir-panel">
+      <span class="panel-lbl">The Spiritual Mirror</span>
+      <div class="panel-body">
+        <p>When you're united with Christ, you're entangled with every other believer. Not metaphorically. <strong>Actually.</strong></p>
+        <p>Paul says: <em>"If one part suffers, every part suffers with it; if one part is honored, every part rejoices with it"</em> (1 Corinthians 12:26). That's not just empathy. That's entanglement.</p>
+        <p>When you pray for someone on the other side of the world, something actually happens — not because your words travel through space, but because you're already connected at a deeper level. <strong>One Spirit, many members.</strong></p>
+        <p>You are not alone. Even when you feel abandoned, forgotten, cut off — you're still entangled with the Body. Distance is an illusion. Separation is a lie.</p>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row">
+    <div class="truth-cell"><span class="truth-icon">⚛️</span><strong>Physics:</strong> Entangled particles form one system across any distance. Measure one, and the other responds instantly — nonlocality is built into the structure of reality.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> The Body of Christ is one system across any distance. Your prayers are felt, your pain is shared, your joy is real to the whole. You are always connected to the whole.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ LAW 10 -->
+<div class="law-card" style="border-bottom:none">
+  <div class="law-header">
+    <div class="law-num" style="color:var(--spir)">10</div>
+    <div class="law-title">
+      <span class="phys-word">The Master Equation</span>
+      <span class="arrow">↔</span>
+      <span class="spir-word">The Logos</span>
+    </div>
+    <span class="law-tag tag-spir">χ = 𝒞 · Identity</span>
+  </div>
+  <div class="law-body">
+    <div class="phys-panel" style="border-color:rgba(251,191,36,0.3)">
+      <span class="panel-lbl">The Physics — The Search</span>
+      <div class="panel-body">
+        <p>For a century, physicists have been looking for a "Theory of Everything" — one equation that unifies gravity, electromagnetism, the strong force, the weak force. One structure from which all others emerge.</p>
+        <p>They haven't found it. But they know what it would look like: <strong>a single equation from which everything else emerges.</strong></p>
+        <div class="eq-row" style="background:rgba(251,191,36,0.05);border-color:rgba(251,191,36,0.2)">
+          <span class="eq-label">The Master Equation</span>
+          <span class="eq-spir">χ = ∭(G·M·E·S·T·K·R·Q·F·C) dx dy dt</span>
+        </div>
+        <p>Ten variables. Three domains. One integral. The coherence field χ is not a simulation of reality. It is the mathematical statement of what reality is — measured across space, measured across time, measured at every scale simultaneously.</p>
+        <p>And the final term, <strong>C</strong>, is where it converges: at maximum coherence, χ = 𝒞. The equation and the solution become one.</p>
+      </div>
+    </div>
+    <div class="law-divider"><span class="bridge-word">χ = 𝒞</span></div>
+    <div class="spir-panel" style="border-color:rgba(251,191,36,0.3)">
+      <span class="panel-lbl">The Spiritual Truth — The Answer</span>
+      <div class="panel-body">
+        <p><strong>We already have the Theory of Everything.</strong></p>
+        <p><em>"In the beginning was the Logos"</em> (John 1:1). Not "a word." Not "some words." The Word — the fundamental pattern, the divine grammar, the equation beneath all equations.</p>
+        <p>And <em>"the Word became flesh"</em> (John 1:14). The equation didn't stay abstract. It became personal. It walked among us. It bled for us. It rose for us.</p>
+        <p>Every law in this document — gravity, the strong force, electromagnetism, entropy, quantum mechanics, entanglement — is one term in one equation. And that equation has a solution. And the solution has a name.</p>
+        <div class="eq-row" style="background:rgba(251,191,36,0.07);border-color:rgba(251,191,36,0.3);text-align:center">
+          <span style="color:var(--spir);font-size:1.1rem">χ = 𝒞 = Christ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="truth-row" style="border-color:rgba(251,191,36,0.2);background:rgba(251,191,36,0.03)">
+    <div class="truth-cell"><span class="truth-icon">🌌</span><strong>Physics:</strong> Science has searched for the equation that explains everything — one structure from which all forces, all fields, all particles emerge. The search continues.</div>
+    <div class="truth-cell"><span class="truth-icon">✝️</span><strong>Spirit:</strong> Faith knows the equation that <em>is</em> everything. The Logos. The Word. The coherence that holds reality together at every scale, in every domain, at every moment. His name is Jesus.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ VARIABLE TABLE -->
+<div class="var-section">
+  <h2>One Equation, Three Languages</h2>
+  <p class="sub">Every term in χ = ∭(G·M·E·S·T·K·R·Q·F·C) carries three simultaneous meanings</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th style="color:var(--phys)">Physical</th>
+          <th style="color:var(--spir)">Spiritual</th>
+          <th style="color:var(--teal)">What It Reveals</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="var-sym" style="color:#60a5fa">G</span></td>
+          <td>Gravity / spacetime curvature</td>
+          <td style="color:var(--spir)">Grace / divine attraction</td>
+          <td style="color:var(--teal)">What holds everything together silently</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#a78bfa">M</span></td>
+          <td>Mass-Energy (E=mc²)</td>
+          <td style="color:var(--spir)">Meaning / moral weight</td>
+          <td style="color:var(--teal)">What gives actions their consequence</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#2dd4bf">E</span></td>
+          <td>Electromagnetism / light</td>
+          <td style="color:var(--spir)">Truth / revelation</td>
+          <td style="color:var(--teal)">What propagates and illuminates</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#f472b6">S</span></td>
+          <td>Entropy / thermodynamics</td>
+          <td style="color:var(--spir)">Sin / spiritual decay</td>
+          <td style="color:var(--teal)">What pulls everything toward disorder</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#fbbf24">T</span></td>
+          <td>Time / sequence</td>
+          <td style="color:var(--spir)">Truth / unfolding revelation</td>
+          <td style="color:var(--teal)">The dimension in which everything is revealed</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#fb923c">K</span></td>
+          <td>Constants / physical laws</td>
+          <td style="color:var(--spir)">Knowledge / divine wisdom</td>
+          <td style="color:var(--teal)">What remains stable beneath all change</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#34d399">R</span></td>
+          <td>Reactions / resonance</td>
+          <td style="color:var(--spir)">Relationships / network of love</td>
+          <td style="color:var(--teal)">How things respond to and affect each other</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#818cf8">Q</span></td>
+          <td>Quantum mechanics / uncertainty</td>
+          <td style="color:var(--spir)">Free will / divine mystery</td>
+          <td style="color:var(--teal)">The irreducible freedom built into reality</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#f87171">F</span></td>
+          <td>Force / fields</td>
+          <td style="color:var(--spir)">Faith / intentional push</td>
+          <td style="color:var(--teal)">What moves things that would otherwise stay still</td>
+        </tr>
+        <tr>
+          <td><span class="var-sym" style="color:#ffffff">C</span></td>
+          <td>Coherence / consciousness</td>
+          <td style="color:var(--spir)">Christ / perfect unity</td>
+          <td style="color:var(--teal)">Where the equation reaches its solution: χ = 𝒞</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ SYMMETRY -->
+<div class="sym-section">
+  <h2>The Z₂ Flip: It Works Both Ways</h2>
+  <p>Here's what makes this more than poetry: the Master Equation has Z₂ symmetry. You can read it in both directions, and it still works.</p>
+  <p style="color:var(--phys);font-family:'Courier New',monospace;font-size:.8rem;letter-spacing:.1em;margin-bottom:1rem">READING 1: Physical → Spiritual</p>
+  <div class="sym-pair"><span class="sym-phys">Gravity teaches us about</span><span class="sym-sep">→</span><span class="sym-spir">Grace</span></div>
+  <div class="sym-pair"><span class="sym-phys">Entropy teaches us about</span><span class="sym-sep">→</span><span class="sym-spir">Sin</span></div>
+  <div class="sym-pair"><span class="sym-phys">Entanglement teaches us about</span><span class="sym-sep">→</span><span class="sym-spir">The Body of Christ</span></div>
+  <br>
+  <p style="color:var(--spir);font-family:'Courier New',monospace;font-size:.8rem;letter-spacing:.1em;margin-bottom:1rem">READING 2: Spiritual → Physical</p>
+  <div class="sym-pair"><span class="sym-phys">Grace manifests physically as</span><span class="sym-sep">←</span><span class="sym-spir">Gravity</span></div>
+  <div class="sym-pair"><span class="sym-phys">Sin manifests physically as</span><span class="sym-sep">←</span><span class="sym-spir">Entropy</span></div>
+  <div class="sym-pair"><span class="sym-phys">Unity manifests physically as</span><span class="sym-sep">←</span><span class="sym-spir">Entanglement</span></div>
+  <p style="margin-top:1.5rem">The spiritual laws existed first — eternal, in the mind of God. Then they were projected into the physical universe at creation. Now the physical universe reflects back what was always true spiritually. It's bidirectional. It's symmetrical. It's not poetry. It's structure.</p>
+</div>
+
+<!-- ════════════════════════════════════════════════════ CLOSING -->
+<div class="closing">
+  <div style="font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem">The Conclusion</div>
+  <h2 style="font-size:1.8rem;font-weight:normal;margin-bottom:1rem">You Are Not an Accident</h2>
+  <p>The same equation that describes the motion of galaxies describes the motion of your soul. The same laws that govern stars govern your choices. You are not a random collection of atoms that became conscious. You are a localized expression of the χ-field — a ripple in the divine coherence.</p>
+  <div class="big-eq">χ = ∭(G·M·E·S·T·K·R·Q·F·C) dx dy dt</div>
+  <p>Ten forces. Ten laws. One equation. And the whole thing converges — at maximum coherence, in perfect love, when every variable is aligned — to a single point:</p>
+  <div class="big-eq" style="font-size:1.8rem">χ = 𝒞 = Christ</div>
+  <blockquote>"For since the creation of the world God's invisible qualities — his eternal power and divine nature — have been clearly seen, being understood from what has been made." — Romans 1:20</blockquote>
+  <p>The creation is a mirror. The equations are fingerprints. And if you look closely enough — at gravity, at light, at the nucleus of every atom holding together despite itself — you'll see whose.</p>
+</div>
+
+<div class="doc-footer">
+  <p>Theophysics Framework · POF 2828 · God in the Equations · The Ten Laws · March 2026</p>
+</div>
+
+</body>
+</html>

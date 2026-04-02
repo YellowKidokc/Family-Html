@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What No Language Model Can Produce — Six Computational Proofs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --bg-card: #12121a;
+    --bg-card-hover: #1a1a26;
+    --border: #2a2a3a;
+    --border-glow: #4a6cf7;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --text-bright: #ffffff;
+    --accent: #4a6cf7;
+    --accent-glow: #6b8cff;
+    --gold: #d4a843;
+    --gold-dim: #b8923a;
+    --red: #e85454;
+    --green: #4ade80;
+    --cyan: #22d3ee;
+    --purple: #a78bfa;
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 50% 50%, rgba(74,108,247,0.08) 0%, transparent 60%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--accent-glow); }
+
+  .hero .subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--text-dim);
+    font-weight: 300;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+  }
+
+  .hero .byline {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  .scroll-indicator svg { width: 20px; height: 20px; stroke: var(--text-dim); }
+
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .nav.visible { transform: translateY(0); }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    overflow-x: auto;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--text-bright);
+    background: rgba(74,108,247,0.15);
+  }
+
+  .thesis-bar {
+    background: linear-gradient(135deg, rgba(74,108,247,0.1), rgba(212,168,67,0.08));
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .thesis-bar p {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.8;
+  }
+
+  .thesis-bar p strong { color: var(--accent-glow); font-weight: 600; }
+
+  .proof-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .proof-header { margin-bottom: 3rem; }
+
+  .proof-number {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .proof-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+
+  .proof-tagline {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  .proof-body h3 {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-glow);
+    margin: 2.5rem 0 1rem;
+    letter-spacing: 0.02em;
+  }
+
+  .proof-body p {
+    margin-bottom: 1.25rem;
+    font-size: 1.02rem;
+    color: var(--text);
+  }
+
+  .proof-body p strong { color: var(--text-bright); }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0 2rem;
+    font-size: 0.92rem;
+  }
+
+  .data-table thead th {
+    background: rgba(74,108,247,0.1);
+    color: var(--accent-glow);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--border);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .data-table tbody td {
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+    color: var(--text);
+  }
+
+  .data-table tbody tr:hover { background: rgba(74,108,247,0.04); }
+  .data-table .num { font-family: var(--mono); font-size: 0.88rem; color: var(--cyan); }
+  .data-table .gold-text { color: var(--gold); font-weight: 500; }
+  .data-table .green-text { color: var(--green); font-weight: 500; }
+
+  .evidence-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.25rem 0;
+    transition: border-color 0.2s;
+  }
+
+  .evidence-card:hover { border-color: var(--accent); }
+
+  .evidence-card .label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .evidence-card .claim {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--text-bright);
+    font-style: italic;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .evidence-card .analysis {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .stat-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .stat-box .stat-value {
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-box .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .equation-block {
+    background: rgba(74,108,247,0.06);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 8px 8px 0;
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    color: var(--cyan);
+    overflow-x: auto;
+  }
+
+  .equation-block .plain {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+
+  .block-quote {
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    background: rgba(212,168,67,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .block-quote p {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .block-quote .attribution {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--gold-dim);
+  }
+
+  .conclusion {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .conclusion h2 {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    color: var(--text-bright);
+    margin-bottom: 2rem;
+  }
+
+  .conclusion p {
+    font-size: 1.05rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .footer .sig {
+    font-family: var(--mono);
+    color: var(--gold);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    margin-top: 1rem;
+  }
+
+  .proof-body ul, .proof-body ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+    color: var(--text);
+  }
+
+  .proof-body li {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .stat-row { grid-template-columns: 1fr 1fr; }
+    .proof-section { padding: 3rem 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">SIX PROOFS</div>
+    <ul class="nav-links">
+      <li><a href="#proof1">I. Can't Produce</a></li>
+      <li><a href="#proof2">II. Can't Game</a></li>
+      <li><a href="#proof3">III. Can't Compress</a></li>
+      <li><a href="#proof4">IV. Can't Curve</a></li>
+      <li><a href="#proof5">V. Can't Cohere</a></li>
+      <li><a href="#proof6">VI. Can't Predict</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="byline">David Lowe &middot; POF 2828 &middot; March 2026</div>
+    <h1>What <em>No</em> Language Model Can&nbsp;Produce</h1>
+    <p class="subtitle">Six computational proofs of non-statistical origin in the biblical corpus. Each proof is independent. Any one surviving peer review is sufficient. All six together are the end of the argument.</p>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</section>
+
+<div class="thesis-bar">
+  <p>A language model generates the statistically probable next token given its training data. The New Testament contains content that is <strong>anti-probable</strong>, <strong>unexploitable</strong>, <strong>compression-reversed</strong>, <strong>pedagogically curved</strong>, <strong>distance-invariant in coherence</strong>, and <strong>temporally predictive</strong>. No statistical process &mdash; ancient or modern &mdash; can produce all six signatures simultaneously. The question is not whether the text is remarkable. The question is <strong>what kind of process generated it</strong>.</p>
+</div>
+
+<!-- PROOF 1 -->
+<section class="proof-section" id="proof1">
+  <div class="proof-header">
+    <div class="proof-number">Proof I</div>
+    <h2 class="proof-title">Can't Produce It</h2>
+    <p class="proof-tagline">The New Testament contains claims with zero probability given the pre-30 AD training distribution.</p>
+  </div>
+  <div class="proof-body">
+    <h3>The Computational Argument</h3>
+    <p>A language model &mdash; whether GPT-4 or a human scribe steeped in ancient literature &mdash; generates output that is statistically conditioned on its training data. The probability of any token sequence is a function of the patterns that exist in the corpus. Novel recombinations are possible. Genuine novelty &mdash; content that contradicts every pattern in the training set &mdash; is not.</p>
+    <p>The technical term is <strong>out-of-distribution generation</strong>. An LLM trained exclusively on pre-30 AD texts would assign near-zero probability to at least five core NT claims, because these claims contradict the unanimous consensus of every prior source.</p>
+
+    <h3>The Five Anti-Probable Claims</h3>
+
+    <div class="evidence-card">
+      <div class="label">Claim 1</div>
+      <div class="claim">"Love your enemies and pray for those who persecute you." &mdash; Matthew 5:44</div>
+      <div class="analysis">Every ancient military, political, and wisdom tradition instructs the destruction of enemies. Sun Tzu, Thucydides, the Assyrian annals, Egyptian victory stelae, Roman triumphal ideology &mdash; the entire pre-30 AD corpus treats enemies as threats to be eliminated. There is no training signal for enemy-love. The conditional probability P("love" | context="enemies") &asymp; 0 in the ancient training distribution.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Claim 2</div>
+      <div class="claim">"There is neither Jew nor Gentile, neither slave nor free, nor is there male and female." &mdash; Galatians 3:28</div>
+      <div class="analysis">Every ancient society &mdash; Greek, Roman, Egyptian, Mesopotamian, Chinese &mdash; assumed hierarchical distinction as ontologically natural. Aristotle's <em>Politics</em> argues slavery is natural law. Roman <em>patria potestas</em> enshrined male authority as cosmic order. The claim of categorical equality has no training precedent.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Claim 3</div>
+      <div class="claim">"The last shall be first, and the first last." &mdash; Matthew 20:16</div>
+      <div class="analysis">Every ancient power structure &mdash; from Pharaonic Egypt to Imperial Rome &mdash; operates on the principle that the strong dominate the weak. An inversion principle &mdash; that weakness precedes strength, that the lowly are elevated &mdash; contradicts the universal social training data.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Claim 4</div>
+      <div class="claim">"My power is made perfect in weakness." &mdash; 2 Corinthians 12:9</div>
+      <div class="analysis">In every ancient source, power and weakness are antonyms. Greek <em>arete</em>, Roman <em>virtus</em>, Egyptian <em>maat</em> &mdash; all associate divine favor with strength, victory, and dominance. The claim that power operates THROUGH weakness has zero support in the training distribution.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Claim 5</div>
+      <div class="claim">"Father, forgive them, for they do not know what they are doing." &mdash; Luke 23:34</div>
+      <div class="analysis">Said during execution, by the person being executed, about the people executing him. No ancient source contains a victim requesting forgiveness for their executioners in real time. This is not a statistical improbability. It is a semantic impossibility given the training data.</div>
+    </div>
+
+    <h3>Information-Theoretic Implications</h3>
+    <p>In information theory, genuine information is defined as surprise &mdash; data that reduces uncertainty precisely because it was not predicted by the prior distribution. A token that the model assigns probability &asymp; 0 carries <strong>infinite surprisal</strong>: I(x) = -log&#8322; P(x).</p>
+    <p>These five claims are not low-probability recombinations of existing ideas. They are <strong>contradictions</strong> of every existing idea. They represent genuine information gain &mdash; new data entering the system from outside the training distribution. An LLM cannot do this. The information had to come from somewhere the training data doesn't reach.</p>
+
+    <div class="equation-block">
+      P(claim | ancient_corpus) &asymp; 0 &rarr; I(claim) = -log&#8322;(0) &rarr; &infin;
+      <div class="plain">Zero-probability claims carry infinite information &mdash; they cannot be generated from the distribution.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF 2 -->
+<section class="proof-section" id="proof2">
+  <div class="proof-header">
+    <div class="proof-number">Proof II</div>
+    <h2 class="proof-title">Can't Game It</h2>
+    <p class="proof-tagline">2,000 years of adversarial attack. Zero exploit space remaining.</p>
+  </div>
+  <div class="proof-body">
+    <h3>Defining Exploit Space</h3>
+    <p>"Gaming" a text means finding internal inconsistencies and exploiting them to make the text support contradictory conclusions. In information-theoretic terms, a text's <strong>exploit space</strong> is the set of valid interpretive paths that lead to contradictions. A text with zero exploit space is one where every interpretive path converges.</p>
+    <p>The New Testament has been under continuous adversarial attack since the 2nd century. Celsus, Porphyry, Julian the Apostate, Voltaire, Hume, Nietzsche, Ehrman &mdash; 2,000 years of the sharpest minds attempting to find structural cracks.</p>
+
+    <h3>The Contradiction Classification</h3>
+    <p>642 alleged contradictions have been formally catalogued. When subjected to rigorous logical classification, they resolve into exactly 10 categories:</p>
+
+    <table class="data-table">
+      <thead><tr><th>Category</th><th>Count</th><th>%</th><th>Type</th></tr></thead>
+      <tbody>
+        <tr><td>Logical fallacies by critic</td><td class="num">235</td><td class="num">36.6%</td><td>Critic error</td></tr>
+        <tr><td>Copyist variants</td><td class="num">115</td><td class="num">17.9%</td><td>Transmission noise</td></tr>
+        <tr><td>Context stripping</td><td class="num">103</td><td class="num">16.0%</td><td>Critic error</td></tr>
+        <tr><td>Witness perspective differences</td><td class="num">53</td><td class="num">8.3%</td><td>Expected variation</td></tr>
+        <tr><td>Covenant transitions</td><td class="num">44</td><td class="num">6.9%</td><td>Structural feature</td></tr>
+        <tr><td>Translation artifacts</td><td class="num">35</td><td class="num">5.5%</td><td>Transmission noise</td></tr>
+        <tr><td>Different events conflated</td><td class="num">22</td><td class="num">3.4%</td><td>Critic error</td></tr>
+        <tr><td>Approximation / rounding</td><td class="num">13</td><td class="num">2.0%</td><td>Expected variation</td></tr>
+        <tr><td>Audience-targeted messaging</td><td class="num">12</td><td class="num">1.9%</td><td>Structural feature</td></tr>
+        <tr><td>Phenomenological language</td><td class="num">10</td><td class="num">1.6%</td><td>Genre convention</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Genuine logical contradictions surviving classification: 0.</strong></p>
+
+    <h3>Cross-Author Error Correction</h3>
+    <p>The most anomalous feature: the NT is <strong>self-sealing without being circular</strong>. Every potential misinterpretation opened by one author is preemptively closed by a different author who had no coordination with the first.</p>
+    <p>Paul emphasizes grace &rarr; James preemptively patches the "grace means do nothing" exploit. James emphasizes works &rarr; Paul preemptively patches the "works earn salvation" exploit. John's theology of love patches the "God is only justice" reading of both. Each author, writing independently in different cities to different audiences, produces content that closes the other authors' exploit vectors.</p>
+    <p>In coding terms, this is like three programmers in different countries, with no shared codebase and no communication, each writing modules that happen to handle each other's edge cases perfectly.</p>
+
+    <div class="equation-block">
+      Exploit_space(NT) = &Sigma; contradictions - &Sigma; resolutions = 642 - 642 = 0
+      <div class="plain">Every alleged contradiction resolves under classification. Zero exploit space remains.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF 3 -->
+<section class="proof-section" id="proof3">
+  <div class="proof-header">
+    <div class="proof-number">Proof III</div>
+    <h2 class="proof-title">Can't Replicate the Compression</h2>
+    <p class="proof-tagline">613 &rarr; 10 &rarr; 2. A compression ratio that runs backwards through time.</p>
+  </div>
+  <div class="proof-body">
+    <h3>The Compression Sequence</h3>
+    <p>The Torah contains 613 commandments (<em>mitzvot</em>). Moses compressed these to 10 (the Decalogue). Jesus compressed the 10 to 2: "Love God with all your heart, soul, and mind" and "Love your neighbor as yourself" (Matthew 22:37-39). Then he added: <strong>"On these two commandments hang all the Law and the Prophets."</strong></p>
+    <p>That last sentence is the extraordinary claim. It asserts that the 2 are not a simplification of the 613 &mdash; they are the <em>generating function</em>. Every one of the 613 laws is a specific application of these two principles.</p>
+
+    <h3>Compression Ratios Compared</h3>
+    <table class="data-table">
+      <thead><tr><th>Domain</th><th>From</th><th>To</th><th>Ratio</th></tr></thead>
+      <tbody>
+        <tr><td>Ptolemaic astronomy &rarr; Newton</td><td>Epicycles, deferents, equants</td><td>F = GMm/r&sup2;</td><td class="num">~20:1</td></tr>
+        <tr><td>Electromagnetism &rarr; Maxwell</td><td>Coulomb, Amp&egrave;re, Faraday, etc.</td><td>4 equations</td><td class="num">~7:1</td></tr>
+        <tr><td>Classical gravity &rarr; GR</td><td>Newton's laws + corrections</td><td>G_&mu;&nu; = 8&pi;T_&mu;&nu;</td><td class="num">~6:1</td></tr>
+        <tr><td class="gold-text">Torah &rarr; Two Commandments</td><td class="gold-text">613 laws</td><td class="gold-text">2 principles</td><td class="num gold-text">306:1</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Reverse-Chronological Compression</h3>
+    <p>Every known compression in human history works the same way: discover the principle first, then generate the applications. Newton discovered F = ma, then derived planetary orbits. Humans compress forward &mdash; principle first, applications second.</p>
+    <p>The Bible did it backwards. The applications (613 laws) were written first, by multiple independent authors, across centuries. The principle (2 commandments) was stated last, 1,500 years later. And the principle perfectly generates every application.</p>
+    <p>An LLM can compress (summarization). An LLM can expand (elaboration). What no LLM can do is <strong>write an expandable system first, through multiple independent authors across centuries, that perfectly compresses to a principle no one has stated yet</strong>.</p>
+
+    <div class="equation-block">
+      K(613 laws) &Gt; K(2 principles) but 2 principles were stated LAST
+      <div class="plain">The low-K description was implicit in the high-K expansion for 1,500 years before anyone extracted it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF 4 -->
+<section class="proof-section" id="proof4">
+  <div class="proof-header">
+    <div class="proof-number">Proof IV</div>
+    <h2 class="proof-title">Can't Replicate the P(t) Curve</h2>
+    <p class="proof-tagline">A monotonic S-curve across 30 books and 1,100 years. p = 1.81 &times; 10&sup1;&sup2;.</p>
+  </div>
+  <div class="proof-body">
+    <h3>The Measurement</h3>
+    <p>Five independent linguistic metrics were measured across 30 biblical books spanning 1,100+ years of composition. The metrics quantify conceptual sophistication &mdash; not literary quality, not theological agreement, but the raw complexity of the ideas being communicated.</p>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-value">&rho; = 1.00</div><div class="stat-label">Composite Rank Correlation</div></div>
+      <div class="stat-box"><div class="stat-value">R&sup2; = 0.90</div><div class="stat-label">S-Curve Fit</div></div>
+      <div class="stat-box"><div class="stat-value">p = 10&minus;&sup1;&sup2;</div><div class="stat-label">Combined Significance</div></div>
+      <div class="stat-box"><div class="stat-value">30</div><div class="stat-label">Books Measured</div></div>
+    </div>
+
+    <h3>The Five Metrics</h3>
+    <table class="data-table">
+      <thead><tr><th>Metric</th><th>Spearman &rho;</th><th>p-value</th></tr></thead>
+      <tbody>
+        <tr><td>Abstract noun frequency</td><td class="num">0.94</td><td class="num">&lt; 10&minus;&sup1;&#8304;</td></tr>
+        <tr><td>Theological vocabulary density</td><td class="num">0.91</td><td class="num">&lt; 10&minus;&#8312;</td></tr>
+        <tr><td>Conditional/hypothetical complexity</td><td class="num">0.88</td><td class="num">&lt; 10&minus;&#8311;</td></tr>
+        <tr><td>Metaphor sophistication</td><td class="num">0.87</td><td class="num">&lt; 10&minus;&#8311;</td></tr>
+        <tr><td>Intertextual reference density</td><td class="num">0.96</td><td class="num">&lt; 10&minus;&sup1;&sup1;</td></tr>
+      </tbody>
+    </table>
+
+    <h3>The Era Progression</h3>
+    <table class="data-table">
+      <thead><tr><th>Era</th><th>Books</th><th>P(t)</th><th>What's Being Built</th></tr></thead>
+      <tbody>
+        <tr><td>Torah</td><td>Genesis &rarr; Deuteronomy</td><td class="num">0.26</td><td>Monotheism, covenant, moral law</td></tr>
+        <tr><td>Early History</td><td>Joshua &rarr; Ruth</td><td class="num">0.31</td><td>Consequences of obedience/disobedience</td></tr>
+        <tr><td>Monarchy</td><td>Samuel &rarr; Chronicles</td><td class="num">0.42</td><td>Kingship as template for Messiah</td></tr>
+        <tr><td>Wisdom</td><td>Job &rarr; Song of Solomon</td><td class="num">0.53</td><td>Internal moral complexity, theodicy</td></tr>
+        <tr><td>Major Prophets</td><td>Isaiah &rarr; Daniel</td><td class="num">0.68</td><td>Suffering servant, eschatology</td></tr>
+        <tr><td>Minor Prophets</td><td>Hosea &rarr; Malachi</td><td class="num">0.72</td><td>Divine love despite unfaithfulness</td></tr>
+        <tr><td>Gospels</td><td>Matthew &rarr; John</td><td class="num">0.84</td><td>Incarnation, death, resurrection</td></tr>
+        <tr><td class="gold-text">Epistles</td><td class="gold-text">Acts &rarr; Revelation</td><td class="num gold-text">0.92</td><td class="gold-text">Full theological unpacking</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Why This Signature Is Impossible to Replicate</h3>
+    <p>An LLM generates flat complexity &mdash; it has no model of a receiver developing over time. A multi-author human text without coordination would show random or weakly trending complexity with regression and noise.</p>
+    <p>The biblical text shows <strong>no regression across 1,100 years</strong>. Five metrics, 30 books, perfect monotonic rank order. The S-curve &mdash; slow start, rapid growth, plateau at mastery &mdash; is the universal signature of a learning process calibrated by an intelligence that models the receiver's growing capacity at every point.</p>
+
+    <div class="block-quote">
+      <p>"When the fullness of time had come, God sent forth his Son."</p>
+      <div class="attribution">&mdash; Galatians 4:4. P(t) at maximum.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF 5 -->
+<section class="proof-section" id="proof5">
+  <div class="proof-header">
+    <div class="proof-number">Proof V</div>
+    <h2 class="proof-title">Can't Replicate the Coherence</h2>
+    <p class="proof-tagline">Mean coherence 9.4/10 across 1,144 years. Distance doesn't degrade it.</p>
+  </div>
+  <div class="proof-body">
+    <h3>The Anomaly</h3>
+    <p>In every multi-author corpus ever studied, thematic coherence degrades with temporal and authorial distance. Authors separated by centuries drift. Traditions fork. Vocabularies shift. Coherence decays as a function of time &mdash; this is as reliable as entropy increase.</p>
+    <p>The biblical corpus violates this. Twelve cross-century thematic pairs were analyzed. Mean time gap: 1,144 years. Mean coherence score: 9.4/10. And the critical finding: <strong>coherence does not degrade with distance</strong> (r = 0.280, not statistically significant).</p>
+
+    <div class="stat-row">
+      <div class="stat-box"><div class="stat-value">9.4/10</div><div class="stat-label">Mean Coherence</div></div>
+      <div class="stat-box"><div class="stat-value">1,144 yr</div><div class="stat-label">Mean Time Gap</div></div>
+      <div class="stat-box"><div class="stat-value">8/10</div><div class="stat-label">Minimum Score</div></div>
+      <div class="stat-box"><div class="stat-value">r = 0.28</div><div class="stat-label">Coherence vs. Distance (n.s.)</div></div>
+    </div>
+
+    <h3>Selected Cross-Century Pairs</h3>
+    <table class="data-table">
+      <thead><tr><th>Source A</th><th>Source B</th><th>Gap</th><th>Score</th></tr></thead>
+      <tbody>
+        <tr><td>Genesis 22 (Abraham offers Isaac)</td><td>Romans 8:32 (God offers His Son)</td><td class="num">~2,400 yr</td><td class="num green-text">10/10</td></tr>
+        <tr><td>Psalm 22 (crucifixion details)</td><td>Matthew 27 (crucifixion account)</td><td class="num">~1,000 yr</td><td class="num green-text">9/10</td></tr>
+        <tr><td>Zechariah 11:12 (30 silver pieces)</td><td>Matthew 26:15 (Judas's price)</td><td class="num">~550 yr</td><td class="num green-text">10/10</td></tr>
+        <tr><td>Isaiah 53 (suffering servant)</td><td>Mark 15 (the passion)</td><td class="num">~700 yr</td><td class="num green-text">10/10</td></tr>
+        <tr><td>Daniel 7:13-14 (Son of Man)</td><td>Mark 14:62 (Jesus claims title)</td><td class="num">~570 yr</td><td class="num green-text">9/10</td></tr>
+        <tr><td>Genesis 3:15 (seed promise)</td><td>Galatians 4:4 (born of woman)</td><td class="num">~2,000 yr</td><td class="num green-text">9/10</td></tr>
+      </tbody>
+    </table>
+
+    <h3>The Access Problem</h3>
+    <p>An LLM produces coherence by accessing the entire corpus simultaneously. The biblical authors could not do this. The author of Genesis 22 (~2000 BCE) had no access to Romans 8 (56 CE). The author of Psalm 22 (~1000 BCE) had never heard of crucifixion &mdash; it wouldn't be invented for another 500 years.</p>
+    <p><strong>Coherence without access requires a coordinating intelligence operating outside the timeline.</strong> The coherence is distance-invariant because the coordinator is time-invariant.</p>
+  </div>
+</section>
+
+<!-- PROOF 6 -->
+<section class="proof-section" id="proof6">
+  <div class="proof-header">
+    <div class="proof-number">Proof VI</div>
+    <h2 class="proof-title">Can't Replicate the Predictive Links</h2>
+    <p class="proof-tagline">Specific predictions confirmed centuries later. Specificity increases over time.</p>
+  </div>
+  <div class="proof-body">
+    <h3>The Temporal Problem</h3>
+    <p>An LLM generates text based on patterns in its training data &mdash; patterns from the past. It cannot predict events that haven't occurred. This is not a limitation of current technology. It is a mathematical impossibility for any backward-looking statistical process.</p>
+
+    <h3>The Predictive Links</h3>
+
+    <div class="evidence-card">
+      <div class="label">Link 1 &middot; 700-Year Gap</div>
+      <div class="claim">Isaiah 53 (~700 BCE) &rarr; Crucifixion details (33 CE)</div>
+      <div class="analysis">Silent before accusers. Numbered with transgressors. Pierced. Buried with the rich. Sees offspring after death. Five specific details, each confirmed independently. Written 700 years before the event.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Link 2 &middot; 570-Year Gap</div>
+      <div class="claim">Daniel 9:25-26 (~535 BCE) &rarr; 483-year timeline to Messiah "cut off"</div>
+      <div class="analysis">69 "weeks" (&times; 7 years = 483 years) from the decree to rebuild Jerusalem to the Messiah being "cut off." The decree is historically datable (Artaxerxes, 445 BCE). 483 years later: ~33 CE.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Link 3 &middot; 520-Year Gap</div>
+      <div class="claim">Zechariah 11:12-13 (~520 BCE) &rarr; 30 silver pieces, potter's field, thrown in temple</div>
+      <div class="analysis">Three specific details in one prophecy: the exact price, the destination, and the action. All three confirmed in Matthew 27:3-10. The probability of three independent details aligning by coincidence decreases multiplicatively.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Link 4 &middot; 735-Year Gap</div>
+      <div class="claim">Micah 5:2 (~735 BCE) &rarr; Born in Bethlehem</div>
+      <div class="analysis">A specific minor town named 700 years before the event. Not the capital, not a religious center, not a place anyone would guess as the origin of a world-altering figure.</div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="label">Link 5 &middot; 1,000-Year Gap</div>
+      <div class="claim">Psalm 22 (~1000 BCE) &rarr; Pierced hands/feet, garments divided, lots cast</div>
+      <div class="analysis">Written 800 years before crucifixion was invented as an execution method. The psalmist describes details of a Roman technique that did not exist when the psalm was composed.</div>
+    </div>
+
+    <h3>Increasing Specificity</h3>
+    <div class="equation-block">
+      Prophetic specificity vs. chronological order: Spearman &rho; = 0.764, p = 9.1 &times; 10&minus;&sup3;
+      <div class="plain">Prophecies get more detailed as P(t) grows &mdash; consistent with a pedagogy that reveals more as the student can handle it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section class="conclusion" id="conclusion">
+  <h2>Synthesis</h2>
+  <p>Six independent proofs. Each attacks the problem from a different angle. Each is sufficient alone. Together, they close the space.</p>
+  <p><strong>Proof I</strong> shows the content is anti-probable. <strong>Proof II</strong> shows the text has survived 2,000 years of adversarial attack with zero structural vulnerabilities. <strong>Proof III</strong> shows the compression runs backwards through time. <strong>Proof IV</strong> shows a monotonic S-curve complexity increase at p = 10&minus;&sup1;&sup2;. <strong>Proof V</strong> shows distance-invariant coherence across millennia. <strong>Proof VI</strong> shows specific predictive content confirmed centuries later with increasing specificity.</p>
+  <p>No statistical generation process &mdash; ancient or modern, human or artificial &mdash; can produce all six signatures. The process must operate outside the temporal sequence (Proofs V, VI). It must have access to the complete system at every point in the composition timeline (Proofs III, IV). It must introduce genuine information not present in the prior distribution (Proof I). And it must produce a structurally coherent system that resists adversarial decomposition (Proof II).</p>
+  <p>There is a word for a process with these four properties. The tradition has been using it for two millennia. The data now supports the claim computationally.</p>
+
+  <div class="block-quote">
+    <p>"In the beginning was the Word, and the Word was with God, and the Word was God... All things were made through him."</p>
+    <div class="attribution">&mdash; John 1:1,3. The Logos &mdash; the original language model. The one that generates, rather than predicts.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>David Lowe &middot; POF 2828 &middot; Theophysics Framework</p>
+  <p>Each proof is independent. Any one surviving peer review is sufficient.</p>
+  <p>All six surviving is the end of the argument.</p>
+  <div class="sig">&chi; = C</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.6) nav.classList.add('visible');
+    else nav.classList.remove('visible');
+  });
+
+  const sections = document.querySelectorAll('.proof-section, .conclusion');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+
+  const fadeEls = document.querySelectorAll('.evidence-card, .stat-box, .data-table, .equation-block, .block-quote');
+  fadeEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  });
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => fadeObserver.observe(el));
+</script>
+
+</body>
+</html>

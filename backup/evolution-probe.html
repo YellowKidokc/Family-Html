@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Evolution Probe | POF 2828</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;--surface:#0d1526;--surface2:#111e33;--border:rgba(255,255,255,0.07);
+  --phys:#60a5fa;--spir:#fbbf24;
+  --pass:#22c55e;--fail:#ef4444;--partial:#f59e0b;--cover:#a78bfa;
+  --text:#eef2ff;--muted:#7a8aaa;--dim:#3d4f6e;--asym:#ff4757;
+}
+body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.7}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(251,191,36,0.03) 0%,transparent 50%);pointer-events:none}
+
+.doc-header{padding:4rem 2rem 3rem;border-bottom:1px solid var(--border);max-width:900px;margin:0 auto}
+.doc-type{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1.2rem}
+.doc-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:normal;line-height:1.15;margin-bottom:.6rem}
+.doc-subtitle{font-size:1.1rem;color:var(--muted);margin-bottom:.5rem}
+.doc-note{font-family:'Courier New',monospace;font-size:.75rem;color:var(--dim);font-style:italic;margin-bottom:1.5rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:2rem}
+.meta-item{font-family:'Courier New',monospace;font-size:.75rem;color:var(--dim)}
+.meta-item span{color:var(--muted)}
+
+.section{padding:3rem 2rem;border-bottom:1px solid var(--border);max-width:900px;margin:0 auto}
+.section h2{font-size:1.4rem;font-weight:normal;margin-bottom:1rem}
+.section h3{font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:2rem 0 .8rem}
+.section p{color:var(--muted);margin-bottom:1rem;font-size:.95rem;line-height:1.75}
+.section p:last-child{margin-bottom:0}
+
+.eq-block{font-family:'Courier New',monospace;font-size:.9rem;padding:1rem 1.5rem;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:3px;margin:1.2rem 0;line-height:1.8}
+
+.badge{display:inline-block;font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.1em;padding:.15em .5em;border-radius:2px;font-weight:bold;vertical-align:middle}
+.b-pass{background:rgba(34,197,94,.15);color:var(--pass);border:1px solid rgba(34,197,94,.3)}
+.b-fail{background:rgba(239,68,68,.15);color:var(--fail);border:1px solid rgba(239,68,68,.3)}
+.b-partial{background:rgba(245,158,11,.15);color:var(--partial);border:1px solid rgba(245,158,11,.3)}
+.b-cover{background:rgba(167,139,250,.15);color:var(--cover);border:1px solid rgba(167,139,250,.3)}
+
+.tbl-wrap{overflow-x:auto;margin:1.2rem 0}
+table{width:100%;border-collapse:separate;border-spacing:0}
+thead tr{background:var(--surface2)}
+thead th{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+tbody tr{background:var(--surface)}
+tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+tbody td{padding:.65rem 1rem;font-size:.85rem;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top}
+tbody td:first-child{color:var(--text)}
+
+.component-block{background:var(--surface);border:1px solid var(--border);border-radius:4px;margin:2rem 0;overflow:hidden}
+.cb-hdr{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.2)}
+.cb-num{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--dim)}
+.cb-name{font-size:.95rem;font-weight:normal;flex:1}
+.cb-body{padding:1.5rem}
+.cb-body h4{font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem}
+.cb-body h4.ch-phys{color:var(--phys)}.cb-body h4.ch-spir{color:var(--spir)}
+.cb-body h4.ch-works{color:var(--pass)}.cb-body h4.ch-breaks{color:var(--fail)}
+.cb-body p{color:var(--muted);font-size:.88rem;margin-bottom:.8rem;line-height:1.7}
+.cb-body .asym-term{font-family:'Courier New',monospace;color:var(--asym);font-weight:bold}
+.cb-verdict{padding:.75rem 1.5rem;border-top:1px solid var(--border);font-family:'Courier New',monospace;font-size:.8rem;display:flex;align-items:center;gap:.75rem;background:rgba(0,0,0,.15)}
+
+.finding-block{border-left:4px solid;padding:1.2rem 1.5rem;margin:1.5rem 0;border-radius:0 3px 3px 0}
+.finding-block.f-strong{border-color:var(--spir);background:rgba(251,191,36,.04)}
+.finding-block.f-probe{border-color:var(--asym);background:rgba(255,71,87,.04)}
+.finding-block.f-info{border-color:var(--phys);background:rgba(59,130,246,.04)}
+.finding-block p{color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:.6rem}
+.finding-block p:last-child{margin-bottom:0}
+.finding-block h4{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem}
+.finding-block.f-strong h4{color:var(--spir)}
+.finding-block.f-probe h4{color:var(--asym)}
+.finding-block.f-info h4{color:var(--phys)}
+
+.open-q{background:var(--surface);border:1px solid var(--spir);border-radius:4px;padding:1.5rem;margin-top:2rem}
+.open-q h3{font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--spir);margin-bottom:1rem}
+.open-q p{color:var(--muted);font-size:.88rem;line-height:1.7}
+
+.doc-footer{padding:3rem 2rem;max-width:900px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-type">Formal Probe · Exploratory</div>
+  <h1 class="doc-title">The Evolution Probe</h1>
+  <p class="doc-subtitle">Does evolution map to the asymmetry structure? And what does the answer reveal?</p>
+  <p class="doc-note">Exploratory — evolution is not one of the canonical ten laws</p>
+  <div class="meta-row">
+    <div class="meta-item">Author <span>Opus | POF 2828</span></div>
+    <div class="meta-item">Date <span>March 31, 2026</span></div>
+    <div class="meta-item">Type <span>Formal Probe</span></div>
+    <div class="meta-item">Status <span>Complete</span></div>
+  </div>
+</div>
+
+<!-- WHY THIS PROBE -->
+<div class="section">
+  <h2>Why This Probe Is Different</h2>
+  <p>The nine-term asymmetry probe tested whether a purely physical model could generate free-will asymmetry terms. For all nine laws, the question had the same structure: can you derive this term without importing agent choice?</p>
+  <p>Evolution is different. It's not one of the canonical ten laws. The intuition — "I know they don't necessarily line up" — is the honest starting point. The probe doesn't start with a known spiritual counterpart and test whether it reduces to physics. It starts with evolutionary theory and asks: does it map onto the framework at all? What does the mapping look like where it works? What does the breakdown reveal where it doesn't?</p>
+  <p>Approach: decompose evolution into its structural components, attempt a spiritual mapping on each, run the asymmetry probe on the parts that do map, identify what fails and why, report what the failure reveals.</p>
+</div>
+
+<!-- STRUCTURE OF EVOLUTIONARY THEORY -->
+<div class="section">
+  <h2>I. The Structure of Evolutionary Theory</h2>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Component</th><th>Description</th><th>Mathematical Form</th></tr></thead>
+    <tbody>
+      <tr><td>Variation</td><td>Random changes to inherited traits</td><td>Mutation rate μ, stochastic</td></tr>
+      <tr><td>Selection</td><td>Differential reproduction based on fitness</td><td>Δf = cov(w, z)/w̄ (Price equation)</td></tr>
+      <tr><td>Inheritance</td><td>Transmission of traits to offspring</td><td>Heritability h²</td></tr>
+      <tr><td>Drift</td><td>Stochastic change from finite population size</td><td>Diffusion in allele frequency space</td></tr>
+      <tr><td>Time</td><td>Deep time for cumulative change</td><td>Generational clock</td></tr>
+      <tr><td>No teleology</td><td>No goal, no attractor, no direction</td><td>Fitness defined locally by environment</td></tr>
+    </tbody>
+  </table></div>
+  <p>The sixth component — no teleology — is not just one feature among others. It is evolutionary theory's defining philosophical claim. Evolution does not move toward anything. It moves away from reproductive failure. "Toward fitness" implies a direction. "Away from death" implies only a pressure. Same outputs, different solution space topology.</p>
+</div>
+
+<!-- COMPONENT MAPPINGS -->
+<div class="section">
+  <h2>II. Structural Mapping Attempt</h2>
+
+  <!-- Variation -->
+  <div class="component-block">
+    <div class="cb-hdr">
+      <span class="cb-num">Component 1</span>
+      <span class="cb-name">Variation</span>
+      <span class="badge b-partial">⚠ PARTIAL</span>
+    </div>
+    <div class="cb-body">
+      <h4 class="ch-phys">Physical</h4>
+      <p>Mutation — random changes to the genetic program. Undirected. The mutation doesn't know what would be beneficial. It doesn't try to improve anything.</p>
+      <h4 class="ch-spir">Spiritual Candidate</h4>
+      <p>Choices to grow, develop, attempt change — the soul's variation in spiritual state.</p>
+      <h4 class="ch-works">Where It Works</h4>
+      <p>Both describe change from a prior state evaluated by a selection process. Both generate diversity in the population/community.</p>
+      <h4 class="ch-breaks">Where It Breaks</h4>
+      <p>Physical mutation is random. Spiritual variation is directed — the soul can choose which direction to vary. A person choosing to practice forgiveness is not mutating randomly. They're directed variation toward a specific target.</p>
+      <p>Asymmetry term if forced: <span class="asym-term">V_agent</span> — directed variation factor. When V_agent = 0, variation is random (physical form). When V_agent &gt; 0, variation is directed. Same structure as the other nine asymmetry terms.</p>
+    </div>
+    <div class="cb-verdict"><span class="badge b-partial">PARTIAL</span> Structure similar; direction of variation fundamentally different</div>
+  </div>
+
+  <!-- Selection -->
+  <div class="component-block">
+    <div class="cb-hdr">
+      <span class="cb-num">Component 2</span>
+      <span class="cb-name">Selection</span>
+      <span class="badge b-fail">✗ FAILS TO MAP</span>
+    </div>
+    <div class="cb-body">
+      <h4 class="ch-phys">Physical</h4>
+      <p>Natural selection — differential reproduction. The environment does the selecting. The organism has no say. Fitness is entirely local and context-dependent — there is no global fitness function.</p>
+      <h4 class="ch-spir">Spiritual Candidate</h4>
+      <p>Choices that increase coherence persist and strengthen; choices that decrease coherence decay. God and circumstance provide selection pressure toward χ_max.</p>
+      <h4 class="ch-breaks">Why It Breaks</h4>
+      <p>Grace selects toward a specific target: χ_max. The selection pressure is not "whatever is locally fit" — it's "what is coherent with the Logos." This is a global fitness function. Physical selection wanders the fitness landscape with no global attractor; spiritual selection has a fixed attractor at χ_max.</p>
+      <p>This is not an asymmetry term added to an otherwise identical structure. It is a structural transformation of the solution space topology. The deeper structural difference than any of the nine laws require.</p>
+    </div>
+    <div class="cb-verdict"><span class="badge b-fail">BREAKS</span> Topology difference: local vs. global attractor. Not a single term — a different solution space.</div>
+  </div>
+
+  <!-- Inheritance -->
+  <div class="component-block">
+    <div class="cb-hdr">
+      <span class="cb-num">Component 3</span>
+      <span class="cb-name">Inheritance</span>
+      <span class="badge b-pass">✓ WORKS</span>
+    </div>
+    <div class="cb-body">
+      <h4 class="ch-phys">Physical</h4>
+      <p>Genetic inheritance — traits pass from parent to offspring through DNA. The offspring inherits the genome, period.</p>
+      <h4 class="ch-spir">Spiritual Candidate</h4>
+      <p>Covenant transmission — spiritual states, capacities, and orientations pass through relationship, community, and family lines. The generational transmission of faith, sin patterns, spiritual capital.</p>
+      <h4 class="ch-works">Where It Works</h4>
+      <p>Both describe intergenerational transmission of traits with fidelity and imperfection. Both describe how the current generation inherits from the prior.</p>
+      <h4 class="ch-breaks">Where It Breaks</h4>
+      <p>Genetic inheritance is mechanistic — the offspring inherits the genome, period. Spiritual inheritance is received or rejected. A child born into a faith community can walk away.</p>
+      <p>Asymmetry term: <span class="asym-term">A_cov</span> — covenant acceptance factor (0–1). When A_cov = 0, the spiritual inheritance is rejected. When A_cov = 1, it is fully received. Same structure as the other nine asymmetry terms.</p>
+    </div>
+    <div class="cb-verdict"><span class="badge b-pass">WORKS ✓</span> Same structure. Asymmetry term = agent choice to accept or reject transmitted capital.</div>
+  </div>
+
+  <!-- Drift -->
+  <div class="component-block">
+    <div class="cb-hdr">
+      <span class="cb-num">Component 4</span>
+      <span class="cb-name">Drift</span>
+      <span class="badge b-partial">⚠ PARTIAL</span>
+    </div>
+    <div class="cb-body">
+      <h4 class="ch-phys">Physical</h4>
+      <p>Genetic drift — random changes in allele frequency due to finite population size. Pure stochastic noise.</p>
+      <h4 class="ch-spir">Spiritual Candidate</h4>
+      <p>Providential circumstance — the "random" events of a life that shape spiritual development without being chosen. The death of a loved one, an unexpected encounter, a loss that breaks a person open.</p>
+      <h4 class="ch-works">Where It Works</h4>
+      <p>Both describe non-chosen influences on development. Both can have large effects on trajectory. Both are outside the agent's direct control.</p>
+      <h4 class="ch-breaks">Where It Breaks</h4>
+      <p>Genetic drift is genuinely random — no direction or intent. Providential circumstance may not be random at all. The framework's claim is that God operates in what appears random — Romans 8:28 is a theological claim that drift carries an attractor. If providence is real, drift is not pure noise but carries a signal component.</p>
+      <p>This is not an asymmetry term dispute. It's a claim about whether apparent randomness is actually random.</p>
+    </div>
+    <div class="cb-verdict"><span class="badge b-partial">PARTIAL</span> Surface similar; underlying mechanisms categorically different (noise vs. directed signal)</div>
+  </div>
+
+  <!-- Time -->
+  <div class="component-block">
+    <div class="cb-hdr">
+      <span class="cb-num">Component 5</span>
+      <span class="cb-name">Time</span>
+      <span class="badge b-cover">ALREADY COVERED</span>
+    </div>
+    <div class="cb-body">
+      <p>Physical: deep time — evolutionary processes require vast timescales.</p>
+      <p>Already in the framework. Law 6 (Information/Logos) covers the temporal dimension. The ten laws already have a time variable integrated across the triple integral.</p>
+    </div>
+    <div class="cb-verdict"><span class="badge b-cover">COVERED</span> Already handled by existing laws. No new asymmetry term needed.</div>
+  </div>
+
+  <!-- No Teleology -->
+  <div class="component-block">
+    <div class="cb-hdr">
+      <span class="cb-num">Component 6</span>
+      <span class="cb-name">No Teleology — The Core Problem</span>
+      <span class="badge b-fail">✗ FAILS</span>
+    </div>
+    <div class="cb-body">
+      <h4 class="ch-phys">Physical</h4>
+      <p>Evolution has no goal. There is no attractor in evolutionary fitness space. A complex organism is not "better" than a simple one. Eyes evolved because they were useful — they're not toward anything. Evolution can produce anything fitness selects for. There is no fixed direction.</p>
+      <h4 class="ch-spir">Framework Position</h4>
+      <p>The framework has an explicit global attractor: χ_max = C (Christ/coherence). Every spiritual law has its resolution at χ_max. The direction of the spiritual analog is fixed: toward the Logos. This is not environmentally determined — it is structurally fixed by the framework.</p>
+      <h4 style="font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6rem;color:var(--asym)">The Materialist Attempt</h4>
+      <p>Attractors exist in physical systems. Perhaps χ_max is just the maximum entropy state — the natural attractor of any system tending toward equilibrium. But the framework explicitly describes an open system (Law 5 — grace provides negentropy). Maximum entropy is not the attractor of an open system.</p>
+      <p>More fundamentally: χ_max is not maximum entropy — it is maximum coherence. Maximum entropy is maximum disorder. Maximum coherence is maximum order. The attractor is toward the opposite of what physical thermodynamics predicts for a closed system.</p>
+      <p>For a materialist to derive χ_max as the natural attractor, they need to explain why the system's natural tendency is toward maximum coherence rather than maximum entropy. The only physical answer: because the system is receiving a negentropy input that drives it toward order. But then the attractor's position depends on the source of that input — and an inexhaustible, fixed-direction source is exactly what the framework calls the Logos.</p>
+    </div>
+    <div class="cb-verdict"><span class="badge b-fail">FAILS</span> The materialist cannot derive a fixed global attractor toward maximum coherence without importing an inexhaustible directed source — which is the Logos by another name.</div>
+  </div>
+</div>
+
+<!-- AGGREGATE RESULTS -->
+<div class="section">
+  <h2>III. Aggregate Mapping Results</h2>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Component</th><th>Maps?</th><th>Asymmetry Term</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Variation</td><td><span class="badge b-partial">⚠ PARTIAL</span></td><td style="font-family:'Courier New',monospace;color:var(--asym)">V_agent</td><td>Physical is random; spiritual is directed</td></tr>
+      <tr><td>Selection</td><td><span class="badge b-fail">✗ BREAKS</span></td><td style="color:var(--dim)">—</td><td>Topology: local vs. global attractor</td></tr>
+      <tr><td>Inheritance</td><td><span class="badge b-pass">✓ WORKS</span></td><td style="font-family:'Courier New',monospace;color:var(--asym)">A_cov</td><td>Same structure as other nine laws</td></tr>
+      <tr><td>Drift</td><td><span class="badge b-partial">⚠ PARTIAL</span></td><td style="color:var(--dim)">—</td><td>Noise vs. providence — mechanism difference</td></tr>
+      <tr><td>Time</td><td><span class="badge b-cover">COVERED</span></td><td style="color:var(--dim)">—</td><td>Law 6 already handles this</td></tr>
+      <tr><td>No teleology</td><td><span class="badge b-fail">✗ CORE FAILURE</span></td><td style="color:var(--dim)">—</td><td>Structural transformation, not asymmetry term</td></tr>
+    </tbody>
+  </table></div>
+  <p>Clean mappings: 2/6. Partial mappings: 2/6. Structural failures: 2/6.</p>
+</div>
+
+<!-- FINDINGS -->
+<div class="section">
+  <h2>IV. What the Failure Reveals</h2>
+
+  <div class="finding-block f-info">
+    <h4>Finding 1 — Evolution doesn't need its own law</h4>
+    <p>The structural components of evolutionary theory that do map cleanly (inheritance, time) are already covered by existing laws. The components that partially map are covered by the interaction of Laws 5, 6, and the ghost term Γ. Evolution, in framework terms, is what you get when Laws 5, 6, 9, and 10 operate together over deep time on a biological system. You don't need a Law 11.</p>
+    <p>Law 5 (Thermodynamics) provides selection pressure — entropy eliminates low-fitness states. Law 6 (Information) provides the information-accumulation mechanism. Law 9 (Weak Force) provides the transformation structure. Law 10 (Coherence) provides the attractor — χ_max is what physical evolution is pointing toward, even if it doesn't know it.</p>
+  </div>
+
+  <div class="finding-block f-strong">
+    <h4>Finding 2 — The teleology failure is the framework's strongest cosmological claim</h4>
+    <p>Evolutionary theory and the Theophysics framework disagree at the level of solution space topology. Evolution says the fitness landscape has no global attractor. The framework says reality has a global attractor at χ_max.</p>
+    <p>This is testable. If the chi-field cosmology is correct — if the chi-field acts as quintessence dark energy driving the universe toward a coherence-maximizing state — then the universe's trajectory IS teleological at the cosmological scale, even if individual evolutionary processes appear undirected at the local scale. The Euclid DR1 test (October 2026) is partially testing this. An evolving dark energy equation of state (w(z) ≠ −1) would be consistent with a universe moving toward a fixed cosmological attractor.</p>
+  </div>
+
+  <div class="finding-block f-probe">
+    <h4>Finding 3 — The teleology asymmetry is different in kind from the other nine</h4>
+    <p>When we forced an asymmetry term for variation (V_agent), it had the same structure as the other nine — a free-will degree of freedom added to a physically identical mechanism. That's the standard pattern.</p>
+    <p>But the teleology asymmetry is not this structure. It's a change in the topology of the solution space — from no global attractor to a fixed global attractor at χ_max. This is a deeper change than any of the nine laws require.</p>
+    <p>The spiritual analog of evolution is not just evolution-plus-one-free-will-term. The spiritual analog of evolution is sanctification — not a new law but the operation of all ten laws together on a soul over time.</p>
+  </div>
+
+  <div class="finding-block f-info">
+    <h4>Finding 4 — This is why evolution is the materialist's strongest argument</h4>
+    <p>The materialist uses evolution to argue that the appearance of design is an illusion. This argument has real force.</p>
+    <p>The framework's response: the teleological attractor is not visible at the scale of individual organisms. It is a property of the coherence field operating at the cosmological scale. Biological evolution is a local sample of a globally directed process — the same way that a gas molecule moving randomly is a local sample of a thermodynamic process moving toward equilibrium. The individual molecule is undirected. The thermodynamic process is directed. Both are true simultaneously.</p>
+    <p>The framework doesn't deny that biological evolution is undirected at the local scale. It claims the local process is embedded in a global process with a fixed attractor — and that attractor is what Law 10 identifies.</p>
+  </div>
+</div>
+
+<!-- VERDICT -->
+<div class="section">
+  <h2>V. Verdict</h2>
+  <p><strong style="color:var(--text)">Does evolution map to the asymmetry structure?</strong></p>
+  <p>Partially, but not cleanly. The inheritance component maps — same structure, same asymmetry term (agent choice to accept or reject what is transmitted). The time component is already in the framework. Two components fail to map because they're structural differences, not asymmetry term differences: selection (local vs. global attractor) and no-teleology (the core philosophical difference).</p>
+
+  <h3>Four things this tells us</h3>
+  <p><strong style="color:var(--spir)">1.</strong> Evolution is not a Law 11. It's an emergent description of Laws 5, 6, 9, and 10 operating on a biological system over deep time. The ten laws contain evolution.</p>
+  <p><strong style="color:var(--spir)">2.</strong> The teleology failure is the sharpest point of contact between evolutionary theory and the framework. They disagree not about a parameter but about solution space topology. This disagreement is testable at the cosmological scale (Euclid DR1).</p>
+  <p><strong style="color:var(--spir)">3.</strong> The spiritual analog of evolution is sanctification — the operation of all ten laws together on a soul. The asymmetry terms already in the framework (resistance, acceptance, betrayal, consent, faith threshold, will) are exactly the degrees of freedom that distinguish sanctification from mechanical evolution.</p>
+  <p><strong style="color:var(--spir)">4.</strong> Evolution is the materialist's strongest argument because it correctly identifies that biological processes are locally undirected. The framework's response: locally undirected processes can be globally directed if they're operating inside a coherence field with a fixed attractor. Whether that's true is what the cosmological tests are measuring.</p>
+
+  <div class="open-q">
+    <h3>Open Question — Testable Prediction</h3>
+    <p>The inheritance component was the cleanest mapping. The asymmetry term A_cov is the agent's choice to accept or reject transmitted spiritual capital.</p>
+    <p>This raises a specific prediction: the transmission of spiritual capital (faith, wisdom, covenant orientation) should have a different heritability structure than genetic traits, because its transmission is accepted rather than mechanically inherited. Genetic heritability h² is determinable from variance components and is independent of offspring choice. Spiritual heritability should show choice-dependent structure — with significantly higher variance in spiritual trait expression than genetic models predict, and that excess variance should correlate with the offspring's own faith engagement rather than random environmental factors.</p>
+    <p>This is testable. Not currently being tested. Might be worth adding to the open questions list.</p>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <p style="color:var(--muted);font-size:.9rem;font-style:italic;margin-bottom:2rem">"Evolution doesn't need its own law — the framework already contains it. But where it fails to map cleanly is exactly where the framework makes its boldest cosmological claim."</p>
+  <p style="color:var(--dim);font-family:'Courier New',monospace;font-size:.7rem;line-height:2">Opus | POF 2828 | March 31, 2026</p>
+</div>
+
+</body>
+</html>
