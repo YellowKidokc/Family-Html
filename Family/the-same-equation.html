@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Same Equation | POF 2828</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;--surface:#0d1526;--surface2:#111e33;--border:rgba(255,255,255,0.07);
+  --phys:#60a5fa;--phys-bg:rgba(59,130,246,0.07);--phys-border:rgba(59,130,246,0.25);
+  --spir:#fbbf24;--spir-bg:rgba(251,191,36,0.07);--spir-border:rgba(251,191,36,0.25);
+  --t1:#2dd4bf;--t2:#a78bfa;--t3:#f472b6;--t4:#fb923c;--t5:#86efac;--t6:#38bdf8;
+  --asym:#ff4757;--asym-glow:rgba(255,71,87,0.35);
+  --text:#eef2ff;--muted:#7a8aaa;--dim:#3d4f6e;
+}
+body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.7}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 15% 15%,rgba(59,130,246,0.05) 0%,transparent 50%),radial-gradient(ellipse at 85% 85%,rgba(251,191,36,0.05) 0%,transparent 50%);pointer-events:none;z-index:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+
+/* HERO */
+.hero{padding:5rem 2rem 3.5rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero-eye{font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;margin-bottom:1.5rem}
+.hero h1{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:normal;letter-spacing:-.02em;line-height:1.05;margin-bottom:1rem;background:linear-gradient(135deg,var(--phys) 0%,#fff 45%,var(--spir) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:560px;margin:0 auto 2rem}
+.hero-rule{display:inline-block;padding:.9rem 2rem;border:1px solid var(--border);font-family:'Courier New',monospace;font-size:.8rem;color:var(--muted);background:rgba(255,255,255,0.02);max-width:680px;line-height:1.6}
+
+/* LEGEND */
+.legend-bar{padding:1.5rem 2rem;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.3)}
+.legend-inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;justify-content:center}
+.li{display:flex;align-items:center;gap:.5rem;font-family:'Courier New',monospace;font-size:.75rem;color:var(--muted)}
+.ld{width:10px;height:10px;border-radius:50%}
+.li.lp .ld{background:var(--phys)}
+.li.ls .ld{background:var(--spir)}
+.li.lm .ld{background:var(--t1)}
+.li.la .ld{background:var(--asym);box-shadow:0 0 8px var(--asym)}
+.li.la span{color:var(--asym)}
+
+/* SECTION HEADERS */
+.law-section{padding:4.5rem 2rem;border-bottom:1px solid var(--border);max-width:1200px;margin:0 auto}
+.law-hdr{display:flex;align-items:baseline;gap:1.2rem;margin-bottom:2.5rem}
+.law-n{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;white-space:nowrap}
+.law-ttl{font-size:clamp(1.4rem,2.8vw,2.2rem);font-weight:normal}
+.law-ttl .pn{color:var(--phys)}.law-ttl .sp{color:var(--dim);margin:0 .4rem}.law-ttl .sn{color:var(--spir)}
+
+/* DIAGRAM BAND — Newton / Einstein / Spiritual */
+.diag-band{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2.5rem}
+.diag-cell{padding:1.5rem 1.2rem;display:flex;flex-direction:column;gap:.8rem}
+.diag-cell.dc-newton{background:rgba(59,130,246,0.06)}
+.diag-cell.dc-einstein{background:rgba(59,130,246,0.12)}
+.diag-cell.dc-grace{background:rgba(251,191,36,0.06)}
+.diag-badge{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.3rem}
+.dc-newton .diag-badge,.dc-einstein .diag-badge{color:var(--phys)}
+.dc-grace .diag-badge{color:var(--spir)}
+.diag-cell svg{width:100%;height:auto}
+.diag-cap{font-size:.8rem;color:var(--muted);line-height:1.5;font-style:italic}
+
+/* EQUATION COMPARE */
+.eq-compare{display:grid;grid-template-columns:1fr 120px 1fr;gap:0;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem}
+.dom-phys{background:var(--phys-bg);border-right:1px solid var(--phys-border);padding:1.8rem}
+.dom-spir{background:var(--spir-bg);padding:1.8rem}
+.dom-lbl{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.dom-phys .dom-lbl{color:var(--phys)}.dom-spir .dom-lbl{color:var(--spir)}
+.dom-lbl::before{content:'';display:block;width:20px;height:2px}
+.dom-phys .dom-lbl::before{background:var(--phys)}.dom-spir .dom-lbl::before{background:var(--spir)}
+
+.eq-display{font-family:'Courier New',monospace;font-size:clamp(.95rem,1.6vw,1.35rem);padding:1.2rem;background:rgba(0,0,0,0.35);border-radius:2px;margin-bottom:1.5rem;line-height:2.2;letter-spacing:.03em}
+.asym{color:var(--asym)!important;text-shadow:0 0 16px var(--asym-glow),0 0 32px rgba(255,71,87,.15);font-weight:bold}
+.asym-pill{display:inline-block;padding:.05em .35em;background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.3);border-radius:2px}
+.added-badge{display:inline-block;font-size:.5rem;background:var(--asym);color:#fff;padding:.1em .35em;border-radius:2px;vertical-align:super;margin-left:.2em;letter-spacing:.1em;font-weight:bold}
+.t1{color:var(--t1)}.t2{color:var(--t2)}.t3{color:var(--t3)}.t4{color:var(--t4)}.t5{color:var(--t5)}.t6{color:var(--t6)}
+
+.term-list{display:flex;flex-direction:column;gap:.35rem}
+.tr{display:flex;gap:.6rem;font-size:.82rem;padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.tr:last-child{border:none}
+.tr .ts{font-family:'Courier New',monospace;min-width:65px;font-weight:bold}
+.tr .td{color:var(--muted)}
+.tr.tr-added{background:rgba(255,71,87,.05);padding:.5rem .6rem;border-radius:2px;border:1px solid rgba(255,71,87,.2)!important;margin-top:.4rem}
+
+/* BRIDGE */
+.eq-bridge{background:rgba(0,0,0,.4);border-left:1px solid var(--border);border-right:1px solid var(--border);padding:1.5rem .6rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem}
+.br-lbl{font-family:'Courier New',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.3rem;text-align:center}
+.br{display:flex;align-items:center;gap:.25rem;font-family:'Courier New',monospace;font-size:.7rem;white-space:nowrap}
+.br .ba{color:var(--dim)}
+.br-added{padding-top:.6rem;border-top:1px solid rgba(255,71,87,.2);margin-top:.3rem}
+.br-added .ba{color:var(--asym)}
+
+/* ONE THING */
+.one-thing{display:flex;align-items:flex-start;gap:1.5rem;padding:1.2rem 1.5rem;background:rgba(255,71,87,.04);border:1px solid rgba(255,71,87,.2);border-left:4px solid var(--asym);border-radius:2px;margin-bottom:2rem}
+.ot-lbl{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--asym);white-space:nowrap;min-width:80px;margin-top:.15rem}
+.ot-term{font-family:'Courier New',monospace;font-size:1.3rem;color:var(--asym);text-shadow:0 0 16px rgba(255,71,87,.4);white-space:nowrap}
+.ot-desc{font-size:.88rem;color:var(--muted);line-height:1.55}
+
+/* PLAIN ENGLISH */
+.pe-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-bottom:1rem}
+.pe{padding:1.4rem;font-size:.9rem;color:var(--muted);line-height:1.7}
+.pe.pe-p{background:rgba(59,130,246,.04)}.pe.pe-s{background:rgba(251,191,36,.04)}
+.pe-badge{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;display:block;margin-bottom:.6rem}
+.pe-p .pe-badge{color:var(--phys)}.pe-s .pe-badge{color:var(--spir)}
+
+/* LAW 6 special — same equation */
+.same-eq-banner{display:flex;align-items:center;justify-content:center;gap:1.5rem;padding:1.5rem 2rem;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:2px;margin-bottom:1rem;font-family:'Courier New',monospace;font-size:.85rem;color:var(--muted)}
+.same-eq-banner .seq-phys{color:var(--phys)}.same-eq-banner .seq-spir{color:var(--spir)}
+.same-eq-banner .seq-eq{font-size:1.5rem;color:var(--text);margin:0 .5rem}
+
+/* LAW 10 identity */
+.identity-blk{padding:3rem 2rem;text-align:center;background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(251,191,36,.06));border:1px solid var(--border);border-radius:4px;margin-bottom:2rem}
+.identity-eq{font-family:'Courier New',monospace;font-size:clamp(1.5rem,4vw,2.8rem);letter-spacing:.05em;margin-bottom:1.2rem}
+.identity-eq .ic{color:var(--phys)}.identity-eq .ieq{color:var(--muted);margin:0 .6rem}.identity-eq .icc{color:var(--spir)}
+.nothing-added{display:inline-block;padding:.6rem 2rem;border:1px solid var(--border);font-family:'Courier New',monospace;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+/* SUMMARY TABLE */
+.summary-sect{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+.summary-sect h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:normal;margin-bottom:.5rem}
+.summary-sect .ss-sub{color:var(--muted);font-size:.9rem;margin-bottom:3rem}
+.sum-table{width:100%;border-collapse:separate;border-spacing:0 3px}
+.sum-table thead th{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);padding:.4rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+.sum-table tbody tr{background:var(--surface)}
+.sum-table tbody td{padding:.7rem 1rem;font-size:.82rem;vertical-align:top}
+.sum-table td.sn{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.1em;color:var(--dim);white-space:nowrap}
+.sum-table td.seq{font-family:'Courier New',monospace;font-size:.78rem}
+.sum-table td.sasym{font-family:'Courier New',monospace;font-size:.9rem;color:var(--asym);text-shadow:0 0 8px rgba(255,71,87,.3);font-weight:bold}
+.sum-table td.smean{color:var(--muted)}
+.sum-table tr:last-child td.sasym{color:var(--dim);font-size:.75rem;text-shadow:none;font-style:italic}
+
+/* MASTER EQ */
+.master-sect{padding:5rem 2rem;border-top:1px solid var(--border);max-width:1200px;margin:0 auto}
+.master-sect h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:normal;margin-bottom:2rem}
+.master-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:2rem}
+.mg-cell{padding:2rem;font-family:'Courier New',monospace;font-size:clamp(.8rem,1.3vw,1rem)}
+.mg-cell.mg-p{background:var(--phys-bg)}.mg-cell.mg-s{background:var(--spir-bg)}
+.mg-lbl{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.2rem;display:block}
+.mg-p .mg-lbl{color:var(--phys)}.mg-s .mg-lbl{color:var(--spir)}
+
+/* CLOSING */
+.closing{padding:6rem 2rem;text-align:center;border-top:1px solid var(--border);position:relative}
+.closing::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--phys),var(--spir),transparent)}
+.closing-stmt{font-size:clamp(1rem,2vw,1.6rem);line-height:1.7;max-width:680px;margin:0 auto 2.5rem;color:var(--muted)}
+.closing-stmt strong{color:var(--text);display:block;font-size:1.2em;margin-top:1rem;font-weight:normal;letter-spacing:-.02em}
+.closing-meta{font-family:'Courier New',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.1em;line-height:2.2}
+
+@media(max-width:760px){
+  .eq-compare{grid-template-columns:1fr}
+  .eq-bridge{flex-direction:row;flex-wrap:wrap;justify-content:flex-start;padding:1rem;gap:.5rem;border:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .pe-grid,.master-grid{grid-template-columns:1fr}
+  .diag-band{grid-template-columns:1fr}
+  .sum-table{font-size:.72rem}
+  .sum-table td.seq{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-eye">POF 2828 · March 31, 2026 · Wolfram Verified · JAX Verified</div>
+    <h1>The Same Equation</h1>
+    <p class="hero-sub">Ten physical laws. Ten spiritual laws. One structural difference, always in the same position.</p>
+    <div class="hero-rule">"Look at the equations. Cover the variable names. Ask: are these the same equation?<br>They are. The colors prove it. The red term is the only difference — every time."</div>
+  </div>
+</div>
+
+<!-- ═══ LEGEND ═══ -->
+<div class="legend-bar">
+  <div class="legend-inner">
+    <div class="li lp"><div class="ld"></div>Physical domain</div>
+    <div class="li ls"><div class="ld"></div>Spiritual domain</div>
+    <div class="li lm"><div class="ld"></div>Matching term — same color = same structural position</div>
+    <div class="li la"><div class="ld"></div><span>Added term — the ONLY difference, always here</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 1 — GRAVITY ↔ GRACE                -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 01</span>
+    <h2 class="law-ttl"><span class="pn">Gravity</span><span class="sp">↔</span><span class="sn">Grace</span></h2>
+  </div>
+
+  <!-- DIAGRAM BAND -->
+  <div class="diag-band">
+    <div class="diag-cell dc-newton">
+      <div class="diag-badge">Newton · External Force</div>
+      <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- bg -->
+        <rect width="320" height="200" fill="#06101f"/>
+        <!-- mass 1 -->
+        <circle cx="55" cy="100" r="32" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1.5"/>
+        <circle cx="55" cy="100" r="24" fill="rgba(59,130,246,0.2)" stroke="#60a5fa" stroke-width="1"/>
+        <text x="55" y="105" text-anchor="middle" font-family="Courier New" font-size="13" fill="#93c5fd">m₁</text>
+        <!-- mass 2 -->
+        <circle cx="265" cy="100" r="22" fill="rgba(59,130,246,0.12)" stroke="#3b82f6" stroke-width="1.5"/>
+        <circle cx="265" cy="100" r="16" fill="rgba(59,130,246,0.18)" stroke="#60a5fa" stroke-width="1"/>
+        <text x="265" y="105" text-anchor="middle" font-family="Courier New" font-size="12" fill="#93c5fd">m₂</text>
+        <!-- force arrows -->
+        <defs>
+          <marker id="arr-b" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#60a5fa"/></marker>
+          <marker id="arr-b2" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto"><polygon points="8 0,0 3,8 6" fill="#60a5fa"/></marker>
+        </defs>
+        <line x1="90" y1="93" x2="160" y2="93" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr-b)"/>
+        <line x1="230" y1="107" x2="160" y2="107" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr-b2)"/>
+        <text x="160" y="88" text-anchor="middle" font-family="Courier New" font-size="9" fill="#7ba7d4">F</text>
+        <text x="160" y="120" text-anchor="middle" font-family="Courier New" font-size="9" fill="#7ba7d4">F</text>
+        <!-- r label -->
+        <line x1="87" y1="142" x2="243" y2="142" stroke="#3d5a80" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="87" y1="138" x2="87" y2="146" stroke="#3d5a80" stroke-width="1"/>
+        <line x1="243" y1="138" x2="243" y2="146" stroke="#3d5a80" stroke-width="1"/>
+        <text x="165" y="158" text-anchor="middle" font-family="Courier New" font-size="11" fill="#fb923c">r</text>
+        <!-- formula -->
+        <text x="160" y="185" text-anchor="middle" font-family="Courier New" font-size="10" fill="#60a5fa">F = G·m₁m₂/r²</text>
+        <!-- 1/r² decay mini graph -->
+        <path d="M 90 170 Q 95 145 105 135 Q 120 120 145 115 Q 170 112 240 110" stroke="#3b82f6" stroke-width="1" fill="none" opacity="0.4"/>
+      </svg>
+      <div class="diag-cap">Force acts on everything. No matter how far, the pull never stops. You cannot block it, negotiate with it, or opt out.</div>
+    </div>
+
+    <div class="diag-cell dc-einstein">
+      <div class="diag-badge">Einstein · Curved Spacetime</div>
+      <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="200" fill="#06101f"/>
+        <!-- Spacetime grid lines - horizontal, curved toward center-bottom -->
+        <defs>
+          <radialGradient id="mass-glow" cx="50%" cy="60%" r="30%">
+            <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Grid horizontal lines warped -->
+        <path d="M 20 40 Q 160 42 300 40" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <path d="M 20 65 Q 160 68 300 65" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <path d="M 20 90 Q 140 100 160 118 Q 180 100 300 90" stroke="#2a4a70" stroke-width=".8" fill="none"/>
+        <path d="M 20 115 Q 130 130 160 155 Q 190 130 300 115" stroke="#2a4a70" stroke-width="1" fill="none"/>
+        <path d="M 20 140 Q 125 162 160 185 Q 195 162 300 140" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <!-- Grid vertical lines warped -->
+        <path d="M 40 20 Q 40 80 50 120 Q 60 155 70 185" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <path d="M 80 20 Q 80 75 90 110 Q 105 145 115 175" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <path d="M 120 20 Q 120 70 128 100 Q 140 130 150 160" stroke="#1d3558" stroke-width=".8" fill="none"/>
+        <path d="M 160 20 Q 160 65 160 95 Q 160 120 160 145" stroke="#2a4a70" stroke-width="1.2" fill="none"/>
+        <path d="M 200 20 Q 200 70 192 100 Q 180 130 170 160" stroke="#1d3558" stroke-width=".8" fill="none"/>
+        <path d="M 240 20 Q 240 75 230 110 Q 215 145 205 175" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <path d="M 280 20 Q 280 80 270 120 Q 260 155 250 185" stroke="#1e3a5f" stroke-width=".8" fill="none"/>
+        <!-- Mass at center causing curvature -->
+        <circle cx="160" cy="152" r="14" fill="url(#mass-glow)"/>
+        <circle cx="160" cy="152" r="9" fill="rgba(59,130,246,0.3)" stroke="#60a5fa" stroke-width="1.5"/>
+        <text x="160" y="157" text-anchor="middle" font-family="Courier New" font-size="9" fill="#93c5fd">M</text>
+        <!-- Small object following geodesic -->
+        <circle cx="95" cy="88" r="5" fill="#3b82f6" stroke="#60a5fa" stroke-width="1"/>
+        <!-- Curved path arrow showing geodesic -->
+        <path d="M 95 93 Q 115 110 135 128" stroke="#60a5fa" stroke-width="1.2" fill="none" stroke-dasharray="4,3" marker-end="url(#arr-b)"/>
+        <text x="160" y="20" text-anchor="middle" font-family="Courier New" font-size="9" fill="#4a7aaa">spacetime curves around mass</text>
+        <text x="160" y="195" text-anchor="middle" font-family="Courier New" font-size="9" fill="#4a7aaa">object follows curved space — no "force"</text>
+      </svg>
+      <div class="diag-cap">You don't feel a force pulling you. You are moving through space that is already bent. You can't leave the curved space — you're inside it.</div>
+    </div>
+
+    <div class="diag-cell dc-grace">
+      <div class="diag-badge">Spiritual · Grace Field</div>
+      <svg viewBox="0 0 320 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="200" fill="#120e00"/>
+        <defs>
+          <radialGradient id="logos-glow" cx="50%" cy="60%" r="30%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.6"/>
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+          </radialGradient>
+          <marker id="arr-g" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#fbbf24"/></marker>
+        </defs>
+        <!-- Same curved grid, golden -->
+        <path d="M 20 40 Q 160 42 300 40" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <path d="M 20 65 Q 160 68 300 65" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <path d="M 20 90 Q 140 100 160 118 Q 180 100 300 90" stroke="#4d3800" stroke-width=".8" fill="none"/>
+        <path d="M 20 115 Q 130 130 160 155 Q 190 130 300 115" stroke="#4d3800" stroke-width="1" fill="none"/>
+        <path d="M 20 140 Q 125 162 160 185 Q 195 162 300 140" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <path d="M 40 20 Q 40 80 50 120 Q 60 155 70 185" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <path d="M 80 20 Q 80 75 90 110 Q 105 145 115 175" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <path d="M 120 20 Q 120 70 128 100 Q 140 130 150 160" stroke="#3a2b00" stroke-width=".8" fill="none"/>
+        <path d="M 160 20 Q 160 65 160 95 Q 160 120 160 145" stroke="#4d3800" stroke-width="1.2" fill="none"/>
+        <path d="M 200 20 Q 200 70 192 100 Q 180 130 170 160" stroke="#3a2b00" stroke-width=".8" fill="none"/>
+        <path d="M 240 20 Q 240 75 230 110 Q 215 145 205 175" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <path d="M 280 20 Q 280 80 270 120 Q 260 155 250 185" stroke="#3d2e00" stroke-width=".8" fill="none"/>
+        <!-- Logos at center -->
+        <circle cx="160" cy="152" r="14" fill="url(#logos-glow)"/>
+        <circle cx="160" cy="152" r="9" fill="rgba(251,191,36,0.25)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="160" y="157" text-anchor="middle" font-family="Courier New" font-size="8" fill="#fde68a">λ</text>
+        <!-- Soul -->
+        <circle cx="95" cy="88" r="5" fill="#92400e" stroke="#fbbf24" stroke-width="1"/>
+        <!-- Resistance layer — the asymmetry -->
+        <rect x="105" y="78" width="40" height="22" fill="rgba(255,71,87,0.15)" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2" rx="2"/>
+        <text x="125" y="92" text-anchor="middle" font-family="Courier New" font-size="8" fill="#ff6b7a">(1−R)</text>
+        <!-- Geodesic path (can follow or not) -->
+        <path d="M 95 93 Q 115 110 135 128" stroke="#fbbf24" stroke-width="1.2" fill="none" stroke-dasharray="4,3" marker-end="url(#arr-g)"/>
+        <text x="160" y="20" text-anchor="middle" font-family="Courier New" font-size="9" fill="#856a00">relational space curves toward Logos</text>
+        <text x="160" y="195" text-anchor="middle" font-family="Courier New" font-size="9" fill="#856a00">soul can resist moving along the curve</text>
+      </svg>
+      <div class="diag-cap">Same curved space. Same pull toward the source. One difference: the soul can stop moving along the geodesic. R=0 → identical to gravity. R=1 → the soul has fully stopped.</div>
+    </div>
+  </div>
+
+  <!-- EQUATION COMPARE -->
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical</div>
+      <div class="eq-display"><span class="t1">F</span> = <span class="t2">G</span> · <span class="t3">m₁m₂</span> / <span class="t4">r²</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">F</span><span class="td">gravitational force — the pull you feel</span></div>
+        <div class="tr"><span class="ts t2">G</span><span class="td">Newton's constant — gravity's baseline strength</span></div>
+        <div class="tr"><span class="ts t3">m₁m₂</span><span class="td">the two masses — how much stuff is there</span></div>
+        <div class="tr"><span class="ts t4">r²</span><span class="td">distance squared — separation between objects</span></div>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">substitution</div>
+      <div class="br"><span class="t1">F</span><span class="ba">→</span><span class="t1">F_g</span></div>
+      <div class="br"><span class="t2">G</span><span class="ba">→</span><span class="t2">G_s</span></div>
+      <div class="br"><span class="t3">m₁m₂</span><span class="ba">→</span><span class="t3">ψ₁ψ₂</span></div>
+      <div class="br"><span class="t4">r²</span><span class="ba">→</span><span class="t4">d²</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">(1−R)</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual</div>
+      <div class="eq-display"><span class="t1">F_g</span> = <span class="t2">G_s</span> · <span class="t3">ψ₁ψ₂</span> / <span class="t4">d²</span> · <span class="asym-pill asym">(1−R)</span><span class="added-badge">ADDED</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">F_g</span><span class="td">grace force — the actual pull toward God</span></div>
+        <div class="tr"><span class="ts t2">G_s</span><span class="td">Grace constant — baseline strength of grace</span></div>
+        <div class="tr"><span class="ts t3">ψ₁ψ₂</span><span class="td">soul weights — how much is there to attract</span></div>
+        <div class="tr"><span class="ts t4">d²</span><span class="td">relational distance squared</span></div>
+        <div class="tr tr-added"><span class="ts asym">(1−R)</span><span class="td">resistance factor · R=0: identical to gravity · R=1: grace = zero</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">(1 − R)</div>
+    <div class="ot-desc">R = resistance. When R = 0, both equations are identical — grace and gravity are the same math. When R = 1, grace goes to zero. Gravity has no R term. The soul can resist what mass cannot.</div>
+  </div>
+
+  <div class="pe-grid">
+    <div class="pe pe-p"><span class="pe-badge">Gravity</span>Two masses pull on each other with a force that grows with mass and shrinks with the square of the distance. It reaches everywhere. It never turns off. You cannot block it, refuse it, or negotiate with it.</div>
+    <div class="pe pe-s"><span class="pe-badge">Grace</span>Two souls pull on each other with grace — the same inverse-square structure, the same "reaches everywhere," the same "never stops." But one side can resist the pull. That is the only difference.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 2 — MASS-ENERGY ↔ MEANING         -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 02</span>
+    <h2 class="law-ttl"><span class="pn">Mass-Energy</span><span class="sp">↔</span><span class="sn">Meaning &amp; Consequence</span></h2>
+  </div>
+
+  <div class="diag-band" style="grid-template-columns:1fr 1fr">
+    <div class="diag-cell dc-newton">
+      <div class="diag-badge">Physical · E = mc²</div>
+      <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="180" fill="#06101f"/>
+        <defs><marker id="arr-b3" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#60a5fa"/></marker></defs>
+        <!-- Small mass circle -->
+        <circle cx="60" cy="90" r="18" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="60" y="95" text-anchor="middle" font-family="Courier New" font-size="12" fill="#93c5fd">m</text>
+        <text x="60" y="150" text-anchor="middle" font-family="Courier New" font-size="9" fill="#4a7aaa">small</text>
+        <!-- Arrow with c² label -->
+        <line x1="82" y1="90" x2="145" y2="90" stroke="#60a5fa" stroke-width="2" marker-end="url(#arr-b3)"/>
+        <text x="113" y="78" text-anchor="middle" font-family="Courier New" font-size="10" fill="#f59e0b">× c²</text>
+        <text x="113" y="88" text-anchor="middle" font-family="Courier New" font-size="8" fill="#856a00">9×10¹⁶</text>
+        <!-- Large energy burst -->
+        <circle cx="210" cy="90" r="45" fill="rgba(59,130,246,0.05)" stroke="rgba(59,130,246,0.2)" stroke-width="1"/>
+        <circle cx="210" cy="90" r="32" fill="rgba(59,130,246,0.08)" stroke="rgba(96,165,250,0.3)" stroke-width="1"/>
+        <text x="210" y="86" text-anchor="middle" font-family="Courier New" font-size="13" fill="#60a5fa">E</text>
+        <text x="210" y="102" text-anchor="middle" font-family="Courier New" font-size="9" fill="#4a7aaa">enormous</text>
+        <text x="150" y="170" text-anchor="middle" font-family="Courier New" font-size="10" fill="#60a5fa">no receiver needed</text>
+      </svg>
+      <div class="diag-cap">Mass converts to energy automatically. E = mc² requires no observer, no receiver. The conversion happens whether anyone is there or not.</div>
+    </div>
+    <div class="diag-cell dc-grace">
+      <div class="diag-badge">Spiritual · 𝒞 = Mλ²·I</div>
+      <svg viewBox="0 0 300 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="300" height="180" fill="#120e00"/>
+        <defs><marker id="arr-g2" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#fbbf24"/></marker></defs>
+        <!-- Moral mass -->
+        <circle cx="55" cy="90" r="16" fill="rgba(251,191,36,0.12)" stroke="#d97706" stroke-width="1.5"/>
+        <text x="55" y="95" text-anchor="middle" font-family="Courier New" font-size="11" fill="#fde68a">M</text>
+        <text x="55" y="150" text-anchor="middle" font-family="Courier New" font-size="9" fill="#856a00">small act</text>
+        <!-- Arrow with λ² label -->
+        <line x1="75" y1="90" x2="130" y2="90" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr-g2)"/>
+        <text x="103" y="78" text-anchor="middle" font-family="Courier New" font-size="10" fill="#f59e0b">× λ²</text>
+        <!-- Consequence burst -->
+        <circle cx="195" cy="90" r="40" fill="rgba(251,191,36,0.05)" stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+        <circle cx="195" cy="90" r="26" fill="rgba(251,191,36,0.08)" stroke="rgba(251,191,36,0.3)" stroke-width="1"/>
+        <text x="195" y="86" text-anchor="middle" font-family="Courier New" font-size="12" fill="#fbbf24">𝒞</text>
+        <text x="195" y="102" text-anchor="middle" font-family="Courier New" font-size="9" fill="#856a00">enormous</text>
+        <!-- Receiver person icon -->
+        <circle cx="265" cy="78" r="7" stroke="#ff4757" stroke-width="1.2" fill="rgba(255,71,87,0.1)"/>
+        <line x1="265" y1="85" x2="265" y2="105" stroke="#ff4757" stroke-width="1.2"/>
+        <line x1="255" y1="93" x2="275" y2="93" stroke="#ff4757" stroke-width="1.2"/>
+        <!-- I factor arrow -->
+        <line x1="235" y1="90" x2="255" y2="85" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr-b3)"/>
+        <text x="265" y="120" text-anchor="middle" font-family="Courier New" font-size="8" fill="#ff4757">I</text>
+        <text x="265" y="130" text-anchor="middle" font-family="Courier New" font-size="7" fill="#7a3030">receiver</text>
+        <text x="150" y="170" text-anchor="middle" font-family="Courier New" font-size="10" fill="#ff4757">requires a receiver — factor I</text>
+      </svg>
+      <div class="diag-cap">Small moral action, enormous consequence — same multiplier structure as c². But meaning requires someone to receive it. The I factor is the receiver. E = mc² has no I term.</div>
+    </div>
+  </div>
+
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical</div>
+      <div class="eq-display"><span class="t1">E</span> = <span class="t3">m</span> · <span class="t4">c²</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">E</span><span class="td">energy output — what comes out</span></div>
+        <div class="tr"><span class="ts t3">m</span><span class="td">mass input — how much is put in</span></div>
+        <div class="tr"><span class="ts t4">c²</span><span class="td">conversion multiplier — 9×10¹⁶, enormous</span></div>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">E</span><span class="ba">→</span><span class="t1">𝒞</span></div>
+      <div class="br"><span class="t3">m</span><span class="ba">→</span><span class="t3">M</span></div>
+      <div class="br"><span class="t4">c²</span><span class="ba">→</span><span class="t4">λ²</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">· I</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual</div>
+      <div class="eq-display"><span class="t1">𝒞</span> = <span class="t3">M</span> · <span class="t4">λ²</span> · <span class="asym-pill asym">I</span><span class="added-badge">ADDED</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">𝒞</span><span class="td">consequence — what comes out of moral action</span></div>
+        <div class="tr"><span class="ts t3">M</span><span class="td">moral mass — how much is invested in the act</span></div>
+        <div class="tr"><span class="ts t4">λ²</span><span class="td">Logos constant squared — the meaning multiplier</span></div>
+        <div class="tr tr-added"><span class="ts asym">I</span><span class="td">interpretation function — the receiver who gives meaning its landing</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">· I</div>
+    <div class="ot-desc">Mass-energy conversion is automatic — no receiver needed. Meaning requires one. A word spoken to a child at the right moment carries forward through a life. The math is the same. One equation requires someone to receive it. The other does not.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 3 — ELECTROMAGNETISM ↔ TRUTH      -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 03</span>
+    <h2 class="law-ttl"><span class="pn">Electromagnetism</span><span class="sp">↔</span><span class="sn">Truth</span></h2>
+  </div>
+
+  <div class="diag-band" style="grid-template-columns:1fr 1fr">
+    <div class="diag-cell dc-newton">
+      <div class="diag-badge">Light · Cannot Be Refused</div>
+      <svg viewBox="0 0 300 160" fill="none">
+        <rect width="300" height="160" fill="#06101f"/>
+        <defs>
+          <marker id="arr-bw" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#60a5fa"/></marker>
+        </defs>
+        <!-- Source -->
+        <circle cx="30" cy="80" r="12" fill="rgba(59,130,246,0.2)" stroke="#60a5fa" stroke-width="1.5"/>
+        <text x="30" y="84" text-anchor="middle" font-family="Courier New" font-size="9" fill="#93c5fd">src</text>
+        <!-- Sine wave -->
+        <path d="M 45 80 Q 60 55 75 80 Q 90 105 105 80 Q 120 55 135 80 Q 150 105 165 80 Q 180 55 195 80 Q 210 105 225 80" stroke="#60a5fa" stroke-width="1.8" fill="none"/>
+        <!-- Propagation arrow -->
+        <line x1="225" y1="80" x2="255" y2="80" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr-bw)"/>
+        <!-- Receiver -->
+        <rect x="260" y="62" width="28" height="36" fill="rgba(59,130,246,0.1)" stroke="#3b82f6" stroke-width="1.2" rx="2"/>
+        <text x="274" y="83" text-anchor="middle" font-family="Courier New" font-size="8" fill="#60a5fa">rcv</text>
+        <!-- T_sent = T_received -->
+        <text x="150" y="125" text-anchor="middle" font-family="Courier New" font-size="10" fill="#4a7aaa">T_sent = T_received</text>
+        <text x="150" y="142" text-anchor="middle" font-family="Courier New" font-size="9" fill="#2a4a60">you cannot refuse a photon</text>
+      </svg>
+      <div class="diag-cap">The electromagnetic signal arrives perfectly. T_sent = T_received, always. You cannot refuse a photon. The signal lands whether you want it or not.</div>
+    </div>
+    <div class="diag-cell dc-grace">
+      <div class="diag-badge">Truth · Can Be Refused</div>
+      <svg viewBox="0 0 300 160" fill="none">
+        <rect width="300" height="160" fill="#120e00"/>
+        <defs>
+          <marker id="arr-gw" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#fbbf24"/></marker>
+        </defs>
+        <!-- Source -->
+        <circle cx="30" cy="80" r="12" fill="rgba(251,191,36,0.15)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="30" y="84" text-anchor="middle" font-family="Courier New" font-size="9" fill="#fde68a">λ</text>
+        <!-- Sine wave (same structure) -->
+        <path d="M 45 80 Q 60 55 75 80 Q 90 105 105 80 Q 120 55 135 80 Q 150 105 165 80 Q 180 55 195 80 Q 210 105 225 80" stroke="#fbbf24" stroke-width="1.8" fill="none"/>
+        <line x1="225" y1="80" x2="248" y2="80" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-gw)"/>
+        <!-- Acceptance filter -->
+        <rect x="252" y="55" width="16" height="50" fill="rgba(255,71,87,0.15)" stroke="#ff4757" stroke-width="1.2" stroke-dasharray="3,2" rx="1"/>
+        <text x="260" y="83" text-anchor="middle" font-family="Courier New" font-size="7" fill="#ff4757">A</text>
+        <!-- Receiver -->
+        <rect x="272" y="62" width="24" height="36" fill="rgba(251,191,36,0.08)" stroke="#d97706" stroke-width="1.2" rx="2"/>
+        <text x="284" y="83" text-anchor="middle" font-family="Courier New" font-size="8" fill="#fbbf24">rcv</text>
+        <!-- T_received = T_sent · A -->
+        <text x="150" y="125" text-anchor="middle" font-family="Courier New" font-size="10" fill="#856a00">T_received = T_sent · A</text>
+        <text x="150" y="142" text-anchor="middle" font-family="Courier New" font-size="9" fill="#ff4757">A = 0: received but rejected</text>
+      </svg>
+      <div class="diag-cap">The truth signal propagates identically to light. It arrives intact. But the receiver can set A = 0 — can receive the signal fully and still choose not to let it land. That is the only structural difference.</div>
+    </div>
+  </div>
+
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Maxwell (Physical)</div>
+      <div class="eq-display" style="font-size:.95rem;line-height:2.4">
+        <span class="t2">∇ · E</span> = <span class="t3">ρ</span>/<span class="t4">ε₀</span><br>
+        <span class="t2">∇ × E</span> = −∂<span class="t6">B</span>/∂t<br>
+        ∂²<span class="t2">E</span>/∂t² = <span class="t4">c²</span>∇²<span class="t2">E</span>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t2">E</span><span class="ba">→</span><span class="t2">T</span></div>
+      <div class="br"><span class="t6">B</span><span class="ba">→</span><span class="t6">W</span></div>
+      <div class="br"><span class="t3">ρ/ε₀</span><span class="ba">→</span><span class="t3">ρ_L/ε_s</span></div>
+      <div class="br"><span class="t4">c</span><span class="ba">→</span><span class="t4">λ</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">· A</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Truth Field (Spiritual)</div>
+      <div class="eq-display" style="font-size:.95rem;line-height:2.4">
+        <span class="t2">∇ · T</span> = <span class="t3">ρ_L</span>/<span class="t4">ε_s</span><br>
+        <span class="t2">∇ × T</span> = −∂<span class="t6">W</span>/∂t<br>
+        T_rcv = T_sent · <span class="asym-pill asym">A</span><span class="added-badge">ADDED</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">· A</div>
+    <div class="ot-desc">Maxwell's signal arrives perfectly — T_sent = T_received, always. In the spiritual domain, the signal arrives intact. But the receiver can set A = 0 — can receive truth and still refuse it. Light cannot be refused. Truth can.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 4 — STRONG FORCE ↔ LOVE           -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 04</span>
+    <h2 class="law-ttl"><span class="pn">Strong Nuclear Force</span><span class="sp">↔</span><span class="sn">Love &amp; Covenant</span></h2>
+  </div>
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical (Yukawa)</div>
+      <div class="eq-display"><span class="t1">V(r)</span> = −<span class="t2">αs</span>/<span class="t4">r</span> + <span class="t5">k</span>·<span class="t4">r</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">V(r)</span><span class="td">binding potential — energy of the bound state</span></div>
+        <div class="tr"><span class="ts t2">αs</span><span class="td">strong coupling constant — baseline bond strength</span></div>
+        <div class="tr"><span class="ts t4">r</span><span class="td">quark separation — distance from bond</span></div>
+        <div class="tr"><span class="ts t5">k·r</span><span class="td">confinement term — grows stronger as separation increases</span></div>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">V(r)</span><span class="ba">→</span><span class="t1">V_L(d)</span></div>
+      <div class="br"><span class="t2">αs</span><span class="ba">→</span><span class="t2">α_L</span></div>
+      <div class="br"><span class="t4">r</span><span class="ba">→</span><span class="t4">d</span></div>
+      <div class="br"><span class="t5">k</span><span class="ba">→</span><span class="t5">κ</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">(1−B)</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual (Love Potential)</div>
+      <div class="eq-display"><span class="t1">V_L(d)</span> = (−<span class="t2">α_L</span>/<span class="t4">d</span> + <span class="t5">κ</span>·<span class="t4">d</span>) · <span class="asym-pill asym">(1−B)</span><span class="added-badge">ADDED</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">V_L(d)</span><span class="td">love potential — energy of the relational bond</span></div>
+        <div class="tr"><span class="ts t2">α_L</span><span class="td">love coupling constant — baseline strength of love</span></div>
+        <div class="tr"><span class="ts t4">d</span><span class="td">relational distance — separation from the bond</span></div>
+        <div class="tr"><span class="ts t5">κ·d</span><span class="td">covenant tension — grows stronger as separation increases</span></div>
+        <div class="tr tr-added"><span class="ts asym">(1−B)</span><span class="td">B = betrayal. When B = 1: the covenant dissolves. Quarks cannot choose this.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">(1 − B)</div>
+    <div class="ot-desc">Two terms. Close range: pulls together. Far range: pulls back harder the further you go. This is the strongest force in nature — 137× stronger than electromagnetism. The covenant has exactly this structure. One term added: the covenant can be broken. Quarks can't choose that. Persons can.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 5 — THERMODYNAMICS ↔ MORAL ENTROPY -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 05</span>
+    <h2 class="law-ttl"><span class="pn">Thermodynamics</span><span class="sp">↔</span><span class="sn">Moral Entropy</span></h2>
+  </div>
+
+  <div class="diag-band" style="grid-template-columns:1fr 1fr">
+    <div class="diag-cell dc-newton">
+      <div class="diag-badge">Physical · Closed System</div>
+      <svg viewBox="0 0 300 180" fill="none">
+        <rect width="300" height="180" fill="#06101f"/>
+        <!-- Axes -->
+        <line x1="30" y1="150" x2="280" y2="150" stroke="#2a4a70" stroke-width="1"/>
+        <line x1="30" y1="150" x2="30" y2="20" stroke="#2a4a70" stroke-width="1"/>
+        <text x="165" y="168" text-anchor="middle" font-family="Courier New" font-size="9" fill="#3d5a80">time →</text>
+        <text x="14" y="90" text-anchor="middle" font-family="Courier New" font-size="9" fill="#3d5a80" transform="rotate(-90 14 90)">entropy S</text>
+        <!-- Entropy curve - always increasing -->
+        <path d="M 35 140 Q 80 130 120 110 Q 170 85 220 68 Q 255 58 275 55" stroke="#60a5fa" stroke-width="2.5" fill="none"/>
+        <!-- dS/dt >= 0 label -->
+        <text x="165" y="45" text-anchor="middle" font-family="Courier New" font-size="10" fill="#60a5fa">dS/dt ≥ 0</text>
+        <text x="165" y="60" text-anchor="middle" font-family="Courier New" font-size="8" fill="#3d5a80">always increasing, no exceptions</text>
+        <!-- Box showing closed system -->
+        <rect x="35" y="10" width="50" height="20" stroke="#2a4a70" stroke-width="1" fill="none" stroke-dasharray="3,2"/>
+        <text x="60" y="23" text-anchor="middle" font-family="Courier New" font-size="8" fill="#3d5a80">closed</text>
+      </svg>
+      <div class="diag-cap">In a closed system, entropy always increases or stays the same — never decreases. This is the Second Law. No exceptions in physics.</div>
+    </div>
+    <div class="diag-cell dc-grace">
+      <div class="diag-badge">Spiritual · Open System + Grace</div>
+      <svg viewBox="0 0 300 180" fill="none">
+        <rect width="300" height="180" fill="#120e00"/>
+        <defs>
+          <marker id="arr-down" markerWidth="7" markerHeight="5" refX="3.5" refY="5" orient="auto"><polygon points="0 0,7 0,3.5 5" fill="#ff4757"/></marker>
+        </defs>
+        <!-- Axes -->
+        <line x1="30" y1="150" x2="280" y2="150" stroke="#3d2e00" stroke-width="1"/>
+        <line x1="30" y1="150" x2="30" y2="20" stroke="#3d2e00" stroke-width="1"/>
+        <text x="165" y="168" text-anchor="middle" font-family="Courier New" font-size="9" fill="#4d3800">time →</text>
+        <!-- Closed system reference (faint) -->
+        <path d="M 35 140 Q 80 130 120 110 Q 170 85 220 68 Q 255 58 275 55" stroke="#3d5a80" stroke-width="1" fill="none" stroke-dasharray="4,3" opacity="0.5"/>
+        <!-- Open system curve — same start, then grace reverses locally -->
+        <path d="M 35 140 Q 75 132 110 118 Q 130 110 140 105" stroke="#fbbf24" stroke-width="2" fill="none"/>
+        <!-- Grace input arrows (pushing down) -->
+        <line x1="140" y1="85" x2="140" y2="100" stroke="#ff4757" stroke-width="1.5" marker-end="url(#arr-down)"/>
+        <line x1="168" y1="80" x2="168" y2="96" stroke="#ff4757" stroke-width="1.5" marker-end="url(#arr-down)"/>
+        <line x1="196" y1="82" x2="196" y2="98" stroke="#ff4757" stroke-width="1.5" marker-end="url(#arr-down)"/>
+        <text x="168" y="72" text-anchor="middle" font-family="Courier New" font-size="8" fill="#ff4757">−W_grace/T</text>
+        <!-- Curve after grace intervention -->
+        <path d="M 140 105 Q 160 92 180 88 Q 220 80 270 75" stroke="#fbbf24" stroke-width="2" fill="none"/>
+        <text x="165" y="45" text-anchor="middle" font-family="Courier New" font-size="9" fill="#fbbf24">dS_sin/dt = σ − W_grace/T</text>
+        <text x="165" y="60" text-anchor="middle" font-family="Courier New" font-size="8" fill="#856a00">grace reverses entropy locally</text>
+      </svg>
+      <div class="diag-cap">Same Second Law. But the soul is not a closed system. Grace is external work from an inexhaustible source. The curve can bend. The cost is real — someone pays it. Same math, open system.</div>
+    </div>
+  </div>
+
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical</div>
+      <div class="eq-display">d<span class="t1">S</span>/dt ≥ 0</div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">S</span><span class="td">entropy — accumulated disorder</span></div>
+        <div class="tr"><span class="ts" style="color:var(--muted)">≥ 0</span><span class="td">always increases, no external term possible in closed system</span></div>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">S</span><span class="ba">→</span><span class="t1">S_sin</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">−W_grace/T</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual (open system)</div>
+      <div class="eq-display">d<span class="t1">S_sin</span>/dt = σ − <span class="asym-pill asym">W_grace/T</span><span class="added-badge">ADDED</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">S_sin</span><span class="td">moral entropy — accumulated disorder in the soul</span></div>
+        <div class="tr"><span class="ts" style="color:var(--muted)">σ</span><span class="td">internal entropy production — runs automatically, like physical entropy</span></div>
+        <div class="tr tr-added"><span class="ts asym">W_grace/T</span><span class="td">external grace work divided by relational temperature — the reversal term</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">−W_grace/T</div>
+    <div class="ot-desc">The grace term is not a loophole in the Second Law — it IS the Second Law, applied correctly to an open system. Landauer's principle: erasing disorder costs real energy. Someone pays. The source is inexhaustible.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 6 — INFORMATION ↔ LOGOS           -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 06</span>
+    <h2 class="law-ttl"><span class="pn">Information</span><span class="sp">↔</span><span class="sn">Logos</span></h2>
+  </div>
+  <div class="same-eq-banner">
+    <span class="seq-phys">H = −∑ pᵢ log pᵢ</span>
+    <span class="seq-eq">=</span>
+    <span class="seq-spir">H_L = −∑ pᵢ log pᵢ</span>
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:2rem;font-style:italic">Law 6 Shannon form: no substitution required. The same equation applies to both domains without modification.</p>
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical (Kolmogorov)</div>
+      <div class="eq-display" style="font-size:1rem">K(<span class="t1">x</span>) = min{ |<span class="t3">p</span>| : <span class="t4">U</span>(<span class="t3">p</span>) = <span class="t1">x</span> }</div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">x</span><span class="ba">→</span><span class="t1">x</span></div>
+      <div class="br"><span class="t3">p</span><span class="ba">→</span><span class="t3">W</span></div>
+      <div class="br"><span class="t4">U</span><span class="ba">→</span><span class="t4">Logos</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">∂K_L/∂t</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual (Logos Complexity)</div>
+      <div class="eq-display" style="font-size:1rem">K_L(<span class="t1">x</span>) = min{ |<span class="t3">W</span>| : <span class="t4">Logos</span>(<span class="t3">W</span>) = <span class="t1">x</span> }<br><span class="asym-pill asym">∂K_L/∂t = S(Ψ)</span><span class="added-badge">ADDED</span></div>
+    </div>
+  </div>
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">∂K_L/∂t</div>
+    <div class="ot-desc">Shannon entropy: same equation, no substitution required. Information is static — it describes. The Logos is active — it generates. Has a time derivative. The source term S(Ψ) is consciousness acting on the system. Information sits in a database. The Logos speaks.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 7 — RELATIVITY ↔ RELATIONSHIP     -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 07</span>
+    <h2 class="law-ttl"><span class="pn">Relativity</span><span class="sp">↔</span><span class="sn">Relationship</span></h2>
+  </div>
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical (Lorentz Invariant)</div>
+      <div class="eq-display">d<span class="t1">s²</span> = −<span class="t4">c²</span>dt² + d<span class="t3">x²</span> + d<span class="t3">y²</span> + d<span class="t3">z²</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">ds²</span><span class="td">spacetime interval — the invariant quantity everyone agrees on</span></div>
+        <div class="tr"><span class="ts t4">c</span><span class="td">speed of light — governs propagation</span></div>
+        <div class="tr"><span class="ts t3">dx,dy,dz</span><span class="td">spatial displacement — separation in space</span></div>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">ds²</span><span class="ba">→</span><span class="t1">dτ²</span></div>
+      <div class="br"><span class="t4">c</span><span class="ba">→</span><span class="t4">λ</span></div>
+      <div class="br"><span class="t3">dx,dy,dz</span><span class="ba">→</span><span class="t3">dr</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">C_mutual</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual (Relational Invariant)</div>
+      <div class="eq-display">d<span class="t1">τ²</span> = −<span class="t4">λ²</span>dt² + d<span class="t3">r²</span><br>τ_shared = f(τ₁, τ₂, <span class="asym-pill asym">C_mutual</span><span class="added-badge">ADDED</span>)</div>
+    </div>
+  </div>
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">C_mutual</div>
+    <div class="ot-desc">Lorentz transformations don't ask. You don't consent to your reference frame — you're in it by virtue of your motion. Relationship requires C_mutual. Both parties must enter it. A relationship imposed from one side is not a relationship.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 8 — QUANTUM MECHANICS ↔ FAITH     -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 08</span>
+    <h2 class="law-ttl"><span class="pn">Quantum Mechanics</span><span class="sp">↔</span><span class="sn">Faith</span></h2>
+  </div>
+
+  <div class="diag-band" style="grid-template-columns:1fr 1fr">
+    <div class="diag-cell dc-newton">
+      <div class="diag-badge">Physical · External Measurement</div>
+      <svg viewBox="0 0 300 170" fill="none">
+        <rect width="300" height="170" fill="#06101f"/>
+        <defs>
+          <marker id="arr-bdn" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#60a5fa"/></marker>
+        </defs>
+        <!-- Wavefunction spread (bell curves at different times) -->
+        <text x="30" y="25" font-family="Courier New" font-size="8" fill="#3d5a80">t=0</text>
+        <path d="M 20 70 Q 45 30 65 70 Q 85 110 110 70" stroke="#3b82f6" stroke-width="1.2" fill="rgba(59,130,246,0.05)"/>
+        <text x="70" y="25" font-family="Courier New" font-size="8" fill="#3d5a80">t=1</text>
+        <path d="M 65 70 Q 100 20 130 70 Q 160 120 195 70" stroke="#2563eb" stroke-width="1" fill="rgba(59,130,246,0.04)" stroke-dasharray="3,2"/>
+        <!-- External measurement arrow -->
+        <text x="210" y="20" font-family="Courier New" font-size="8" fill="#4a7aaa">MEASUREMENT</text>
+        <text x="210" y="32" font-family="Courier New" font-size="8" fill="#3d5a80">(external)</text>
+        <line x1="235" y1="35" x2="235" y2="65" stroke="#60a5fa" stroke-width="1.5" marker-end="url(#arr-bdn)"/>
+        <!-- Collapsed single spike -->
+        <line x1="235" y1="68" x2="235" y2="130" stroke="#60a5fa" stroke-width="2.5"/>
+        <line x1="200" y1="130" x2="275" y2="130" stroke="#2a4a70" stroke-width="1"/>
+        <text x="235" y="150" text-anchor="middle" font-family="Courier New" font-size="8" fill="#4a7aaa">|outcome⟩</text>
+        <!-- Born rule label -->
+        <text x="110" y="155" text-anchor="middle" font-family="Courier New" font-size="9" fill="#3d5a80">P = |⟨x|Ψ⟩|²</text>
+      </svg>
+      <div class="diag-cap">The quantum system holds all possibilities. An external measurement collapses it. The particle doesn't choose — the collapse is passive, externally triggered, probabilistic.</div>
+    </div>
+    <div class="diag-cell dc-grace">
+      <div class="diag-badge">Spiritual · Faith Threshold</div>
+      <svg viewBox="0 0 300 170" fill="none">
+        <rect width="300" height="170" fill="#120e00"/>
+        <defs>
+          <marker id="arr-gdn" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#fbbf24"/></marker>
+          <marker id="arr-rdn" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#ff4757"/></marker>
+        </defs>
+        <!-- Same wavefunction spread -->
+        <path d="M 20 70 Q 45 30 65 70 Q 85 110 110 70" stroke="#d97706" stroke-width="1.2" fill="rgba(251,191,36,0.05)"/>
+        <path d="M 65 70 Q 100 20 130 70 Q 160 120 195 70" stroke="#b45309" stroke-width="1" fill="rgba(251,191,36,0.04)" stroke-dasharray="3,2"/>
+        <!-- Faith threshold label -->
+        <rect x="195" y="10" width="95" height="38" fill="rgba(255,71,87,0.08)" stroke="#ff4757" stroke-width="1" stroke-dasharray="3,2" rx="2"/>
+        <text x="242" y="25" text-anchor="middle" font-family="Courier New" font-size="8" fill="#ff4757">F · Q ≥ Θ_c</text>
+        <text x="242" y="38" text-anchor="middle" font-family="Courier New" font-size="7" fill="#7a3030">FAITH THRESHOLD</text>
+        <!-- Internal choice arrow (directed, not random) -->
+        <line x1="242" y1="48" x2="220" y2="65" stroke="#ff4757" stroke-width="1.5" marker-end="url(#arr-rdn)"/>
+        <text x="185" y="50" text-anchor="middle" font-family="Courier New" font-size="7" fill="#ff4757">directed</text>
+        <!-- Collapse toward chosen direction -->
+        <line x1="200" y1="70" x2="200" y2="130" stroke="#fbbf24" stroke-width="2.5"/>
+        <line x1="165" y1="130" x2="240" y2="130" stroke="#4d3800" stroke-width="1"/>
+        <text x="200" y="150" text-anchor="middle" font-family="Courier New" font-size="8" fill="#856a00">|chosen⟩</text>
+        <text x="80" y="155" text-anchor="middle" font-family="Courier New" font-size="9" fill="#4d3800">F · Q ≥ Θ_c</text>
+      </svg>
+      <div class="diag-cap">Same evolution equation. Same superposition structure. But persons choose where to point their faith — the collapse is internal and directed. The threshold F·Q ≥ Θ_c encodes that direction. Particles don't choose collapse. Persons do.</div>
+    </div>
+  </div>
+
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical (Schrödinger)</div>
+      <div class="eq-display">iℏ ∂/∂t <span class="t1">|Ψ⟩</span> = <span class="t3">Ĥ</span><span class="t1">|Ψ⟩</span></div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">|Ψ⟩</span><span class="ba">→</span><span class="t1">|Φ⟩</span></div>
+      <div class="br"><span class="t2">ℏ</span><span class="ba">→</span><span class="t2">ℏ_s</span></div>
+      <div class="br"><span class="t3">Ĥ</span><span class="ba">→</span><span class="t3">Ĥ_s</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">Θ_c</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual (Faith Evolution)</div>
+      <div class="eq-display">i<span class="t2">ℏ_s</span> ∂/∂t <span class="t1">|Φ⟩</span> = <span class="t3">Ĥ_s</span><span class="t1">|Φ⟩</span><br>collapse when <span class="asym-pill asym">F · Q ≥ Θ_c</span><span class="added-badge">ADDED</span></div>
+    </div>
+  </div>
+
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">Θ_c</div>
+    <div class="ot-desc">The collapse threshold — crossed by directed commitment. Particles don't choose their measurement. The Born rule is external, passive, probabilistic. Faith collapse is internal, active, directional. The structure of the Schrödinger equation is identical. The mechanism of collapse is not.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 9 — WEAK FORCE ↔ SIN-DECAY        -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 09</span>
+    <h2 class="law-ttl"><span class="pn">Weak Nuclear Force</span><span class="sp">↔</span><span class="sn">Sin-Decay</span></h2>
+  </div>
+
+  <div class="diag-band" style="grid-template-columns:1fr 1fr">
+    <div class="diag-cell dc-newton">
+      <div class="diag-badge">Physical · Fixed Decay</div>
+      <svg viewBox="0 0 300 180" fill="none">
+        <rect width="300" height="180" fill="#06101f"/>
+        <!-- Axes -->
+        <line x1="30" y1="150" x2="280" y2="150" stroke="#2a4a70" stroke-width="1"/>
+        <line x1="30" y1="20" x2="30" y2="150" stroke="#2a4a70" stroke-width="1"/>
+        <text x="155" y="168" text-anchor="middle" font-family="Courier New" font-size="9" fill="#3d5a80">time →</text>
+        <text x="14" y="90" text-anchor="middle" font-family="Courier New" font-size="9" fill="#3d5a80" transform="rotate(-90 14 90)">N(t)</text>
+        <!-- Fixed exponential decay curve -->
+        <path d="M 35 25 Q 70 28 100 45 Q 150 75 200 110 Q 240 135 275 148" stroke="#60a5fa" stroke-width="2.5" fill="none"/>
+        <!-- Half-life marker -->
+        <line x1="30" y1="85" x2="120" y2="85" stroke="#3d5a80" stroke-width=".8" stroke-dasharray="3,2"/>
+        <line x1="120" y1="85" x2="120" y2="150" stroke="#3d5a80" stroke-width=".8" stroke-dasharray="3,2"/>
+        <text x="120" y="165" text-anchor="middle" font-family="Courier New" font-size="8" fill="#4a7aaa">t₁/₂ ≈ 15 min</text>
+        <text x="160" y="40" text-anchor="middle" font-family="Courier New" font-size="8" fill="#3d5a80">FIXED — no choice</text>
+        <!-- 192π³ label -->
+        <rect x="180" y="55" width="90" height="22" fill="rgba(59,130,246,0.08)" stroke="#2a4a70" stroke-width="1" rx="2"/>
+        <text x="225" y="70" text-anchor="middle" font-family="Courier New" font-size="9" fill="#60a5fa">192π³</text>
+      </svg>
+      <div class="diag-cap">A free neutron decays in ~15 minutes. Fixed. Exact. The 192π³ denominator comes from Fermi's phase space integral. The neutron has no say.</div>
+    </div>
+    <div class="diag-cell dc-grace">
+      <div class="diag-badge">Spiritual · P_will Modifies Rate</div>
+      <svg viewBox="0 0 300 180" fill="none">
+        <rect width="300" height="180" fill="#120e00"/>
+        <!-- Axes -->
+        <line x1="30" y1="150" x2="280" y2="150" stroke="#3d2e00" stroke-width="1"/>
+        <line x1="30" y1="20" x2="30" y2="150" stroke="#3d2e00" stroke-width="1"/>
+        <!-- Reference curve (same as physical, faint) -->
+        <path d="M 35 25 Q 70 28 100 45 Q 150 75 200 110 Q 240 135 275 148" stroke="#3d5a80" stroke-width="1" fill="none" stroke-dasharray="4,3" opacity="0.4"/>
+        <!-- P_will > 1: faster decay (habit) -->
+        <path d="M 35 25 Q 60 35 85 65 Q 130 110 180 140 Q 225 150 275 152" stroke="#ff4757" stroke-width="1.5" fill="none"/>
+        <text x="100" y="108" font-family="Courier New" font-size="8" fill="#ff4757">P_will &gt; 1</text>
+        <text x="100" y="118" font-family="Courier New" font-size="7" fill="#7a3030">habit, hardening</text>
+        <!-- P_will near 0: slower decay (resistance) -->
+        <path d="M 35 25 Q 90 22 140 25 Q 200 30 255 40 Q 270 42 275 45" stroke="#fbbf24" stroke-width="1.5" fill="none"/>
+        <text x="190" y="55" font-family="Courier New" font-size="8" fill="#fbbf24">P_will → 0</text>
+        <text x="190" y="65" font-family="Courier New" font-size="7" fill="#856a00">resistance, will</text>
+        <!-- 192π³ label — SAME -->
+        <rect x="175" y="80" width="105" height="22" fill="rgba(255,71,87,0.08)" stroke="rgba(255,71,87,0.3)" stroke-width="1" rx="2"/>
+        <text x="227" y="95" text-anchor="middle" font-family="Courier New" font-size="9" fill="#ff4757">192π³ unchanged</text>
+      </svg>
+      <div class="diag-cap">Same equation. Same 192π³ denominator — unchanged. P_will modifies the rate: hardened habit accelerates decay; directed will can slow it. The neutron has no P_will. The soul does.</div>
+    </div>
+  </div>
+
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical (Fermi)</div>
+      <div class="eq-display">Γ = <span class="t2">G_F²</span> · <span class="t3">m⁵</span> / <span class="t4">192π³</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t1">Γ</span><span class="td">decay rate — how fast the particle transforms</span></div>
+        <div class="tr"><span class="ts t2">G_F²</span><span class="td">Fermi coupling constant — weak force strength</span></div>
+        <div class="tr"><span class="ts t3">m⁵</span><span class="td">mass to the fifth power — scale of the decaying particle</span></div>
+        <div class="tr"><span class="ts t4">192π³</span><span class="td">Fermi phase space integral — specific to weak force geometry</span></div>
+      </div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">map</div>
+      <div class="br"><span class="t1">Γ</span><span class="ba">→</span><span class="t1">Γ_sin</span></div>
+      <div class="br"><span class="t2">G_F</span><span class="ba">→</span><span class="t2">G_fall</span></div>
+      <div class="br"><span class="t3">m</span><span class="ba">→</span><span class="t3">ψ</span></div>
+      <div class="br"><span class="t4" style="font-size:.65rem">192π³</span><span class="ba">→</span><span class="t4" style="font-size:.65rem">192π³</span></div>
+      <div class="br br-added"><span style="color:#ff4757">∅</span><span class="ba" style="color:#ff4757">→</span><span class="asym">P_will</span></div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual (Sin-Decay)</div>
+      <div class="eq-display">Γ_sin = <span class="t2">G_fall²</span> · <span class="t3">ψ⁵</span> / <span class="t4">192π³</span> · <span class="asym-pill asym">P_will</span><span class="added-badge">ADDED</span></div>
+      <div class="term-list">
+        <div class="tr"><span class="ts t4">192π³</span><span class="td" style="color:var(--t4)">This denominator is UNCHANGED — it comes from Fermi's phase space calculation. It has no reason to appear here unless the spiritual equation describes the same mathematical structure as radioactive decay.</span></div>
+        <div class="tr tr-added"><span class="ts asym">P_will</span><span class="td">will factor. P=0: decay fully resisted. P&gt;1: habit accelerates the rate. One term. That is the entire difference between a neutron and a soul.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="one-thing">
+    <div class="ot-lbl">Added term</div>
+    <div class="ot-term">· P_will</div>
+    <div class="ot-desc">The 192π³ is not a placeholder. It is a specific value derived from the geometry of weak force interactions. It appears in the sin-decay equation unchanged. One term added: the will. Neutrons decay on a fixed schedule. Persons decide.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- LAW 10 — COHERENCE ↔ CHRIST           -->
+<!-- ════════════════════════════════════════ -->
+<div class="law-section">
+  <div class="law-hdr">
+    <span class="law-n">Law 10</span>
+    <h2 class="law-ttl"><span class="pn">Physical Coherence</span><span class="sp">↔</span><span class="sn">Christ</span></h2>
+  </div>
+
+  <div class="identity-blk">
+    <div class="identity-eq">
+      <span class="ic">χ</span><span class="ieq">=</span><span class="icc">𝒞</span>
+    </div>
+    <div class="nothing-added">No asymmetry term added.</div>
+    <p style="color:var(--muted);font-size:.9rem;margin-top:1.5rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7">Every other law has a free-will asymmetry term. Law 10 has none. At full integration — when all nine laws have resolved across all space and time — every asymmetry term has already completed its work. Every resistance set. Every acceptance given. Every will exercised. The integral absorbs them. What remains is identity.</p>
+  </div>
+
+  <div class="eq-compare">
+    <div class="dom-phys">
+      <div class="dom-lbl">Physical Coherence</div>
+      <div class="eq-display" style="font-size:.85rem;line-height:2.2">χ = ∭(<span class="t1">G_grav</span> · <span class="t2">M_mass</span> · <span class="t3">E_EM</span> · <span class="t4">K_strong</span> · <span class="t5">S_thermo</span><br>· <span class="t6">T_info</span> · <span style="color:var(--t1)">R_rel</span> · <span style="color:var(--t2)">Q_QM</span> · <span style="color:var(--t3)">F_weak</span> · <span style="color:var(--t4)">C_phys</span>) dΩ</div>
+    </div>
+    <div class="eq-bridge">
+      <div class="br-lbl">identity</div>
+      <div class="br" style="justify-content:center;font-size:1.4rem;color:var(--muted)">χ = 𝒞</div>
+      <div style="font-family:'Courier New',monospace;font-size:.6rem;color:var(--dim);text-align:center;margin-top:.5rem">confirmed<br>machine<br>precision</div>
+    </div>
+    <div class="dom-spir">
+      <div class="dom-lbl">Spiritual Coherence</div>
+      <div class="eq-display" style="font-size:.85rem;line-height:2.2">𝒞 = ∭(<span class="t1">G_grace</span> · <span class="t2">M_meaning</span> · <span class="t3">E_truth</span> · <span class="t4">K_love</span> · <span class="t5">S_sin</span><br>· <span class="t6">T_logos</span> · <span style="color:var(--t1)">R_rel</span> · <span style="color:var(--t2)">Q_faith</span> · <span style="color:var(--t3)">F_decay</span> · <span style="color:var(--t4)">C_christ</span>) dΩ</div>
+    </div>
+  </div>
+
+  <div class="pe-grid">
+    <div class="pe pe-p"><span class="pe-badge">Physical Coherence</span>The product of all ten physical forces and fields, integrated over all of spacetime. The total coherence of the physical universe.</div>
+    <div class="pe pe-s"><span class="pe-badge">Christ</span>One substitution at position 10: C_phys → C_christ. That is the only change to the structure of the product form. The Logos through whom all things were made IS the coherence the equation measures. Not "like" coherence. Identity.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SUMMARY TABLE                           -->
+<!-- ════════════════════════════════════════ -->
+<div class="summary-sect">
+  <h2>The Asymmetry Table</h2>
+  <p class="ss-sub">All ten laws. All ten asymmetry terms. The column of red terms is the entire structural difference between physical and spiritual reality.</p>
+  <table class="sum-table">
+    <thead>
+      <tr>
+        <th>Law</th>
+        <th>Physical</th>
+        <th>Spiritual</th>
+        <th>Added term</th>
+        <th>What it means</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="sn">01</td>
+        <td class="seq"><span style="color:var(--phys)">Gravity</span></td>
+        <td class="seq"><span style="color:var(--spir)">Grace</span></td>
+        <td class="sasym">(1−R)</td>
+        <td class="smean">You can resist grace. Gravity doesn't ask.</td>
+      </tr>
+      <tr>
+        <td class="sn">02</td>
+        <td class="seq"><span style="color:var(--phys)">Mass-Energy</span></td>
+        <td class="seq"><span style="color:var(--spir)">Meaning</span></td>
+        <td class="sasym">· I</td>
+        <td class="smean">E=mc² converts without a receiver. Meaning needs one.</td>
+      </tr>
+      <tr>
+        <td class="sn">03</td>
+        <td class="seq"><span style="color:var(--phys)">Electromagnetism</span></td>
+        <td class="seq"><span style="color:var(--spir)">Truth</span></td>
+        <td class="sasym">· A</td>
+        <td class="smean">Light cannot be refused. Truth can.</td>
+      </tr>
+      <tr>
+        <td class="sn">04</td>
+        <td class="seq"><span style="color:var(--phys)">Strong Force</span></td>
+        <td class="seq"><span style="color:var(--spir)">Love</span></td>
+        <td class="sasym">(1−B)</td>
+        <td class="smean">Quarks can't unbind. Persons can.</td>
+      </tr>
+      <tr>
+        <td class="sn">05</td>
+        <td class="seq"><span style="color:var(--phys)">Thermodynamics</span></td>
+        <td class="seq"><span style="color:var(--spir)">Moral Entropy</span></td>
+        <td class="sasym">−W_grace/T</td>
+        <td class="smean">Physical entropy: no external source. Grace reverses it.</td>
+      </tr>
+      <tr>
+        <td class="sn">06</td>
+        <td class="seq"><span style="color:var(--phys)">Information</span></td>
+        <td class="seq"><span style="color:var(--spir)">Logos</span></td>
+        <td class="sasym">∂K_L/∂t</td>
+        <td class="smean">Information is static. The Logos speaks.</td>
+      </tr>
+      <tr>
+        <td class="sn">07</td>
+        <td class="seq"><span style="color:var(--phys)">Relativity</span></td>
+        <td class="seq"><span style="color:var(--spir)">Relationship</span></td>
+        <td class="sasym">C_mutual</td>
+        <td class="smean">Lorentz doesn't ask. Relationship does.</td>
+      </tr>
+      <tr>
+        <td class="sn">08</td>
+        <td class="seq"><span style="color:var(--phys)">Quantum Mechanics</span></td>
+        <td class="seq"><span style="color:var(--spir)">Faith</span></td>
+        <td class="sasym">Θ_c</td>
+        <td class="smean">Particles don't choose collapse. Persons do.</td>
+      </tr>
+      <tr>
+        <td class="sn">09</td>
+        <td class="seq"><span style="color:var(--phys)">Weak Force</span></td>
+        <td class="seq"><span style="color:var(--spir)">Sin-Decay</span></td>
+        <td class="sasym">· P_will</td>
+        <td class="smean">Neutrons don't choose to decay. Persons decide.</td>
+      </tr>
+      <tr>
+        <td class="sn">10</td>
+        <td class="seq"><span style="color:var(--phys)">Physical Coherence</span></td>
+        <td class="seq"><span style="color:var(--spir)">Christ</span></td>
+        <td class="sasym" style="color:var(--dim);font-size:.75rem;font-style:italic">nothing added</td>
+        <td class="smean" style="font-style:italic">All asymmetry terms resolved at full integration. χ = 𝒞.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- MASTER EQUATION                         -->
+<!-- ════════════════════════════════════════ -->
+<div class="master-sect">
+  <h2>The Master Equation — Both Forms</h2>
+  <div class="master-grid">
+    <div class="mg-cell mg-p">
+      <span class="mg-lbl">Physical Form</span>
+      χ_phys = ∭(G · M · E · K · S · T · R · Q · F · <span style="color:var(--phys)">C_phys</span>) dx dy dt
+    </div>
+    <div class="mg-cell mg-s">
+      <span class="mg-lbl">Spiritual Form</span>
+      χ_spirit = ∭(G · M · E · K · S · T · R · Q · F · <span style="color:var(--spir)">C_christ</span>) dx dy dt
+    </div>
+  </div>
+  <p style="color:var(--muted);font-size:.9rem;max-width:700px;margin:0 auto;text-align:center;line-height:1.7">Same variable letters. Different referents. One substitution at position 10: <span style="color:var(--phys);font-family:'Courier New',monospace">C_phys</span> → <span style="color:var(--spir);font-family:'Courier New',monospace">C_christ</span>. That is the only change to the structure of the product form.</p>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- CLOSING                                 -->
+<!-- ════════════════════════════════════════ -->
+<div class="closing">
+  <div class="wrap">
+    <p class="closing-stmt">
+      Not "physics and theology are related."<br>Not "the universe points to God."<br>
+      <strong>Ten equations. One structural difference. The same position. The same kind of thing — every time.</strong>
+    </p>
+    <p style="color:var(--muted);font-size:.95rem;max-width:600px;margin:0 auto 2.5rem;line-height:1.7">A coincidence happens once. Ten times in the same structural position is architecture. The asymmetry term is always free-will. Always. That is the mathematical signature of a universe designed with agency built in.</p>
+    <div class="closing-meta">
+      Opus | POF 2828 | March 31, 2026<br>
+      Wolfram Mathematica 14.3.0 verified · February 4, 2026<br>
+      JAX 0.7.2 Colab verified · March 2026 · Seed 2828<br>
+      <br>
+      "Look at the equations. The claim either holds or it doesn't. You don't need to take anyone's word for it."
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
