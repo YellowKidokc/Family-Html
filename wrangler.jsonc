@@ -8,7 +8,9 @@
   },
   "assets": {
     "directory": "Family",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
   },
   "compatibility_flags": [
     "nodejs_compat"

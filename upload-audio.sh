@@ -13,7 +13,7 @@ for f in Family/*.mp3; do
   # Convert to URL-safe name: lowercase, spaces to hyphens
   safe=$(echo "$filename" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
   echo "  $filename -> $PREFIX/$safe"
-  npx wrangler r2 object put "$BUCKET/$PREFIX/$safe" --file="$f" --content-type="audio/mpeg"
+  npx wrangler r2 object put "$BUCKET/$PREFIX/$safe" --file="$f" --content-type="audio/mpeg" --remote
 done
 
 echo "---"
