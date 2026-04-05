@@ -147,6 +147,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .sum-table{font-size:.72rem}
   .sum-table td.seq{display:none}
 }
+/* ── BOTTOM NAV ── */
+.bottom-nav{max-width:900px;margin:0 auto;padding:3rem 2rem;border-top:1px solid rgba(255,255,255,0.07)}
+.bottom-nav .bn-label{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#3d4f6e;margin-bottom:1.5rem;text-align:center}
+.bottom-nav .bn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.07);border-radius:4px;overflow:hidden}
+.bottom-nav .bn-link{background:#0d1526;padding:1rem 1.2rem;text-decoration:none;display:flex;flex-direction:column;gap:.3rem;transition:background .2s}
+.bottom-nav .bn-link:hover{background:#111e33}
+.bottom-nav .bn-link .bn-tag{font-family:'Courier New',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:#3d4f6e}
+.bottom-nav .bn-link .bn-name{font-size:.88rem;color:#eef2ff;font-family:Georgia,'Times New Roman',serif}
+.bottom-nav .bn-home{display:block;text-align:center;margin-top:1.5rem;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;color:#7a8aaa;text-decoration:none}
+.bottom-nav .bn-home:hover{color:#eef2ff}
+@media(max-width:600px){.bottom-nav .bn-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1095,6 +1106,20 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       "Look at the equations. The claim either holds or it doesn't. You don't need to take anyone's word for it."
     </div>
   </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="bn-label">More Papers</div>
+  <div class="bn-grid">
+    <a class="bn-link" href="i-didnt-write-the-math.html"><span class="bn-tag">Start Here</span><span class="bn-name">I Didn't Write the Math. I Found It.</span></a>
+    <a class="bn-link" href="lowe-coherence-lagrangian.html"><span class="bn-tag">The Equation</span><span class="bn-name">The Lowe Coherence Lagrangian</span></a>
+    <a class="bn-link" href="god-in-the-equations.html"><span class="bn-tag">The Ten Laws</span><span class="bn-name">God in the Equations</span></a>
+    <a class="bn-link" href="six_proofs.html"><span class="bn-tag">Computational</span><span class="bn-name">Six Computational Proofs</span></a>
+    <a class="bn-link" href="gold-standard-test-battery.html"><span class="bn-tag">Test Battery</span><span class="bn-name">The Gold Standard Test Battery</span></a>
+    <a class="bn-link" href="maxwell-truth-isomorphism.html"><span class="bn-tag">Deep Dive</span><span class="bn-name">Maxwell-Truth Isomorphism</span></a>
+    <a class="bn-link" href="evolution-probe.html"><span class="bn-tag">Probe</span><span class="bn-name">The Evolution Probe</span></a>
+  </div>
+  <a class="bn-home" href="index.html">&larr; Back to All Papers</a>
 </div>
 
 </body>

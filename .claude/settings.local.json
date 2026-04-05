@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/FORGE_AI_WELCOME_SIGN_TEMPLATE.md\" \"C:/FORGE_BUILD/FORGE_DOCS/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/FORGE_CLOUDFLARE_AI_NATIVE_BLUEPRINT.md\" \"C:/FORGE_BUILD/FORGE_DOCS/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/FORGE_DATA_LAYER_SPEC.md\" \"C:/FORGE_BUILD/FORGE_DOCS/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/FORGE_HANDOFF_FOR_PROGRAMMER.md\" \"C:/FORGE_BUILD/FORGE_DOCS/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/FORGE_LAB_MODE_POLICY.md\" \"C:/FORGE_BUILD/FORGE_DOCS/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/00_INDEX.md\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/BIBLE_FIRST_LAYERED_ANNOTATION_SPEC.md\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/BIBLE_SEMANTIC_EXPLORER_AI_HANDOFF.md\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/CO_PARTNER_QUESTION_SYSTEM.md\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/GPT_CONVERSATION_EXTRACT_IMPLEMENTATION.md\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/\")",
+      "Bash(cp -r \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/dashboard-plan/\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/dashboard-plan/\")",
+      "Bash(cp -r \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/forge-hybrid-template/\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/forge-hybrid-template/\")",
+      "Bash(cp -r \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/schema-templates/\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/schema-templates/\")",
+      "Bash(cp -r \"D:/GitHub/Forge-v1-Codex/FORGE_SEMANTIC/semantic-workspace-excel-layer/\" \"C:/FORGE_BUILD/FORGE_SEMANTIC/semantic-workspace-excel-layer/\")",
+      "Bash(cp \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/FORGE_plugin_inventory.csv\" \"C:/FORGE_BUILD/FORGE_DOCS/\")",
+      "Bash(cp -r \"D:/GitHub/Forge-v1-Codex/FORGE_DOCS/scripts/\"* \"C:/FORGE_BUILD/FORGE_DOCS/scripts/\")"
+    ]
+  }
+}
