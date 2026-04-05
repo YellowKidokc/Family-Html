@@ -30,11 +30,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 @media(max-width:600px){
   .nav-grid{grid-template-columns:1fr}
 }
+.audio-bar{max-width:900px;margin:0 auto;padding:2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1.5rem}
+.audio-bar .ab-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.audio-bar audio{flex:1;height:36px}
 </style></head><body>
 <div class="hero">
 <div class="hero-label">A Briefing for Family &mdash; April 2026</div>
 <h1 class="hero-title">Where All This <span class="gold">Came From</span></h1>
 <p class="hero-sub">The seed was childlike. I've just taken it farther than anybody ever has.</p>
+</div>
+
+<div class="audio-bar">
+  <span class="ab-label">Listen</span>
+  <audio controls preload="none">
+    <source src="/audio/index.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
 </div>
 
 <div class="nav-section">

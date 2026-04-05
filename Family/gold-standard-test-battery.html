@@ -87,6 +87,9 @@ tbody td:first-child{font-family:'Courier New',monospace;font-size:.8rem;color:v
 .bottom-nav .bn-home{display:block;text-align:center;margin-top:1.5rem;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;color:#7a8aaa;text-decoration:none}
 .bottom-nav .bn-home:hover{color:#eef2ff}
 @media(max-width:600px){.bottom-nav .bn-grid{grid-template-columns:1fr}}
+.audio-bar{max-width:900px;margin:0 auto;padding:2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1.5rem}
+.audio-bar .ab-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.audio-bar audio{flex:1;height:36px}
 </style>
 </head>
 <body>
@@ -103,6 +106,14 @@ tbody td:first-child{font-family:'Courier New',monospace;font-size:.8rem;color:v
     <div class="meta-item">Battery <span>Physical Review Letters / Living Reviews in Relativity standard</span></div>
     <div class="meta-item">Seed <span>2828</span></div>
   </div>
+</div>
+
+<div class="audio-bar">
+  <span class="ab-label">Listen</span>
+  <audio controls preload="none">
+    <source src="/audio/gold-standard-test-battery.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
 </div>
 
 <!-- WHAT WAS TESTED -->

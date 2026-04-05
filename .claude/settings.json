@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv \"I Didn't Write the Math. I Found It..mp3\" \"i-didnt-write-the-math.mp3\")",
+      "Bash(mv \"The Lowe Coherence Lagrangian.mp3\" \"lowe-coherence-lagrangian.mp3\")",
+      "Bash(mv \"Math is Moral.mp3\" \"math-is-moral.mp3\")",
+      "Bash(mv \"Where All This Came From.mp3\" \"index.mp3\")",
+      "Bash(ls -lh d:/GitHub/Family-Html/Family/*.mp3)",
+      "Bash(npx wrangler:*)",
+      "Bash(wrangler r2:*)"
+    ]
+  }
+}

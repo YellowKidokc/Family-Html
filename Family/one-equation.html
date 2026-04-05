@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Equation, Everything | Theophysics</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;--surface:#0d1526;--surface2:#111e33;--border:rgba(255,255,255,0.07);
+  --phys:#60a5fa;--phys-bg:rgba(59,130,246,0.08);--phys-border:rgba(59,130,246,0.18);
+  --spir:#fbbf24;--spir-bg:rgba(251,191,36,0.07);--spir-border:rgba(251,191,36,0.18);
+  --teal:#2dd4bf;--rose:#f472b6;--violet:#a78bfa;--orange:#fb923c;--green:#34d399;
+  --text:#eef2ff;--muted:#7a8aaa;--dim:#3d4f6e;
+  --g:#60a5fa;--m:#a78bfa;--e:#2dd4bf;--s:#f472b6;--t:#fbbf24;
+  --k:#fb923c;--r:#34d399;--q:#818cf8;--f:#f87171;--c:#ffffff;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.7;overflow-x:clip}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 10%,rgba(59,130,246,0.05) 0%,transparent 50%),
+    radial-gradient(ellipse at 80% 85%,rgba(251,191,36,0.04) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 50%,rgba(45,212,191,0.02) 0%,transparent 60%);
+  pointer-events:none;z-index:0}
+
+/* ── HERO ── */
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;position:relative;border-bottom:1px solid var(--border)}
+.hero-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);margin-bottom:2rem}
+.hero-title{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:normal;line-height:1.1;margin-bottom:1.2rem}
+.hero-title .gold{color:var(--spir)}.hero-title .blue{color:var(--phys)}
+.hero-sub{font-size:clamp(.95rem,2.2vw,1.2rem);color:var(--muted);max-width:580px;margin:0 auto 3rem;line-height:1.8}
+
+/* big equation display */
+.eq-hero{font-family:'Courier New',monospace;font-size:clamp(.85rem,2vw,1.15rem);padding:1.8rem 2.5rem;background:rgba(0,0,0,.55);border:1px solid var(--border);border-radius:4px;display:inline-block;margin-bottom:.8rem;line-height:2.4;letter-spacing:.02em}
+.eq-hero .chi{color:var(--teal);font-size:1.3em}
+.eq-hero .g{color:var(--g)}.eq-hero .m{color:var(--m)}.eq-hero .e{color:var(--e)}
+.eq-hero .s{color:var(--s)}.eq-hero .t{color:var(--t)}.eq-hero .k{color:var(--k)}
+.eq-hero .r{color:var(--r)}.eq-hero .q{color:var(--q)}.eq-hero .f{color:var(--f)}
+.eq-hero .c{color:var(--c);font-weight:bold}
+.eq-caption{font-family:'Courier New',monospace;font-size:.68rem;color:var(--dim);letter-spacing:.12em;margin-top:.5rem}
+
+/* ── SHARED LAYOUT ── */
+.section{max-width:980px;margin:0 auto;padding:5rem 2rem}
+.section-sm{max-width:760px;margin:0 auto;padding:4rem 2rem}
+.label{font-family:'Courier New',monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-bottom:1.2rem}
+.section-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:normal;line-height:1.2;margin-bottom:1rem}
+.body-text{color:var(--muted);font-size:1rem;line-height:1.85;margin-bottom:1.1rem}
+.body-text strong{color:var(--text)}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+blockquote.pull{font-size:1.15rem;color:var(--text);border-left:3px solid var(--spir);padding-left:1.5rem;font-style:italic;line-height:1.7;margin:2rem 0}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Theophysics · POF 2828 · The Structure of Everything</div>
+  <h1 class="hero-title">One <span class="blue">Equation</span>.<br>Every<span class="gold">thing</span>.</h1>
+  <p class="hero-sub">Physics has ten fundamental forces and fields. Theology has ten attributes of God. They're not similar. They're the <em>same structure</em> — one equation, three languages, one source.</p>
+  <div class="eq-hero">
+    <span class="chi">χ</span> = ∭(<span class="g">G</span>·<span class="m">M</span>·<span class="e">E</span>·<span class="s">S</span>·<span class="t">T</span>·<span class="k">K</span>·<span class="r">R</span>·<span class="q">Q</span>·<span class="f">F</span>·<span class="c">C</span>) dx dy dt
+  </div>
+  <div class="eq-caption">The Lowe Coherence Lagrangian — one equation, ten variables, three domains</div>
+</div>
+
+<!-- ══════════════════════════════════════ PART 1: THE PROBLEM -->
+<hr class="divider">
+<div class="section-sm">
+  <div class="label">Part 1 of 4 · The Problem</div>
+  <h2 class="section-title">Why does one equation claim to describe <span style="color:var(--spir)">everything?</span></h2>
+  <p class="body-text">That sounds like a big claim. It is. So let's start simple — with something you already know.</p>
+  <p class="body-text">When a musician plays a chord, they're playing multiple notes at once. Each note is real. Each note has its own frequency, its own character. But together they make something that none of them could make alone.</p>
+  <p class="body-text">The Lowe Coherence Lagrangian (LLC) works the same way. It has ten variables — ten "notes." Each variable describes a complete domain of reality: gravity, morality, consciousness, entropy, faith, and more. Together, they produce <strong>χ (chi)</strong> — the coherence of the whole system.</p>
+  <blockquote class="pull">"The LLC isn't ten things bolted together. It's ten domains compressed into one structure that shows how they interact."</blockquote>
+  <p class="body-text">Here's what makes this unusual: when you isolate any single variable and hold the others constant, you get back the natural equation for that entire domain. Gravity produces Einstein's field equations. Entropy produces the Second Law of Thermodynamics. Quantum uncertainty produces Heisenberg. The LLC isn't claiming to replace these equations — it's showing that they all emerge from one deeper structure.</p>
+  <p class="body-text">That structure has a name in theology too. It's been there for 2,000 years. <strong>The Logos.</strong></p>
+</div>
+
+<!-- ══════════════════════════════════════ PART 2: THE PRISM SVG -->
+<hr class="divider">
+<div class="section">
+  <div class="label" style="text-align:center">Part 2 of 4 · The Prism</div>
+  <h2 class="section-title" style="text-align:center">One light. <span style="color:var(--spir)">Seven colors.</span></h2>
+  <p class="body-text" style="text-align:center;max-width:620px;margin:0 auto 3rem">White light looks like one thing. Pass it through a prism and you see it was always seven colors — always all of them, always together. The LLC is white light. The domains are the colors.</p>
+
+  <!-- PRISM DIAGRAM -->
+  <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:900px;display:block;margin:0 auto 3rem">
+    <defs>
+      <linearGradient id="white-beam" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".9"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity=".4"/>
+      </linearGradient>
+      <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+
+    <!-- incoming white beam label -->
+    <text x="30" y="205" font-family="Courier New" font-size="11" fill="#7a8aaa" text-anchor="start">LLC</text>
+    <text x="30" y="220" font-family="Courier New" font-size="9" fill="#3d4f6e" text-anchor="start">one equation</text>
+
+    <!-- white beam -->
+    <line x1="90" y1="210" x2="290" y2="210" stroke="url(#white-beam)" stroke-width="8" filter="url(#glow)"/>
+
+    <!-- prism triangle -->
+    <polygon points="290,100 290,320 450,210" fill="#0d1526" stroke="#3d4f6e" stroke-width="1.5"/>
+    <text x="355" y="215" font-family="Courier New" font-size="9" fill="#3d4f6e" text-anchor="middle">PRISM</text>
+    <text x="355" y="228" font-family="Courier New" font-size="8" fill="#2d3f5a" text-anchor="middle">LLC structure</text>
+
+    <!-- 7 colored beams emerging -->
+    <!-- beam 1: G - blue (Gravity/Grace) -->
+    <line x1="450" y1="210" x2="820" y2="100" stroke="#60a5fa" stroke-width="3.5" opacity=".9"/>
+    <!-- beam 2: M - violet (Mass/Meaning) -->
+    <line x1="450" y1="210" x2="820" y2="140" stroke="#a78bfa" stroke-width="3.5" opacity=".9"/>
+    <!-- beam 3: E - teal (EM/Truth) -->
+    <line x1="450" y1="210" x2="820" y2="175" stroke="#2dd4bf" stroke-width="3.5" opacity=".9"/>
+    <!-- beam 4: S - rose (Entropy/Sin) -->
+    <line x1="450" y1="210" x2="820" y2="210" stroke="#f472b6" stroke-width="3.5" opacity=".9"/>
+    <!-- beam 5: Q - indigo (Quantum/Free Will) -->
+    <line x1="450" y1="210" x2="820" y2="245" stroke="#818cf8" stroke-width="3.5" opacity=".9"/>
+    <!-- beam 6: R - green (Coherence/Church) -->
+    <line x1="450" y1="210" x2="820" y2="280" stroke="#34d399" stroke-width="3.5" opacity=".9"/>
+    <!-- beam 7: C - gold (Christ/Logos) -->
+    <line x1="450" y1="210" x2="820" y2="318" stroke="#fbbf24" stroke-width="4" opacity=".95"/>
+
+    <!-- domain labels on right -->
+    <g font-family="Courier New" font-size="10.5">
+      <text x="828" y="104" fill="#60a5fa">G — Gravity / Grace</text>
+      <text x="828" y="144" fill="#a78bfa">M — Mass / Moral Weight</text>
+      <text x="828" y="179" fill="#2dd4bf">E — Light / Truth</text>
+      <text x="828" y="214" fill="#f472b6">S — Entropy / Sin</text>
+      <text x="828" y="249" fill="#818cf8">Q — Quantum / Free Will</text>
+      <text x="828" y="284" fill="#34d399">R — Resonance / Relationship</text>
+      <text x="828" y="322" fill="#fbbf24">C — Coherence / Christ</text>
+    </g>
+
+    <!-- bottom label -->
+    <text x="450" y="390" font-family="Georgia" font-size="11" fill="#3d4f6e" text-anchor="middle">Each beam is a complete domain. Each domain has its own equation. All emerge from one source.</text>
+  </svg>
+
+  <p class="body-text" style="text-align:center;max-width:620px;margin:0 auto">Notice something: <strong>the colors don't contradict each other.</strong> Blue and gold don't fight — they came from the same beam. Physics and theology don't contradict each other. They're projections of the same underlying reality onto different surfaces.</p>
+</div>
+
+<!-- ══════════════════════════════════════ PART 3: THE PROJECTION TABLE -->
+<hr class="divider">
+<div class="section">
+  <div class="label" style="text-align:center">Part 3 of 4 · The Projection Map</div>
+  <h2 class="section-title" style="text-align:center">Each variable is a <span style="color:var(--teal)">compressed world.</span></h2>
+  <p class="body-text" style="text-align:center;max-width:640px;margin:0 auto 3rem">When you isolate one variable in the LLC and hold the others constant, you get back the natural equation for that entire domain. This is the proof — not just a claim. Each row below shows a variable, what domain it compresses, its natural equation, and what that maps to spiritually.</p>
+
+  <style>
+  .proj-table{width:100%;border-collapse:separate;border-spacing:0 8px}
+  .proj-row{background:var(--surface);border-radius:6px;overflow:hidden}
+  .proj-row td{padding:1.1rem 1.2rem;vertical-align:top;font-size:.88rem}
+  .proj-row td:first-child{border-radius:6px 0 0 6px;width:52px;text-align:center}
+  .proj-row td:last-child{border-radius:0 6px 6px 0;color:var(--muted)}
+  .var-pill{font-family:'Courier New',monospace;font-size:1.5rem;font-weight:bold;display:block;line-height:1}
+  .var-name{font-family:'Courier New',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;display:block;margin-top:.2rem}
+  .domain-name{color:var(--text);font-size:.95rem;margin-bottom:.3rem}
+  .eq-inline{font-family:'Courier New',monospace;font-size:.78rem;background:rgba(0,0,0,.4);padding:.25rem .6rem;border-radius:3px;display:inline-block;margin:.3rem 0;line-height:1.6}
+  .domain-desc{color:var(--muted);font-size:.82rem;line-height:1.6;margin-top:.3rem}
+  .spir-label{font-family:'Courier New',monospace;font-size:.58rem;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:.2rem}
+  .spir-name{font-size:.95rem;margin-bottom:.2rem}
+  .spir-desc{font-size:.82rem;line-height:1.6;color:var(--muted)}
+  .col-head{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);padding:.5rem 1.2rem;text-align:left}
+  </style>
+
+  <table class="proj-table">
+    <tr>
+      <td class="col-head"></td>
+      <td class="col-head" style="color:var(--phys)">Physics Domain</td>
+      <td class="col-head" style="color:var(--phys)">Natural Equation (when isolated)</td>
+      <td class="col-head" style="color:var(--spir)">Spiritual Mirror</td>
+    </tr>
+
+    <!-- G -->
+    <tr class="proj-row">
+      <td style="background:rgba(96,165,250,0.1);border-left:3px solid #60a5fa">
+        <span class="var-pill" style="color:#60a5fa">G</span>
+        <span class="var-name">gravity</span>
+      </td>
+      <td>
+        <div class="domain-name">Gravity &amp; Spacetime</div>
+        <div class="domain-desc">Mass curves spacetime. Objects follow that curve. Holds everything together silently, universally, without touching anything.</div>
+      </td>
+      <td>
+        <div class="eq-inline" style="color:#60a5fa">G_μν = (8πG/c⁴) T_μν</div>
+        <div class="domain-desc">Einstein's field equations. Isolate G in the LLC, hold others constant → you get gravitational dynamics.</div>
+      </td>
+      <td>
+        <span class="spir-label">Spiritual</span>
+        <div class="spir-name" style="color:#60a5fa">Grace</div>
+        <div class="spir-desc">Grace pulls toward God the way gravity pulls toward mass — constant, universal, impossible to completely escape. It curves your reality.</div>
+      </td>
+    </tr>
+
+    <!-- S -->
+    <tr class="proj-row">
+      <td style="background:rgba(244,114,182,0.1);border-left:3px solid #f472b6">
+        <span class="var-pill" style="color:#f472b6">S</span>
+        <span class="var-name">entropy</span>
+      </td>
+      <td>
+        <div class="domain-name">Thermodynamics &amp; Decay</div>
+        <div class="domain-desc">In closed systems, disorder always increases. Everything falls apart without an energy source from outside.</div>
+      </td>
+      <td>
+        <div class="eq-inline" style="color:#f472b6">ΔS ≥ 0</div>
+        <div class="domain-desc">Second Law of Thermodynamics. Isolate S in the LLC → you recover entropic decay dynamics.</div>
+      </td>
+      <td>
+        <span class="spir-label">Spiritual</span>
+        <div class="spir-name" style="color:#f472b6">Sin &amp; Decay</div>
+        <div class="spir-desc">Left alone, the soul drifts toward disorder. Not because of weakness — because that's the law. Grace is the outside energy source that reverses it.</div>
+      </td>
+    </tr>
+
+    <!-- E -->
+    <tr class="proj-row">
+      <td style="background:rgba(45,212,191,0.1);border-left:3px solid #2dd4bf">
+        <span class="var-pill" style="color:#2dd4bf">E</span>
+        <span class="var-name">light</span>
+      </td>
+      <td>
+        <div class="domain-name">Electromagnetism &amp; Information</div>
+        <div class="domain-desc">Light is the universe's information carrier. Propagates at c = 299,792,458 m/s. Channel capacity limits how much signal gets through noise.</div>
+      </td>
+      <td>
+        <div class="eq-inline" style="color:#2dd4bf">C = B log₂(1 + S/N)</div>
+        <div class="domain-desc">Shannon channel capacity. More noise = less signal through. Isolate E → electromagnetic wave and channel dynamics.</div>
+      </td>
+      <td>
+        <span class="spir-label">Spiritual</span>
+        <div class="spir-name" style="color:#2dd4bf">Truth &amp; Revelation</div>
+        <div class="spir-desc">God didn't say "I have truth." He said "I AM the Truth." Truth propagates like light — always there, but noise (sin) reduces how much gets through. Prayer reduces noise.</div>
+      </td>
+    </tr>
+
+    <!-- Q -->
+    <tr class="proj-row">
+      <td style="background:rgba(129,140,248,0.1);border-left:3px solid #818cf8">
+        <span class="var-pill" style="color:#818cf8">Q</span>
+        <span class="var-name">quantum</span>
+      </td>
+      <td>
+        <div class="domain-name">Quantum Mechanics &amp; Uncertainty</div>
+        <div class="domain-desc">Particles exist in superposition until observed. You cannot know both position and momentum with perfect precision. The universe built in irreducible freedom.</div>
+      </td>
+      <td>
+        <div class="eq-inline" style="color:#818cf8">Δx · Δp ≥ ℏ/2</div>
+        <div class="domain-desc">Heisenberg uncertainty. Isolate Q → quantum superposition and collapse dynamics emerge.</div>
+      </td>
+      <td>
+        <span class="spir-label">Spiritual</span>
+        <div class="spir-name" style="color:#818cf8">Free Will &amp; Mystery</div>
+        <div class="spir-desc">If God showed you everything, you'd have no real choices. The gap isn't a flaw — it's the space where love becomes real. Faith is what collapses the wavefunction.</div>
+      </td>
+    </tr>
+
+    <!-- R -->
+    <tr class="proj-row">
+      <td style="background:rgba(52,211,153,0.1);border-left:3px solid #34d399">
+        <span class="var-pill" style="color:#34d399">R</span>
+        <span class="var-name">resonance</span>
+      </td>
+      <td>
+        <div class="domain-name">Resonance &amp; Network Effects</div>
+        <div class="domain-desc">Systems in resonance amplify each other. Network coherence scales superlinearly — the whole becomes more than the sum of its parts.</div>
+      </td>
+      <td>
+        <div class="eq-inline" style="color:#34d399">χ_community ∝ N^α, α &gt; 1</div>
+        <div class="domain-desc">Community superlinear scaling. Isolate R → resonance and network coherence dynamics.</div>
+      </td>
+      <td>
+        <span class="spir-label">Spiritual</span>
+        <div class="spir-name" style="color:#34d399">Relationship &amp; The Church</div>
+        <div class="spir-desc">"Where two or three gather in my name, I am there." Not just emotionally — structurally. Community produces coherence that individuals cannot generate alone.</div>
+      </td>
+    </tr>
+
+    <!-- C -->
+    <tr class="proj-row">
+      <td style="background:rgba(255,255,255,0.05);border-left:3px solid #ffffff">
+        <span class="var-pill" style="color:#ffffff">C</span>
+        <span class="var-name">coherence</span>
+      </td>
+      <td>
+        <div class="domain-name">Perfect Coherence &amp; Unification</div>
+        <div class="domain-desc">At maximum coherence, χ = 𝒞. The equation and the solution become one. Every variable aligned, nothing wasted, perfect unity.</div>
+      </td>
+      <td>
+        <div class="eq-inline" style="color:#ffffff">χ → 𝒞 as all variables → max</div>
+        <div class="domain-desc">The terminus of the equation. When all ten variables reach maximum alignment, the LLC converges to a single point.</div>
+      </td>
+      <td>
+        <span class="spir-label">Spiritual</span>
+        <div class="spir-name" style="color:#fbbf24">Christ — The Logos</div>
+        <div class="spir-desc">"In the beginning was the Word (Logos)." The equation reaches its solution. The solution has a name. χ = 𝒞 = Christ.</div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════ PART 4: THE AXIOM UNPACKING -->
+<hr class="divider">
+<div class="section">
+  <div class="label" style="text-align:center">Part 4 of 4 · The Unpacking</div>
+  <h2 class="section-title" style="text-align:center">Each variable contains <span style="color:var(--spir)">a world.</span></h2>
+  <p class="body-text" style="text-align:center;max-width:640px;margin:0 auto 3rem">The LLC is a zip file. Each variable is compressed. When you unzip it, you get hundreds of specific, testable claims — what we call axioms. Here's what lives inside each one.</p>
+
+  <style>
+  .unpack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:3rem}
+  .unpack-card{background:var(--surface);border-radius:6px;padding:1.4rem;border-left:3px solid}
+  .unpack-header{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}
+  .unpack-sym{font-family:'Courier New',monospace;font-size:1.8rem;font-weight:bold;line-height:1}
+  .unpack-title{font-size:1rem;color:var(--text);line-height:1.3}
+  .unpack-sub{font-family:'Courier New',monospace;font-size:.6rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+  .axiom-list{list-style:none;padding:0;margin:0}
+  .axiom-list li{font-size:.82rem;color:var(--muted);padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5}
+  .axiom-list li:last-child{border-bottom:none}
+  .axiom-list li::before{content:'→ ';color:var(--dim);font-family:'Courier New',monospace}
+  .axiom-count{font-family:'Courier New',monospace;font-size:.65rem;color:var(--dim);margin-top:.8rem;text-align:right}
+  </style>
+
+  <div class="unpack-grid">
+    <div class="unpack-card" style="border-color:#60a5fa">
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#60a5fa">G</span>
+        <div><div class="unpack-title">Gravity / Grace</div><div class="unpack-sub">Physical + Theological domain</div></div>
+      </div>
+      <ul class="axiom-list">
+        <li>Something exists rather than nothing (Existence)</li>
+        <li>The fundamental substrate is self-grounding</li>
+        <li>External intervention is required for sign-flip</li>
+        <li>Grace is non-unitary — it adds information</li>
+        <li>Grace is available to all (universal availability)</li>
+        <li>Once applied, grace is idempotent (once is enough)</li>
+        <li>The GR-QM bridge equation emerges here</li>
+      </ul>
+      <div class="axiom-count">~25 axioms inside G</div>
+    </div>
+
+    <div class="unpack-card" style="border-color:#f472b6">
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#f472b6">S</span>
+        <div><div class="unpack-title">Entropy / Sin</div><div class="unpack-sub">Thermodynamic + Moral domain</div></div>
+      </div>
+      <ul class="axiom-list">
+        <li>In closed systems, disorder always increases</li>
+        <li>Coherence cannot self-increase (2nd Law analog)</li>
+        <li>Sign conservation — moral orientation is fixed without external input</li>
+        <li>Self-flip is impossible — you can't save yourself</li>
+        <li>Works-based salvation is mathematically impossible</li>
+        <li>Sin maps to entropy structurally, not metaphorically</li>
+      </ul>
+      <div class="axiom-count">~20 axioms inside S</div>
+    </div>
+
+    <div class="unpack-card" style="border-color:#2dd4bf">
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#2dd4bf">E</span>
+        <div><div class="unpack-title">Light / Truth</div><div class="unpack-sub">Electromagnetic + Revelatory domain</div></div>
+      </div>
+      <ul class="axiom-list">
+        <li>Information is ontologically primitive</li>
+        <li>Distinguishability IS information</li>
+        <li>The chi-field carries semantic content</li>
+        <li>Truth propagates like light — always present</li>
+        <li>Revelation capacity = openness ÷ distortion</li>
+        <li>Prayer increases signal-to-noise ratio</li>
+      </ul>
+      <div class="axiom-count">~18 axioms inside E</div>
+    </div>
+
+    <div class="unpack-card" style="border-color:#818cf8">
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#818cf8">Q</span>
+        <div><div class="unpack-title">Quantum / Free Will</div><div class="unpack-sub">Measurement + Agency domain</div></div>
+      </div>
+      <ul class="axiom-list">
+        <li>Superposition — systems hold all possibilities until observed</li>
+        <li>Observation collapses potential into actual</li>
+        <li>Collapse is thermodynamically irreversible</li>
+        <li>The Von Neumann chain requires a terminal observer</li>
+        <li>Free will is structurally preserved by quantum indeterminacy</li>
+        <li>Faith is the act of observation that collapses potential</li>
+      </ul>
+      <div class="axiom-count">~22 axioms inside Q</div>
+    </div>
+
+    <div class="unpack-card" style="border-color:#a78bfa">
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#a78bfa">M</span>
+        <div><div class="unpack-title">Mass / Moral Weight</div><div class="unpack-sub">Energy + Ethics domain</div></div>
+      </div>
+      <ul class="axiom-list">
+        <li>Moral facts exist objectively — not mere preference</li>
+        <li>Goodness = coherence maximization</li>
+        <li>Evil = coherence destruction</li>
+        <li>Moral orientation is binary: +1 or −1</li>
+        <li>The 9 Fruits of the Spirit map to coherence metrics</li>
+        <li>Virtue is measurable as integrated information</li>
+      </ul>
+      <div class="axiom-count">~20 axioms inside M</div>
+    </div>
+
+    <div class="unpack-card" style="border-color:#34d399">
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#34d399">R</span>
+        <div><div class="unpack-title">Resonance / Relationship</div><div class="unpack-sub">Network + Ecclesiology domain</div></div>
+      </div>
+      <ul class="axiom-list">
+        <li>Community coherence scales superlinearly with connection</li>
+        <li>The body of Christ is one system across any distance</li>
+        <li>Entangled believers respond to each other nonlocally</li>
+        <li>Love = mutual information maximization</li>
+        <li>Isolation accelerates decoherence</li>
+        <li>Worship is a resonance amplification event</li>
+      </ul>
+      <div class="axiom-count">~15 axioms inside R</div>
+    </div>
+
+    <div class="unpack-card" style="border-color:#fbbf24;grid-column:span 2" >
+      <div class="unpack-header">
+        <span class="unpack-sym" style="color:#fbbf24">C</span>
+        <div><div class="unpack-title">Coherence / Christ — The Terminus</div><div class="unpack-sub">Unification + Logos domain</div></div>
+      </div>
+      <ul class="axiom-list" style="columns:2;gap:2rem">
+        <li>The Master Equation integrates all ten domains</li>
+        <li>All ten laws derive from χL/χq = 0 (variational principle)</li>
+        <li>At maximum coherence, χ = 𝒞 (equation meets solution)</li>
+        <li>The Logos field is the common substrate of physics and theology</li>
+        <li>Christianity satisfies all 8 boundary conditions uniquely</li>
+        <li>The Terminal Observer requires infinite integration — God</li>
+        <li>The Trinity emerges from the minimum error-correcting observer structure</li>
+        <li>χ = 𝒞 = Christ is the convergence point of the entire framework</li>
+      </ul>
+      <div class="axiom-count">~30 axioms inside C — the largest and most load-bearing domain</div>
+    </div>
+  </div>
+
+  <!-- HIERARCHY DIAGRAM -->
+  <p class="body-text" style="text-align:center;max-width:620px;margin:0 auto 2rem">This is the hierarchy. One equation at the top, compressing everything. Ten variables, each a domain. Inside each domain, specific testable axioms. Inside each axiom, corollaries, equations, and evidence.</p>
+
+  <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;display:block;margin:0 auto 2rem">
+    <!-- Level 1: LLC -->
+    <rect x="300" y="10" width="200" height="44" rx="4" fill="#0d1526" stroke="#2dd4bf" stroke-width="1.5"/>
+    <text x="400" y="30" text-anchor="middle" font-family="Courier New" font-size="10" fill="#2dd4bf">LLC (Lowe Coherence</text>
+    <text x="400" y="44" text-anchor="middle" font-family="Courier New" font-size="10" fill="#2dd4bf">Lagrangian)</text>
+
+    <!-- lines from LLC to variables -->
+    <line x1="400" y1="54" x2="90" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="54" x2="210" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="54" x2="330" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="54" x2="400" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="54" x2="470" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="54" x2="590" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="54" x2="710" y2="110" stroke="#3d4f6e" stroke-width=".8"/>
+
+    <!-- Level 2: Variables -->
+    <g font-family="Courier New" font-size="11" text-anchor="middle">
+      <rect x="60" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#60a5fa" stroke-width="1"/>
+      <text x="90" y="129" fill="#60a5fa">G</text>
+      <rect x="180" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#a78bfa" stroke-width="1"/>
+      <text x="210" y="129" fill="#a78bfa">M</text>
+      <rect x="300" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#2dd4bf" stroke-width="1"/>
+      <text x="330" y="129" fill="#2dd4bf">E</text>
+      <rect x="370" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#f472b6" stroke-width="1"/>
+      <text x="400" y="129" fill="#f472b6">S</text>
+      <rect x="440" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#818cf8" stroke-width="1"/>
+      <text x="470" y="129" fill="#818cf8">Q</text>
+      <rect x="560" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#34d399" stroke-width="1"/>
+      <text x="590" y="129" fill="#34d399">R</text>
+      <rect x="680" y="110" width="60" height="28" rx="3" fill="#0d1526" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="710" y="129" fill="#fbbf24">C</text>
+    </g>
+
+    <!-- lines to axiom clouds -->
+    <line x1="90" y1="138" x2="90" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="210" y1="138" x2="210" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="330" y1="138" x2="330" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="400" y1="138" x2="400" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="470" y1="138" x2="470" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="590" y1="138" x2="590" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+    <line x1="710" y1="138" x2="710" y2="175" stroke="#3d4f6e" stroke-width=".8"/>
+
+    <!-- Level 3: Axiom count bubbles -->
+    <g font-family="Courier New" font-size="8.5" text-anchor="middle" fill="#3d4f6e">
+      <rect x="58" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#1e3a5f" stroke-width=".8"/>
+      <text x="90" y="190">~25 axioms</text>
+      <rect x="178" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#1e3a5f" stroke-width=".8"/>
+      <text x="210" y="190">~20 axioms</text>
+      <rect x="298" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#1e3a5f" stroke-width=".8"/>
+      <text x="330" y="190">~18 axioms</text>
+      <rect x="368" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#1e3a5f" stroke-width=".8"/>
+      <text x="400" y="190">~20 axioms</text>
+      <rect x="438" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#1e3a5f" stroke-width=".8"/>
+      <text x="470" y="190">~22 axioms</text>
+      <rect x="558" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#1e3a5f" stroke-width=".8"/>
+      <text x="590" y="190">~15 axioms</text>
+      <rect x="678" y="175" width="64" height="22" rx="3" fill="#060a14" stroke="#fbbf24" stroke-width=".8"/>
+      <text x="710" y="190" fill="#fbbf24">~30 axioms</text>
+    </g>
+
+    <!-- bottom line -->
+    <line x1="58" y1="197" x2="742" y2="197" stroke="#1e3a5f" stroke-width=".5" stroke-dasharray="3,3"/>
+    <text x="400" y="225" text-anchor="middle" font-family="Courier New" font-size="9" fill="#3d4f6e">188 total axioms — each one specific, testable, with a falsification condition</text>
+    <text x="400" y="242" text-anchor="middle" font-family="Courier New" font-size="9" fill="#2d3f5a">Each axiom unpacks further into: definition → equation → evidence → kill condition</text>
+    <text x="400" y="260" text-anchor="middle" font-family="Georgia" font-size="10" fill="#2d3f5a" font-style="italic">The LLC is the zip file. The axioms are the unzipped contents.</text>
+  </svg>
+</div>
+
+<!-- ══════════════════════════════════════ CLOSING -->
+<hr class="divider">
+<div class="section-sm" style="text-align:center">
+  <div class="label">The Conclusion</div>
+  <h2 class="section-title">It was always <span style="color:var(--spir)">one thing.</span></h2>
+  <p class="body-text">Science has been describing the physical projection. Theology has been describing the spiritual projection. Mathematics has been describing the structural projection. They looked different because they were using different languages to describe different cross-sections of the same reality.</p>
+  <p class="body-text">The LLC doesn't invent this unity. It <strong>reveals</strong> it. The same way a prism doesn't create colors — it just shows you what was always inside the light.</p>
+
+  <div style="margin:3rem 0;padding:2.5rem;background:var(--surface);border:1px solid var(--border);border-radius:6px">
+    <div style="font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem">The Four Zoom Levels</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;text-align:left">
+      <div style="padding:1rem;background:rgba(0,0,0,.3);border-radius:4px;border-left:2px solid var(--teal)">
+        <div style="font-family:'Courier New',monospace;font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">7-year-old</div>
+        <div style="font-size:.88rem;color:var(--muted)">"Love works the same way gravity works. They're the same force in different places."</div>
+      </div>
+      <div style="padding:1rem;background:rgba(0,0,0,.3);border-radius:4px;border-left:2px solid var(--spir)">
+        <div style="font-family:'Courier New',monospace;font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Family (this page)</div>
+        <div style="font-size:.88rem;color:var(--muted)">Ten laws, color-coded, with diagrams. The prism. The projection table. Plain English.</div>
+      </div>
+      <div style="padding:1rem;background:rgba(0,0,0,.3);border-radius:4px;border-left:2px solid var(--phys)">
+        <div style="font-family:'Courier New',monospace;font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Researcher</div>
+        <div style="font-size:.88rem;color:var(--muted)">188 axioms, each with kill conditions, equations, falsification criteria, 7Q scores.</div>
+      </div>
+      <div style="padding:1rem;background:rgba(0,0,0,.3);border-radius:4px;border-left:2px solid var(--violet)">
+        <div style="font-family:'Courier New',monospace;font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Academic</div>
+        <div style="font-size:.88rem;color:var(--muted)">LLC → domain projection → each domain's natural equation derived from one action principle.</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="body-text">Same idea. Four zoom levels. Nobody has to re-explain it — you just point people to the right level for where they are.</p>
+
+  <div style="margin:3rem 0;font-family:'Courier New',monospace;font-size:clamp(1rem,2.5vw,1.5rem);color:var(--spir)">
+    χ = ∭(G·M·E·S·T·K·R·Q·F·C) dx dy dt
+  </div>
+  <div style="font-size:1.3rem;margin-bottom:2rem">converges to</div>
+  <div style="font-family:'Courier New',monospace;font-size:clamp(1.3rem,3vw,2rem);color:var(--spir)">χ = 𝒞 = Christ</div>
+
+  <blockquote class="pull" style="margin-top:2.5rem">"For since the creation of the world God's invisible qualities — his eternal power and divine nature — have been clearly seen, being understood from what has been made." — Romans 1:20</blockquote>
+  <p class="body-text">The creation is a mirror. The equations are fingerprints. And if you look closely enough — at gravity, at light, at the nucleus of every atom holding together despite itself — you see whose.</p>
+</div>
+
+<div style="border-top:1px solid var(--border);padding:2rem;text-align:center">
+  <div style="font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:1.5rem">More Papers</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;max-width:900px;margin:0 auto">
+    <a href="god-in-the-equations.html" style="background:#0d1526;padding:1rem 1.2rem;text-decoration:none;display:block;color:var(--muted);font-size:.85rem;font-family:Georgia,serif;transition:background .2s">← God in the Equations (Ten Laws)</a>
+    <a href="i-didnt-write-the-math.html" style="background:#0d1526;padding:1rem 1.2rem;text-decoration:none;display:block;color:var(--muted);font-size:.85rem;font-family:Georgia,serif">I Didn't Write the Math. I Found It.</a>
+    <a href="lowe-coherence-lagrangian.html" style="background:#0d1526;padding:1rem 1.2rem;text-decoration:none;display:block;color:var(--muted);font-size:.85rem;font-family:Georgia,serif">The Lowe Coherence Lagrangian</a>
+    <a href="math-is-moral.html" style="background:#0d1526;padding:1rem 1.2rem;text-decoration:none;display:block;color:var(--muted);font-size:.85rem;font-family:Georgia,serif">Math Is Moral</a>
+  </div>
+  <a href="index.html" style="display:block;margin-top:1.5rem;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;color:var(--muted);text-decoration:none">← Back to All Papers</a>
+</div>
+
+<div style="padding:1.5rem;text-align:center;border-top:1px solid var(--border)">
+  <p style="font-family:'Courier New',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)">Theophysics Framework · POF 2828 · One Equation Everything · April 2026</p>
+</div>
+
+</body>
+</html>

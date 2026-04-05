@@ -1,14 +1,22 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "family",
+  "main": "src/worker.js",
   "compatibility_date": "2026-04-04",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "Family"
+    "directory": "Family",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "r2_buckets": [
+    {
+      "binding": "AUDIO_BUCKET",
+      "bucket_name": "theophysics-storage"
+    }
   ]
 }
