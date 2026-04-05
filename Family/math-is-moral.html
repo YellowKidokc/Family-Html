@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Is Moral | David Lowe</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#060a14;--surface:#0d1526;--surface2:#111e33;--border:rgba(255,255,255,0.07);
+  --phys:#60a5fa;--phys-bg:rgba(59,130,246,0.08);--phys-border:rgba(59,130,246,0.18);
+  --spir:#fbbf24;--spir-bg:rgba(251,191,36,0.07);--spir-border:rgba(251,191,36,0.18);
+  --teal:#2dd4bf;--rose:#f472b6;--violet:#a78bfa;--orange:#fb923c;
+  --text:#eef2ff;--muted:#7a8aaa;--dim:#3d4f6e;
+  --asym:#ff4757;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.7;overflow-x:clip}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 10%,rgba(59,130,246,0.06) 0%,transparent 45%),
+    radial-gradient(ellipse at 85% 90%,rgba(251,191,36,0.04) 0%,transparent 45%);
+  pointer-events:none;z-index:0}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:4rem 2rem;position:relative;
+  border-bottom:1px solid var(--border)}
+.hero-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);margin-bottom:2rem}
+.hero-title{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:normal;line-height:1.1;margin-bottom:1.2rem}
+.hero-title .gold{color:var(--spir)}.hero-title .blue{color:var(--phys)}
+.hero-sub{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--muted);max-width:650px;margin:0 auto 2.5rem;line-height:1.7}
+.hero-caption{font-family:'Courier New',monospace;font-size:.7rem;color:var(--dim);letter-spacing:.1em;margin-top:1rem}
+
+/* ── SECTIONS ── */
+.section{padding:3.5rem 2rem;border-bottom:1px solid var(--border);max-width:900px;margin:0 auto}
+.section h2{font-size:1.5rem;font-weight:normal;color:var(--spir);margin-bottom:1.2rem;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+.section h3{font-family:'Courier New',monospace;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:2.5rem 0 1rem}
+.section p{color:var(--muted);margin-bottom:1.2rem;font-size:.95rem;line-height:1.8}
+.section p:last-child{margin-bottom:0}
+.section strong{color:var(--text)}
+.section em{color:var(--muted);font-style:italic}
+
+/* ── EQUATION BLOCKS ── */
+.eq-block{font-family:'Courier New',monospace;font-size:clamp(.8rem,1.4vw,1rem);padding:1.2rem 1.5rem;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:3px;margin:1.5rem 0;line-height:2;overflow-x:auto}
+.eq-block .phys{color:var(--phys)}.eq-block .spir{color:var(--spir)}.eq-block .teal{color:var(--teal)}
+.eq-block .rose{color:var(--rose)}.eq-block .asym{color:var(--asym);font-weight:bold}
+.eq-block .dim{color:var(--dim)}
+
+/* ── TABLES ── */
+.tbl-wrap{overflow-x:auto;margin:1.5rem 0}
+table{width:100%;border-collapse:separate;border-spacing:0}
+thead tr{background:var(--surface2)}
+thead th{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+tbody tr{background:var(--surface)}
+tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+tbody td{padding:.7rem 1rem;font-size:.82rem;color:var(--muted);border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top}
+tbody td:first-child{font-family:'Courier New',monospace;color:var(--dim);white-space:nowrap;text-align:center;width:30px}
+tbody td:nth-child(2){color:var(--text);font-weight:bold;white-space:nowrap}
+
+/* ── CALLOUT / PLAIN-ENG ── */
+.callout{border-left:4px solid var(--phys);padding:1.2rem 1.5rem;margin:1.5rem 0;border-radius:0 3px 3px 0;background:rgba(59,130,246,.04)}
+.callout p{color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:.6rem}
+.callout p:last-child{margin-bottom:0}
+.callout strong{color:var(--text)}
+.callout-gold{border-color:var(--spir);background:rgba(251,191,36,.04)}
+.callout-rose{border-color:var(--rose);background:rgba(244,114,182,.04)}
+.callout-teal{border-color:var(--teal);background:rgba(45,212,191,.04)}
+
+.plain-eng{padding:1.5rem;background:rgba(45,212,191,.04);border:1px solid rgba(45,212,191,.2);border-radius:4px;margin:1.5rem 0}
+.plain-eng .pe-label{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem;display:block}
+.plain-eng p{color:var(--muted);font-size:.9rem;line-height:1.8;margin-bottom:.6rem;font-style:italic}
+.plain-eng p:last-child{margin-bottom:0}
+
+/* ── AXIOM BLOCKS ── */
+.axiom-group{background:var(--surface);border:1px solid var(--border);border-radius:4px;margin:2rem 0;overflow:hidden}
+.axiom-hdr{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.2)}
+.axiom-hdr span{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.axiom-hdr h4{font-size:.95rem;font-weight:normal;flex:1}
+.axiom-body{padding:0}
+.axiom-body table{margin:0}
+.axiom-body tbody td:first-child{color:var(--spir);font-weight:bold}
+.axiom-body tbody td:nth-child(2){color:var(--muted);font-weight:normal}
+.axiom-body tbody td:nth-child(3){font-size:.78rem;color:var(--dim);font-style:italic}
+
+/* ── MIRROR BLOCK ── */
+.mirror{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin:1.5rem 0}
+.mirror-side{padding:1.2rem 1.5rem}
+.mirror-side.m-fruit{background:rgba(251,191,36,.05)}
+.mirror-side.m-flesh{background:rgba(255,71,87,.05)}
+.mirror-label{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.6rem;display:block}
+.mirror-side.m-fruit .mirror-label{color:var(--spir)}
+.mirror-side.m-flesh .mirror-label{color:var(--asym)}
+.mirror-side p{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:.5rem}
+.mirror-side p:last-child{margin-bottom:0}
+
+/* ── SCHEMA TABLE ── */
+.schema-table tbody td:first-child{color:var(--spir);font-weight:bold;font-family:'Courier New',monospace;font-size:.75rem}
+.schema-table tbody td:nth-child(2){color:var(--text);font-weight:normal}
+.schema-table tbody td:nth-child(3){color:var(--dim);font-size:.8rem}
+.schema-table tbody td:nth-child(4){color:var(--asym);font-size:.8rem}
+
+/* ── CHAIN BLOCK ── */
+.chain{font-family:'Courier New',monospace;font-size:.8rem;padding:1.5rem;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:3px;margin:1.5rem 0;line-height:2.2;color:var(--muted)}
+.chain .l{color:var(--spir)}.chain .r{color:var(--phys)}
+
+/* ── AUDIO BAR ── */
+.audio-bar{max-width:900px;margin:0 auto;padding:2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1.5rem}
+.audio-bar .ab-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.audio-bar audio{flex:1;height:36px}
+
+/* ── CLOSING ── */
+.closing{padding:5rem 2rem;text-align:center;max-width:900px;margin:0 auto;position:relative}
+.closing::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;height:1px;background:linear-gradient(90deg,transparent,var(--phys),var(--spir),transparent)}
+.closing p{color:var(--muted);font-size:.85rem;line-height:1.7;max-width:700px;margin:0 auto 1rem}
+.closing .site{font-family:'Courier New',monospace;font-size:1.1rem;color:var(--spir);display:block;margin:2rem 0 .5rem;letter-spacing:.05em}
+.closing .tagline{font-family:'Courier New',monospace;font-size:.7rem;color:var(--dim);font-style:italic;letter-spacing:.05em}
+.closing .version{font-family:'Courier New',monospace;font-size:.65rem;color:var(--dim);margin-top:1.5rem;line-height:2}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{max-width:900px;margin:0 auto;padding:3rem 2rem;border-top:1px solid rgba(255,255,255,0.07)}
+.bottom-nav .bn-label{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#3d4f6e;margin-bottom:1.5rem;text-align:center}
+.bottom-nav .bn-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.07);border-radius:4px;overflow:hidden}
+.bottom-nav .bn-link{background:#0d1526;padding:1rem 1.2rem;text-decoration:none;display:flex;flex-direction:column;gap:.3rem;transition:background .2s}
+.bottom-nav .bn-link:hover{background:#111e33}
+.bottom-nav .bn-link .bn-tag{font-family:'Courier New',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:#3d4f6e}
+.bottom-nav .bn-link .bn-name{font-size:.88rem;color:#eef2ff;font-family:Georgia,'Times New Roman',serif}
+.bottom-nav .bn-home{display:block;text-align:center;margin-top:1.5rem;font-family:'Courier New',monospace;font-size:.7rem;letter-spacing:.15em;color:#7a8aaa;text-decoration:none}
+.bottom-nav .bn-home:hover{color:#eef2ff}
+
+@media(max-width:760px){
+  .hero{padding:3rem 1.5rem}
+  .section{padding:2.5rem 1.5rem}
+  table{font-size:.72rem}
+  .mirror{grid-template-columns:1fr}
+  .bottom-nav .bn-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-label">The Convergence Series &mdash; DT001 &mdash; April 2026</div>
+  <h1 class="hero-title"><span class="blue">Math</span> Is <span class="gold">Moral</span></h1>
+  <p class="hero-sub">The structural identity of mathematical and moral truth. Twenty-four properties. Zero exceptions.</p>
+  <div class="hero-caption">David Lowe &middot; Theophysics Framework &middot; v3.0</div>
+</div>
+
+<!-- ═══ AUDIO ═══ -->
+<div class="audio-bar">
+  <span class="ab-label">Listen</span>
+  <audio controls preload="none">
+    <source src="math-is-moral.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
+</div>
+
+<!-- ═══ THE TRUCK ═══ -->
+<div class="section">
+  <h2>The Truck</h2>
+  <p>A truck flips on the highway. Overloaded. The driver knew it felt heavy. His boss told him it was fine. The dispatcher told him to run it.</p>
+  <p>Nobody did the math.</p>
+  <p>But the math was already done. Not by anyone in that company. By reality. The center of gravity, the axle rating, the road curvature, the speed &mdash; every one of those numbers existed before the truck left the yard. The structural violation was already present. Invisible, but there. The load was wrong before anyone turned the key.</p>
+  <p>The moment you deploy the math &mdash; run the calculation, apply the physics &mdash; the violation becomes visible. The misalignment that was always there steps into the light. And then consequences follow. Not because someone imposed them. Because reality enforces what the math revealed.</p>
+  <p>That sequence &mdash; invisible violation, deployment, exposure, consequence &mdash; is not description.</p>
+  <p><strong>It's judgment.</strong></p>
+  <p>I sat with that word. <em>Judgment.</em> Because we use it in two completely different contexts and never notice they're the same operation. A structural engineer judges a load. God judges a life. In both cases, an invariant standard meets an actual state, and the gap between them becomes visible. The engineer didn't create the structural failure by measuring it. The math didn't cause the truck to be overloaded. It revealed what was already true.</p>
+  <p>That's not a metaphor. That's a structural identity. Math, when deployed, seeks truth and expels falsehood. Every time. Without exception. Without negotiation.</p>
+  <p>So I started asking: what else does that?</p>
+</div>
+
+<!-- ═══ THE PARALLEL ═══ -->
+<div class="section">
+  <h2>The Parallel Nobody Wants to See</h2>
+  <p><strong>Morality.</strong></p>
+  <p>Not morality as cultural preference. Not morality as evolved heuristic. Not morality as rules imposed by authority. Morality as structural alignment &mdash; the recognition that some actions lead to the systematic breakdown of systems, and other actions preserve or strengthen them.</p>
+  <p>Build a society on systematic lying. The result isn't "a different but equally valid culture." The result is collapse. Trust networks fail. Cooperation becomes impossible. Transaction costs approach infinity. The society either corrects or dies. This isn't an opinion. It's an empirical regularity with the same structure as a load calculation.</p>
+  <p>Build a family on betrayal. Not "an alternative family structure." Disintegration.</p>
+  <p>Build an economy on fraud. Not "differently structured." Failed. Every single time.</p>
+  <p>The objection comes immediately: "Engineering constraints are mathematical. Moral constraints are subjective preferences."</p>
+  <p>So test it. Find me the society that flourished on betrayal. Find me the economy that stabilized on fraud. Find me the family that thrived on deception. Not temporarily &mdash; but stably. Multi-generationally.</p>
+  <p>You can't. Because moral structure isn't preference. It's invariant constraint. Deviation produces measurable cost. The cost accumulates. The system fails.</p>
+  <p><strong>Same math. Same physics. Same judgment.</strong></p>
+</div>
+
+<!-- ═══ THE 98% QUESTION ═══ -->
+<div class="section">
+  <h2>The Question Nobody Can Answer</h2>
+  <p>Here's the argument that ends the debate before it starts.</p>
+  <p>A Lagrangian has a maximum. The Lowe Coherence Lagrangian has a maximum coherence state: &chi; = C. Full alignment. The mathematical optimum. The system performs best there. Every variable at its strongest coupling. Every symmetry pair balanced. The equation itself says: THIS is the peak.</p>
+  <p>Now &mdash; you can choose 98%. You can choose 50%. You can choose zero. The O variable is yours. Free will is built into the architecture. Nobody forces your level. But the equation also tells you what happens at each level. And 98% isn't 100%. And the gap between 98% and 100% isn't 2% &mdash; it's the difference between "almost aligned" and "fully aligned," and the equation is nonlinear, which means that last 2% might be where the entire system locks in.</p>
+  <p>So the question is simple: <strong>Name one domain of life where you would voluntarily choose less than the best available to you.</strong></p>
+  <p>In your marriage &mdash; would you choose 98% fidelity? 98% honesty? 98% presence? The 2% gap in a marriage has a name. It's called the thing that destroys it.</p>
+  <p>In your health &mdash; would you want 98% of the surgery done correctly? Would you tell the surgeon "eh, close enough"?</p>
+  <p>In your finances &mdash; you can argue all day about what your bank account should be. But when you deploy the math &mdash; when you actually check &mdash; the number is the number. It doesn't care about your opinion. It doesn't negotiate. It just IS.</p>
+  <p>In engineering &mdash; would you fly on a plane designed to 98% structural integrity? Would you drive across a bridge built to 98% load capacity?</p>
+  <p>Nobody chooses 98% when 100% is available and the stakes are real. The only place people choose less than the maximum is morality. And the only reason they do it there is because they think the consequences aren't real. They think the math doesn't apply. They think the equation doesn't run.</p>
+
+  <div class="eq-block">
+    d<span class="teal">C</span>/dt = O&middot;<span class="phys">G</span>(1&minus;<span class="teal">C</span>) &minus; <span class="rose">S</span>&middot;<span class="teal">C</span>
+  </div>
+
+  <p><strong>But it does.</strong> That equation runs whether you believe in it or not. And the gap between your chosen value and C<sub>max</sub> &mdash; that gap has consequences. Measurable ones. The equation doesn't negotiate.</p>
+  <p>The person who says "morality is relative" is saying "I want to choose my own number." Fine. The O variable is yours. But the equation still has a maximum. And the maximum still has the properties of Christ. And the gap between your chosen number and the maximum is still measurable. And the consequences of that gap are still real.</p>
+  <p>You're not being told what to believe. You're being shown what the maximum looks like and asked: <strong>why would you aim lower?</strong></p>
+</div>
+
+<!-- ═══ THE REJECTION ═══ -->
+<div class="section">
+  <h2>The Rejection IS the Proof</h2>
+  <p>Here's the thing about the person who says "I don't accept your moral framework."</p>
+  <p>They're making a moral claim. They're saying "it's RIGHT to think morality is relative." They're using the structure they're denying to deny it. That's not a philosophical gotcha &mdash; it's the self-refutation trap. The denial presupposes the thing being denied.</p>
+  <p>But the LLC goes further than any previous version of this argument. The person who rejects the framework is LIVING inside the equation they're rejecting. Their rejection IS the O &rarr; 0 case. And the equation predicts exactly what happens to them.</p>
+  <p>Set O to zero. Voluntary coupling off. What does dC/dt give you? <strong>Decay.</strong> Not punishment &mdash; math. Coherence degrades. Entropy wins. Not because God is angry. Because that's what happens in any open system when the coupling to the source term is severed.</p>
+
+  <div class="callout callout-gold">
+    <p>The TikTok version of the atheist objection &mdash; "How can God be good if bad things happen?" &mdash; actually sets up the gospel. The objector is pointing at suffering, moral failure, imperfection, and saying "nobody's perfect." That's Christianity's <strong>FIRST axiom</strong>. That's literally the starting assumption. Their accusation &mdash; that people fall short &mdash; is the setup for the only framework that has a solution to falling short.</p>
+    <p>They're not refuting Christianity. They're preaching it. They just don't know the next verse.</p>
+  </div>
+</div>
+
+<!-- ═══ DISSOLVING THE GAP ═══ -->
+<div class="section">
+  <h2>Dissolving the Gap</h2>
+  <p>David Hume built a wall in 1739. The is-ought gap: you cannot derive what <em>ought</em> to be from what <em>is</em>. Three centuries of philosophy have tripped on this. Kant tried duty. Mill tried utility. Moore tried intuition. None of them bridged the gap.</p>
+  <p>I didn't try to bridge it either. I sat with the truck.</p>
+  <p>The engineer who hasn't run the load calculation yet &mdash; his bridge "seems fine." No urgency. No "ought" pressing. The moment the math is applied, the discrepancy becomes visible. Now there's an "ought": you ought to reinforce that beam.</p>
+  <p>But the misalignment was already there. Before the calculation. Before the measurement. The bridge was already wrong. The "ought" didn't appear out of nowhere. The engineer just discovered what was already true.</p>
+  <p>After the bridge collapses, nobody says "you ought to have reinforced it." They say "it <em>was</em> wrong." Past tense. The moral and mathematical judgment become identical.</p>
+  <p>The "ought" is not a different category of truth. The "ought" is what misalignment looks like from the temporal perspective of an agent who hasn't yet experienced the consequence.</p>
+
+  <div class="callout callout-teal">
+    <p>Before the truck flips: "You <em>ought</em> to check that load." After: "The load <em>was</em> wrong." Same fact. Different tense.</p>
+    <p><strong>Hume's gap dissolves.</strong> Not because I bridged it. Because it was never real. "Ought" was never a separate category from "is." It was "is" viewed from a particular temporal angle by an agent who didn't yet see the full structure.</p>
+  </div>
+</div>
+
+<!-- ═══ THE 24 PROPERTIES ═══ -->
+<div class="section">
+  <h2>The Twenty-Four Properties</h2>
+  <p>This is where it stopped being an argument and started being a demonstration.</p>
+  <p>If math and morality really do share deep structure &mdash; if this isn't just a clever parallel but something heavier &mdash; then they should share ontological properties. Not a few. Not loosely. Precisely.</p>
+  <p>I listed every independently verifiable property of mathematical truth I could identify. Not what math <em>does</em> &mdash; what math <em>is</em>. Then I checked each one against moral truth. And then against the classical attributes of God.</p>
+  <p><strong>Twenty-four properties. Twenty-four matches. Zero exceptions.</strong></p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Property</th><th>Mathematical Truth</th><th>Moral Truth</th><th>Classical Divine Attribute</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Necessary</td><td>Cannot be otherwise. 2+2=4 in all possible worlds.</td><td>Cannot be otherwise. Betrayal destroys trust universally.</td><td>God exists necessarily (aseity).</td></tr>
+        <tr><td>2</td><td>Eternal</td><td>True before and after time. Math predates the universe.</td><td>Moral structure predates human convention.</td><td>God is eternal.</td></tr>
+        <tr><td>3</td><td>Immutable</td><td>Never changes. &pi; has never drifted.</td><td>Core moral structure never changes. Lying has never built stable systems.</td><td>God is unchanging.</td></tr>
+        <tr><td>4</td><td>Simple</td><td>Axioms are primitive, not composed from parts.</td><td>Fundamental moral truths are primitive.</td><td>God is simple (not composed).</td></tr>
+        <tr><td>5</td><td>Consistent</td><td>Contradiction produces explosion &mdash; A &and; &not;A destroys the system.</td><td>Moral contradiction produces collapse.</td><td>God cannot contradict Himself.</td></tr>
+        <tr><td>6</td><td>Universal</td><td>Same everywhere. No culture where 2+2&ne;4.</td><td>Same everywhere. No culture where systematic betrayal builds flourishing.</td><td>God is omnipresent in authority.</td></tr>
+        <tr><td>7</td><td>Immaterial</td><td>Not physical. Numbers have no mass.</td><td>Not physical. Justice has no wavelength.</td><td>God is spirit.</td></tr>
+        <tr><td>8</td><td>Foundational</td><td>Grounds everything else. Physics runs on math.</td><td>Grounds everything else. Civilization runs on trust.</td><td>God is the ground of being.</td></tr>
+        <tr><td>9</td><td>Truthful</td><td>Cannot produce false results from true premises.</td><td>The consequences of alignment are what they are. No negotiation.</td><td>God cannot lie.</td></tr>
+        <tr><td>10</td><td>Perfect</td><td>No errors in mathematical truth. Human errors exist; the truth does not err.</td><td>No errors in moral truth. Human failures exist; the standard does not err.</td><td>God is perfect.</td></tr>
+        <tr><td>11</td><td>Infinite</td><td>Mathematics extends infinitely. No largest prime.</td><td>Moral depth is infinite. You can always love more deeply.</td><td>God is infinite.</td></tr>
+        <tr><td>12</td><td>Rational</td><td>Logos &mdash; reason itself.</td><td>Morality is rational. Moral reasoning follows structural principles.</td><td>God is Logos.</td></tr>
+        <tr><td>13</td><td>Beautiful</td><td>Mathematical elegance universally recognized. Euler's identity.</td><td>Moral beauty universally recognized. Sacrifice. Forgiveness.</td><td>God is beautiful (glory).</td></tr>
+        <tr><td>14</td><td>Good</td><td>Information theory shows directional preference: coherence over noise.</td><td>Morality shows directional preference: alignment over deviation.</td><td>God is good.</td></tr>
+        <tr><td>15</td><td>Transcendent</td><td>Above physical reality. Math constrains physics, not the reverse.</td><td>Above physical reality. Moral truth constrains behavior.</td><td>God transcends creation.</td></tr>
+        <tr><td>16</td><td>Omnipresent</td><td>Applies everywhere. No domain escapes mathematical structure.</td><td>Applies everywhere. No decision escapes moral structure.</td><td>God is omnipresent.</td></tr>
+        <tr><td>17</td><td>Self-existent</td><td>Does not depend on physical reality.</td><td>Does not depend on human convention.</td><td>God is self-existent.</td></tr>
+        <tr><td>18</td><td>Non-temporal</td><td>True before time began.</td><td>True before time began.</td><td>God is outside time.</td></tr>
+        <tr><td>19</td><td>Non-spatial</td><td>Has no location.</td><td>Has no location.</td><td>God is not bound to space.</td></tr>
+        <tr><td>20</td><td>Unique</td><td>Only one set of mathematical truths.</td><td>Only one set of genuine moral truths.</td><td>There is one God.</td></tr>
+        <tr><td>21</td><td>All-constraining</td><td>Nothing escapes math. Every physical system obeys mathematical law.</td><td>Nothing escapes moral structure. Every agent subject to consequences.</td><td>God's sovereignty is total.</td></tr>
+        <tr><td>22</td><td>Self-sufficient</td><td>Needs no external support.</td><td>Moral truth needs no external support.</td><td>God is self-sufficient.</td></tr>
+        <tr><td>23</td><td>Ordered</td><td>Internal hierarchy. Axioms &rarr; Theorems &rarr; Applications.</td><td>Internal hierarchy. Principles &rarr; Virtues &rarr; Actions.</td><td>God is a God of order.</td></tr>
+        <tr><td>24</td><td>Generative</td><td>Produces infinite derived truths from finite axioms.</td><td>Produces infinite derived applications from finite principles.</td><td>God creates ex nihilo from His nature.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The nominalist who says mathematical truth is "just human invention" has to explain why their invention shares every ontological property with the structural constraints governing physical reality. The moral relativist who says morality is "just cultural preference" has to explain why their preference has none of the properties of preferences and all the properties of invariant structure.</p>
+  <p>At some point, <strong>"analogy" becomes an intellectually dishonest label for what is clearly identity.</strong></p>
+</div>
+
+<!-- ═══ THE EIGENSTATE ═══ -->
+<div class="section">
+  <h2>The Eigenstate: What Maximum Coherence Looks Like in a Life</h2>
+  <p>The 24 properties describe the structure. But what does full alignment actually look like when a human lives it? Paul answered this in Galatians 5:22-23. He didn't know he was describing an eigenstate. He was.</p>
+  <p>The nine Fruits of the Spirit &mdash; love, joy, peace, patience, kindness, goodness, faithfulness, gentleness, self-control &mdash; are not a random list of virtues. They are nine projections of one alignment. Each Fruit maps onto the 24 properties, and together they cover all 24 with zero gaps. <strong>24/24 coverage.</strong></p>
+  <p>The fourteen works of the flesh also cover all 24 properties. But inverted. Every single anti-property is accounted for. <strong>24/24 coverage from the opposite direction.</strong></p>
+
+  <div class="mirror">
+    <div class="mirror-side m-fruit">
+      <span class="mirror-label">Love &harr; Hatred</span>
+      <p>4/5 overlap. Love is non-self-referential, non-transferable by force, coherence-producing, non-rivalrous, grace-receiving. Hatred is the exact inversion: self-referential, maintained by force, fragmenting, rivalrous.</p>
+    </div>
+    <div class="mirror-side m-flesh">
+      <span class="mirror-label">Joy &harr; Orgies</span>
+      <p>4/4 perfect mirror. Joy is non-contingent, time-invariant, recognized not manufactured, non-perishable. Orgies are contingent, time-bound, novelty-seeking, perishable. Every property inverted.</p>
+    </div>
+  </div>
+  <div class="mirror">
+    <div class="mirror-side m-fruit">
+      <span class="mirror-label">Peace &harr; Discord</span>
+      <p>4/4 perfect mirror. Frame-independent vs. frame-dependent. Consistent vs. self-contradictory. Convergent vs. divergent. Ordered vs. leveled.</p>
+    </div>
+    <div class="mirror-side m-flesh">
+      <span class="mirror-label">The Asymmetry</span>
+      <p><strong>It takes 9 Fruits to cover the whole space but 14 works to cover the same space.</strong> Why? Because coherence bundles and incoherence fragments. The taxonomy IS demonstrating the thing it describes.</p>
+    </div>
+  </div>
+
+  <p>Paul wasn't making a list. He was describing the eigenstate.</p>
+</div>
+
+<!-- ═══ THE EIGHT AXIOM SCHEMATA ═══ -->
+<div class="section">
+  <h2>The Eight Axiom Schemata</h2>
+  <p>The 24 properties. The 9 Fruits. The 14 works. The 188 technical axioms. The 724 sub-entries. How does all of this compress?</p>
+  <p><strong>Eight irreducible claims.</strong> Each one generates specific axiom instances when applied across domains. Each one excludes exactly one competing worldview. The only system that survives all eight gates is trinitarian Christianity.</p>
+
+  <h3>The Trinity &mdash; Three Independent Claims About the Source</h3>
+
+  <div class="tbl-wrap">
+    <table class="schema-table">
+      <thead><tr><th>Schema</th><th>Claim</th><th>Person</th><th>Excludes</th></tr></thead>
+      <tbody>
+        <tr><td>AS-000</td><td>Unity &mdash; One source, not many</td><td>Father</td><td>Polytheism</td></tr>
+        <tr><td>AS-001</td><td>Grace &mdash; The source intervenes</td><td>Son</td><td>Deism</td></tr>
+        <tr><td>AS-002</td><td>Personhood &mdash; The source is relational</td><td>Spirit</td><td>Pantheism</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>The Remaining Five &mdash; Ontological Order</h3>
+
+  <div class="tbl-wrap">
+    <table class="schema-table">
+      <thead><tr><th>Schema</th><th>Claim</th><th></th><th>Excludes</th></tr></thead>
+      <tbody>
+        <tr><td>AS-003</td><td>Existence &mdash; Something rather than nothing</td><td></td><td>Nihilism</td></tr>
+        <tr><td>AS-004</td><td>Right and Wrong &mdash; Binary distinction, &sigma; = &plusmn;1</td><td></td><td>Relativism</td></tr>
+        <tr><td>AS-005</td><td>People &mdash; Conscious observers participate</td><td></td><td>Eliminativism</td></tr>
+        <tr><td>AS-006</td><td>The World &mdash; Physical reality with rules and boundaries</td><td></td><td>Solipsism</td></tr>
+        <tr><td>AS-007</td><td>The Enemy &mdash; Entropy degrades without intervention</td><td></td><td>Utopianism</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-gold">
+    <p>The chain is not linear &mdash; it loops. The enemy (AS-007) necessitates grace (AS-001), which is the Son. The derivation chain closes. The causal waterfall runs <strong>God &rarr; Existence &rarr; Distinction &rarr; People &rarr; World &rarr; Enemy</strong>, and the return path runs <strong>Enemy &rarr; God</strong>. The loop closure is the gospel told in structural steps.</p>
+    <p>Eight schemata. Eight worldviews eliminated. One survivor.</p>
+  </div>
+
+  <div class="chain">
+    <span class="l">724</span> corollaries &rarr; <span class="l">188</span> instances &rarr; <span class="l">33</span> theorems &rarr; <span class="l">8</span> schemata
+  </div>
+</div>
+
+<!-- ═══ THE 24 AXIOMS ═══ -->
+<div class="section">
+  <h2>The Logic Chain: Twenty-Four Axioms</h2>
+  <p>The properties are the WHAT. The axioms are the WHY &mdash; the logical chain that forces you from "2+2=4" to "God exists" with no escape routes.</p>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 1</span><h4>Existence (A1&ndash;A3)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A1</td><td>2+2=4 is universal</td><td>"Useful fiction" &rarr; no bridges, no computers, no GPS</td></tr>
+      <tr><td>A2</td><td>Math holds when no minds exist</td><td>Deny &rarr; stars couldn't form for 13.8B years before brains</td></tr>
+      <tr><td>A3</td><td>Math is necessary truth</td><td>Deny &rarr; logic itself contingent, 2+2=5 in some world</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 2</span><h4>Properties (A4&ndash;A7)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A4</td><td>Location-invariant</td><td>Deny &rarr; no GPS, no rockets, physics different everywhere</td></tr>
+      <tr><td>A5</td><td>Does not change over time</td><td>Deny &rarr; scientific knowledge impossible</td></tr>
+      <tr><td>A6</td><td>Immaterial</td><td>Deny &rarr; destroying a location would destroy the truth</td></tr>
+      <tr><td>A7</td><td>No true statement contradicts another</td><td>Deny &rarr; principle of explosion, every statement provable</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 3</span><h4>Origin (A8&ndash;A11)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A8</td><td>Math requires grounding</td><td>Deny &rarr; rational inquiry impossible</td></tr>
+      <tr><td>A9</td><td>The ground cannot be nothing</td><td>Nothing has zero information content; zero cannot produce non-zero</td></tr>
+      <tr><td>A10</td><td>The ground cannot be chaos</td><td>Randomness cannot produce structure</td></tr>
+      <tr><td>A11</td><td>Truth cannot originate from a deceptive source</td><td>2+2 appears to = 4 and actually does &mdash; MORAL PROPERTY of the ground</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 4</span><h4>Source Properties (A12&ndash;A15)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A12</td><td>Source of universal truth must be universal</td><td>A local source cannot produce universal output</td></tr>
+      <tr><td>A13</td><td>Source of eternal truth must be eternal</td><td>A temporal source cannot produce eternal output</td></tr>
+      <tr><td>A14</td><td>Source of immaterial truth must be immaterial</td><td>A material source cannot produce immaterial output</td></tr>
+      <tr><td>A15</td><td>Source of coherent truth must be coherent</td><td>An incoherent source cannot produce coherent output</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 5</span><h4>Moral Bridge (A16&ndash;A18)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A16</td><td>Truth is inherently valuable</td><td>Presupposed by every assertion, even "there is no objective truth"</td></tr>
+      <tr><td>A17</td><td>Deception is morally wrong</td><td>Cultural universal &mdash; every known moral system condemns it</td></tr>
+      <tr><td>A18</td><td>Source of math truth = source of moral truth</td><td>A11 proves the ground has moral properties; Occam requires identifying them</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 6</span><h4>Identification (A19&ndash;A20)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A19</td><td>The ground is the Logos</td><td>Logos precisely captures rational structure unified with moral order</td></tr>
+      <tr><td>A20</td><td>The Logos is the God of classical theism</td><td>Two entities with 24 identical properties cannot be different</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="axiom-group">
+    <div class="axiom-hdr"><span>Level 7</span><h4>Structure &amp; Participation (A21&ndash;A24)</h4></div>
+    <div class="axiom-body"><table><tbody>
+      <tr><td>A21</td><td>Ten is minimal closure</td><td>Removing any variable from &chi; = &prod;&eta;<sub>i</sub> breaks the product form</td></tr>
+      <tr><td>A22</td><td>Mirror pairs required</td><td>5 conjugate pairs &mdash; asymmetry violates conservation</td></tr>
+      <tr><td>A23</td><td>Salvation is conservation</td><td>Grace integral cancels entropy integral &mdash; this IS a conservation law</td></tr>
+      <tr><td>A24</td><td>Reality is participatory</td><td>Wheeler delayed-choice: observer collapses possibility into fact</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <div class="chain">
+    <span class="r">A1&ndash;A3</span>: Math exists, is necessary, holds without minds<br>
+    <span class="r">A4&ndash;A7</span>: Math is universal, eternal, immaterial, coherent<br>
+    <span class="r">A8&ndash;A11</span>: Math requires grounding &rarr; ground is not nothing, not chaos, not deception<br>
+    <span class="r">A12&ndash;A15</span>: Ground must be universal, eternal, immaterial, coherent = properties of God<br>
+    <span class="l">A16&ndash;A18</span>: Truth is valuable, deception is wrong &rarr; math-ground = moral-ground<br>
+    <span class="l">A19&ndash;A20</span>: That ground = Logos = God of classical theism<br>
+    <span class="l">A21&ndash;A24</span>: Structure requires 10 laws, mirror pairs, conservation, participation
+  </div>
+
+  <p><strong>Zero escape routes.</strong> Every axiom is either established physics, mathematical logic, or empirical fact. Deny any single one &rarr; absurdity, self-refutation, or the collapse of logic itself.</p>
+</div>
+
+<!-- ═══ THE 100% PROBLEM ═══ -->
+<div class="section">
+  <h2>The 100% Problem and the Open System Solution</h2>
+  <p>If 100% coherence is the standard &mdash; and the equation says it is, because &chi; = C is the maximum &mdash; then who gets there?</p>
+  <p><strong>Nobody. Zero humans. Ever.</strong> The equation guarantees it.</p>
+
+  <div class="eq-block">
+    d<span class="teal">C</span>/dt = O&middot;<span class="phys">G</span>(1&minus;<span class="teal">C</span>) &minus; <span class="rose">S</span>&middot;<span class="teal">C</span>
+  </div>
+
+  <p>With S &gt; 0, which it always is after the Fall, no finite being maintains C = 1 over infinite time. The entropy tax accumulates. You WILL deviate. Not might. Will. The math requires it. Simulation confirmed: even a perfect being with all variables maximized but the grace source term set to zero <strong>decays 91.8%</strong>.</p>
+  <p>So what does God do?</p>
+  <p>He can't lower the standard. If He sets it to 98%, then 98% becomes the new maximum, and the equation's fixed point shifts, and coherence degrades from there. The standard has to be 100% or the Lagrangian doesn't have a well-defined maximum. <strong>The math requires perfection.</strong></p>
+  <p>But He also can't just watch everyone fail. Because He's not just the standard &mdash; He's the source term. He's &xi;R&chi;. He's grace.</p>
+  <p>So He doesn't lower the bar. He doesn't change the standard. <strong>He pays the gap.</strong> Every time He looks at you and you're at 73% or 45% or 12% &mdash; the source term covers the difference. Not by pretending you're at 100%. By INPUTTING the coherence you lack. The open system term.</p>
+
+  <div class="callout callout-gold">
+    <p>Grace isn't God looking the other way. Grace is God closing the gap between where you are and where the maximum is.</p>
+    <p>A closed system says "you're at 73%, you stay at 73%, entropy wins, game over." An open system says "you're at 73%, here's the 27% you're missing, the source is external, and it never runs out."</p>
+  </div>
+
+  <p>Every sourced Lagrangian in physics confirms this structure. Close the system and it decays. Open it and it survives. <strong>The only question is whether the source is real.</strong></p>
+</div>
+
+<!-- ═══ THE FORMAL BACKBONE ═══ -->
+<div class="section">
+  <h2>The Formal Backbone</h2>
+
+  <div class="eq-block">
+    <span class="teal">&chi;</span> = &iiint;(<span class="phys">G</span> &middot; <span class="phys">M</span> &middot; <span class="phys">E</span> &middot; <span class="rose">S</span> &middot; <span class="phys">T</span> &middot; <span class="spir">K</span> &middot; <span class="spir">R</span> &middot; <span class="spir">Q</span> &middot; <span class="rose">F</span> &middot; <span class="spir">C</span>) <span class="dim">dx dy dt</span>
+  </div>
+
+  <div class="plain-eng">
+    <span class="pe-label">In plain English</span>
+    <p>Coherence is the product of ten variables &mdash; five physical, five relational &mdash; integrated across all space and all time. Because it's a product, if any single variable goes to zero, the whole thing goes to zero. That's the veto property of multiplication. No variable is optional. No domain can be dropped.</p>
+  </div>
+
+  <p>The evolution equation sharpens the point:</p>
+
+  <div class="eq-block">
+    d&Phi;/dt = &alpha;<span class="phys">I</span>(&Psi;) &minus; &beta;<span class="rose">S</span>(&Psi;) + <span class="asym">&Gcirc;(t)</span>
+  </div>
+
+  <p>The degradation term (&minus;&beta;S) always wins alone. The grace residual <strong style="color:var(--asym)">&Gcirc;(t)</strong> is the only term that inverts the decay. It enters from outside the system's own capacity. You can't generate it internally.</p>
+  <p><strong>It's given.</strong></p>
+</div>
+
+<!-- ═══ FALSIFICATION ═══ -->
+<div class="section">
+  <h2>Falsification Criteria</h2>
+  <p>Every claim in this paper can be killed:</p>
+
+  <div class="callout callout-rose">
+    <p><strong>Against the 24 properties:</strong> Find a property that mathematical truth possesses but moral truth does not, or vice versa, that is not reducible to measurement domain. One genuine ontological mismatch kills the identity claim.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the 98% argument:</strong> Name one domain where choosing 98% when 100% is available and the stakes are real is the correct decision.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the Fruit eigenstate:</strong> Find a property in the 24 that no Fruit covers, or an anti-property that no work of the flesh covers. One gap breaks the eigenstate claim.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the 8 schemata:</strong> Find a worldview that survives all 8 gates and is not trinitarian Christianity.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the logic chain:</strong> Break any single link A1&ndash;A20. Not "I disagree with A11" &mdash; show that A11 is LOGICALLY FALSE.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the is-ought dissolution:</strong> Produce a genuine moral "ought" that cannot be reframed as recognition of existing misalignment.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the product form:</strong> Show that &chi; = &prod;&eta;<sub>i</sub> is the wrong form &mdash; that an additive model better fits observation.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against Theorem 6.1:</strong> Find a solution to the product form where J<sub>grace</sub> = 0 and &chi; does not decay to zero.</p>
+  </div>
+  <div class="callout callout-rose">
+    <p><strong>Against the open system solution:</strong> Show that a closed Lagrangian can sustain coherence indefinitely. If so, grace is unnecessary and the cross is decorative.</p>
+  </div>
+</div>
+
+<!-- ═══ THE SIMPLEST VERSION ═══ -->
+<div class="section">
+  <h2>The Simplest Version</h2>
+  <p>Mathematical truth has 24 independently verifiable ontological properties. Moral truth has the same 24. These 24 are identical to the classical attributes of God. This is not analogy &mdash; it is structural identity with a falsification criterion (find one property that doesn't match).</p>
+  <p>Nobody in any domain chooses 98% when 100% is available. The LLC has a maximum at &chi; = C. The maximum has specific properties. Those properties match one person in history. Nobody reaches the maximum on their own. The system is open. Grace covers the gap. The Fruits of the Spirit are the eigenstate of full coherence. The works of the flesh are the eigenstate of full incoherence. Nine projections of alignment. Fourteen fragments of opposition. Same 24 properties. Opposite signs.</p>
+  <p>Eight axiom schemata compress the entire framework. Each excludes one worldview. Only one system survives all eight.</p>
+  <p><strong>Math is moral because math and morality are both measurements of the same thing.</strong></p>
+  <p>And that thing has a name.</p>
+</div>
+
+<!-- ═══ ALWAYS GRACE ═══ -->
+<div class="section">
+  <h2>Always Grace</h2>
+  <p>Every thread ends here. I don't force it. The structure forces it.</p>
+  <p>If the standard is 100% and nobody can reach it &mdash; what does God do?</p>
+  <p>He doesn't lower the bar. He pays the difference. That's not mercy. That's an open-system source term covering the coherence gap. That's grace. And the equation requires it &mdash; because without the external source, the system dies.</p>
+  <p>If he IS God &mdash; if he made the system &mdash; then violating his own standard wouldn't just be hypocrisy. It would be a structural contradiction. Reality would cease to be coherent. Because the standard isn't a rule imposed on top of reality. The standard IS reality. &chi; = C at maximum.</p>
+  <p>So he holds the standard at 100%. He watches every human fall short. And instead of lowering the bar or walking away, he enters the equation. The source term. The open system. The grace residual.</p>
+  <p>He pays the gap. Not by pretending you're at 100%. By inputting the coherence you lack. Every time. Without running out. Because the source is infinite &mdash; that's Property 11 &mdash; and it never stops &mdash; that's Property 2 &mdash; and it doesn't change &mdash; that's Property 3.</p>
+  <p>The degradation term always wins alone. That's the Second Law. That's the simulation showing 91.8% decay even for a perfect being without grace. Your lived experience confirms it every morning you wake up managing yesterday's failures.</p>
+  <p>The question is whether something enters the equation from outside your capacity to generate it.</p>
+  <p>The grace term. The <strong style="color:var(--asym)">&Gcirc;(t)</strong>. The thing that inverts the entropy.</p>
+  <p>It doesn't force. The voluntary coupling is built into the architecture &mdash; because love you cannot refuse isn't love, it's mechanism. But it's there. It's always been there.</p>
+  <p>Follow any thread far enough with honest logic &mdash; the truck, the bridge, the mathematics, the philosophy, the mutation rates, the population curves, the Fruits, the works, the schemata &mdash; and you arrive at the same conclusion. The architecture of the problem exceeds the architecture of the solution. Human effort alone doesn't close the gap. That's not pessimism. That's the equation.</p>
+  <p>And then you look at the one term that does close it. And you realize it's not a term you invented. It's not a term you earned. It's a term that was always there, waiting for you to stop trying to generate it yourself and simply receive it.</p>
+  <p><strong>Grace. It's always grace.</strong></p>
+</div>
+
+<!-- ═══ CLOSING ═══ -->
+<div class="closing">
+  <span class="site">theophysics.pro</span>
+  <p class="tagline">The math is public. The kill conditions are published. If it breaks, it breaks honestly.</p>
+  <div class="version">
+    DT001 v3.0 &middot; April 2026<br>
+    Origin: November 21, 2025 ("2+2=4 proves God" eureka moment)<br>
+    David Lowe &middot; Theophysics Research Program &middot; POF 2828
+  </div>
+</div>
+
+<!-- ═══ BOTTOM NAV ═══ -->
+<div class="bottom-nav">
+  <div class="bn-label">More Papers</div>
+  <div class="bn-grid">
+    <a class="bn-link" href="i-didnt-write-the-math.html"><span class="bn-tag">Start Here</span><span class="bn-name">I Didn't Write the Math. I Found It.</span></a>
+    <a class="bn-link" href="lowe-coherence-lagrangian.html"><span class="bn-tag">The Equation</span><span class="bn-name">The Lowe Coherence Lagrangian</span></a>
+    <a class="bn-link" href="god-in-the-equations.html"><span class="bn-tag">The Ten Laws</span><span class="bn-name">God in the Equations</span></a>
+    <a class="bn-link" href="the-same-equation.html"><span class="bn-tag">The Proof</span><span class="bn-name">The Same Equation</span></a>
+    <a class="bn-link" href="six_proofs.html"><span class="bn-tag">Computational</span><span class="bn-name">Six Computational Proofs</span></a>
+    <a class="bn-link" href="gold-standard-test-battery.html"><span class="bn-tag">Test Battery</span><span class="bn-name">The Gold Standard Test Battery</span></a>
+    <a class="bn-link" href="maxwell-truth-isomorphism.html"><span class="bn-tag">Deep Dive</span><span class="bn-name">Maxwell-Truth Isomorphism</span></a>
+    <a class="bn-link" href="evolution-probe.html"><span class="bn-tag">Probe</span><span class="bn-name">The Evolution Probe</span></a>
+  </div>
+  <a class="bn-home" href="index.html">&larr; Back to All Papers</a>
+</div>
+
+</body>
+</html>
