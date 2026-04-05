@@ -92,6 +92,9 @@ body::before{
 /* FOOTER */
 .doc-footer{padding:2rem;text-align:center;border-top:1px solid var(--border)}
 .doc-footer p{font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.audio-bar{max-width:900px;margin:0 auto;padding:2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1.5rem}
+.audio-bar .ab-label{font-family:'Courier New',monospace;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);white-space:nowrap}
+.audio-bar audio{flex:1;height:36px}
 </style>
 </head>
 <body>
@@ -102,6 +105,14 @@ body::before{
   <h1>One Equation.<br><span class="gold">Every</span> <span class="blue">Domain.</span></h1>
   <p class="hero-sub">The LLC doesn't describe the universe from the outside. It contains every domain of reality inside it — compressed into ten variables. This is how.</p>
   <div class="hero-eq">χ = ∭(G·M·E·S·T·K·R·Q·F·C) dx dy dt</div>
+</div>
+
+<div class="audio-bar">
+  <span class="ab-label">Listen</span>
+  <audio controls preload="none">
+    <source src="/audio/the-prism-article.mp3" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
 </div>
 
 <!-- PRISM SECTION -->
